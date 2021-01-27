@@ -22,7 +22,7 @@ public class Main extends JavaPlugin {
 
         getCommand("stats").setExecutor(new StatsCommand());
         Bukkit.getPluginManager().registerEvents(new EventListener(), this);
-        System.out.println("Hallo");
+        System.out.println("Hallo, ich lebe");
     }
 
     public static FileConfiguration getConfigFile() {
