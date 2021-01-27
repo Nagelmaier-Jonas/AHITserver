@@ -6,6 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.EventListener;
+
 public class Main extends JavaPlugin {
 
     private static Main plugin;
@@ -19,7 +21,7 @@ public class Main extends JavaPlugin {
         plugin = this;
 
         getCommand("stats").setExecutor(new StatsCommand());
-        Bukkit.getPluginManager().registerEvents(JoinListener, this);
+        Bukkit.getPluginManager().registerEvents(new EventListener(), this);
         System.out.println("Hallo");
     }
 
