@@ -19,6 +19,7 @@ public class JoinListener implements Listener {
         firstJoin(Main.getConfigFile(),player,event);
         Scoreboards.createScoreboard(Main.getConfigFile(),player);
         customjoinmessage(event);
+        event.setJoinMessage("");
     }
 
     public static void firstJoin(FileConfiguration config, Player player,PlayerJoinEvent event){
