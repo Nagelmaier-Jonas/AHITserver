@@ -1,24 +1,41 @@
 package at.ahit.server.main;
 
-import at.ahit.server.main.Tobi.Listeners.RightClick;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
+import at.ahit.server.commands.StatsCommand;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
+
     private static Main plugin;
+    private static FileConfiguration config = plugin.getConfig();
+
+    private Main() {
+    }
+
     @Override
     public void onEnable() {
         plugin = this;
-        System.out.println("Hallo");
 
-        PluginManager manager = Bukkit.getPluginManager();
-        if(!Bukkit.getOnlinePlayers().isEmpty()){
-            for (Player online : Bukkit.getOnlinePlayers())
-                manager.registerEvents(new RightClick(),this);
-        }
+        getCommand("stats").setExecutor(new StatsCommand());
+
+        System.out.println("Hallo");
     }
-    public static Main getPlugin() { return plugin; }
+
+    public static FileConfiguration getConfigFile() {
+        return config;
+    }
+
+    public static Main getPlugin() {
+        return plugin;
+    }
+
+    public void Save(String path, Object obj) {
+        config.set(path,obj);
+        plugin.saveConfig();
+    }
+
+    private Object Load(String path, FileConfiguration config) {
+        return config.get(path);
+    }
 
 }
