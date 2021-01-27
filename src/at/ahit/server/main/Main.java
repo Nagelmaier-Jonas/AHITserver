@@ -21,7 +21,7 @@ public class Main extends JavaPlugin {
         plugin = this;
 
         getCommand("stats").setExecutor(new StatsCommand());
-        Bukkit.getPluginManager().registerEvents(new EventListener(), this);
+        Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
         System.out.println("Hallo");
     }
 
