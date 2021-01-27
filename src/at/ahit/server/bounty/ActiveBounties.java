@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class ActiveBounties {
-
+/*
 
     public static ArrayList<ActiveBounties> active = new ArrayList<ActiveBounties>();
     public static ArrayList<ActiveBounties> completed = new ArrayList<ActiveBounties>();
@@ -34,7 +34,7 @@ public class ActiveBounties {
         } catch (IllegalArgumentException e) {
         }
         return Bounty.server.getOfflinePlayer(signature);
-    }
+    }*/
 
 
 }

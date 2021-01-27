@@ -2,11 +2,15 @@ package at.ahit.server.jobs;
 
 import at.ahit.server.main.Main;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 //3x3
 
 public class Miner implements Listener {
@@ -57,6 +61,25 @@ public class Miner implements Listener {
             Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_MinerXp", playerXp);
         }
         Main.getPlugin().saveConfig();
+    }
+    @EventHandler
+    public void BreakThreeByThree(BlockBreakEvent event) {
+        event.getPlayer().sendMessage(""+Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerAbiliti"));
+        if((boolean) Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerAbiliti") == true){
+            Location locationList = event.getBlock().getLocation();
+            List<Location> list = new ArrayList<Location>();
+            list.add(new Location(locationList.getWorld(), locationList.getX() + 1, locationList.getY() + 1, locationList.getZ()));
+            list.add(new Location(locationList.getWorld(), locationList.getX(), locationList.getY() + 1, locationList.getZ()));
+            list.add(new Location(locationList.getWorld(), locationList.getX() - 1, locationList.getY() + 1, locationList.getZ()));
+            list.add(new Location(locationList.getWorld(), locationList.getX() + 1, locationList.getY(), locationList.getZ()));
+            list.add(new Location(locationList.getWorld(), locationList.getX() - 1, locationList.getY(), locationList.getZ()));
+            list.add(new Location(locationList.getWorld(), locationList.getX() + 1, locationList.getY() -1, locationList.getZ()));
+            list.add(new Location(locationList.getWorld(), locationList.getX(), locationList.getY() -1, locationList.getZ()));
+            list.add(new Location(locationList.getWorld(), locationList.getX() -1, locationList.getY() - 1, locationList.getZ()));
 
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).getBlock().setType(Material.AIR);
+            }//pfusch
+        }
     }
 }

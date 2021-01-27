@@ -1,5 +1,6 @@
 package at.ahit.server.main;
 
+import at.ahit.server.abilities.MinerAbilities;
 import at.ahit.server.commands.CoinsCommand;
 import at.ahit.server.commands.NeverCommand;
 import at.ahit.server.commands.QuestInfoCommand;
@@ -32,6 +33,7 @@ public class Main extends JavaPlugin {
         getCommand("never").setExecutor(new NeverCommand());
         getCommand("coins").setExecutor(new CoinsCommand());
         getCommand("questinfo").setExecutor(new QuestInfoCommand());
+        getCommand("mine").setExecutor(new MinerAbilities());
         System.out.println("Hallo, ich lebe");
     }
 
