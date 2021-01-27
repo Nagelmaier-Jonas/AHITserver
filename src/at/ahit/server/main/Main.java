@@ -1,19 +1,38 @@
 package at.ahit.server.main;
 
-import at.ahit.server.listeners.JoinListener;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.PluginManager;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
-    @Override
-    public void onEnable() {
-        System.out.println("Hallo");
-        PluginManager manager = Bukkit.getPluginManager();
-        manager.registerEvents(new JoinListener(), this);
+    private static Main plugin;
+    private static FileConfiguration config = plugin.getConfig();
+
+    private Main() {
     }
 
+    @Override
+    public void onEnable() {
+        plugin = this;
 
+        System.out.println("Hallo");
+    }
+
+    public static FileConfiguration getConfigFile() {
+        return config;
+    }
+
+    public static Main getPlugin() {
+        return plugin;
+    }
+
+    public void Save(String path, Object obj) {
+        config.set(path, new String("nein"));
+        plugin.saveConfig();
+    }
+
+    private Object Load(String path, FileConfiguration config) {
+        return config.get(path);
+    }
 
 }
