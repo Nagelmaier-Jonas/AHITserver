@@ -1,5 +1,7 @@
 package at.ahit.server.listeners;
 
+import at.ahit.server.main.Main;
+import at.ahit.server.overlays.Scoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -7,17 +9,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
+
 
 public class JoinListener implements Listener {
 
     @EventHandler
     public void handlePlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
-        //event.setJoinMessage("§aHallo§4 " + player.getDisplayName());
+        Scoreboard.createScoreboard(Main.getConfigFile(),player);
         event.setJoinMessage("");
         customjoinmessage(event);
     }
