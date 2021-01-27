@@ -15,7 +15,7 @@ public class RightClick implements Listener {
             player.sendMessage("Du hast einen Stock im arsch");
             if(!player.getTargetBlock(null, 1000).getType().equals(Material.AIR)) {
                 Location l = new Location(player.getWorld(), player.getTargetBlock(null, 1000).getLocation().getX(), player.getTargetBlock(null, 1000).getLocation().getY(), player.getTargetBlock(null, 1000).getLocation().getZ(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                //player.teleport(player.getTargetBlock(null, 1000).getLocation());
+                //unnötig player.teleport(player.getTargetBlock(null, 1000).getLocation());
                 player.teleport(l);
             }
         }
