@@ -51,6 +51,9 @@ public class JoinListener implements Listener {
         if (player.getDisplayName().equals(new String("Gaduso11"))){
             Bukkit.broadcastMessage(ChatColor.GRAY + "The "+ ChatColor.GOLD +       "ONE" +      ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
         }
+        if (player.getDisplayName().equals(new String("guzms"))){
+            Bukkit.broadcastMessage(ChatColor.GRAY + "The "+ ChatColor.GREEN +       "SEW-GUY" +      ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
+        }
 
 
     }
