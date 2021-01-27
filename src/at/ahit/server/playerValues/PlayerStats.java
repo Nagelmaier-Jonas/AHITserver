@@ -1,6 +1,8 @@
 package at.ahit.server.playerValues;
 
 public class PlayerStats {
+    private boolean HasPlayedBefore;
+
     private int Amount;
     private boolean Overlay;
 
@@ -11,12 +13,12 @@ public class PlayerStats {
     private int MinerLevel;
     private int MonsterHunterLevel;
 
-    private int CookExp;
-    private int FarmerExp;
-    private int HunterExp;
-    private int LumberjackExp;
-    private int MinerExp;
-    private int MonsterHunterExp;
+    private int CookXp;
+    private int FarmerXp;
+    private int HunterXp;
+    private int LumberjackXp;
+    private int MinerXp;
+    private int MonsterHunterXp;
 
     private boolean[] CookSkills = new boolean[1];
     private boolean[] FarmerSkills = new boolean[1];
