@@ -2,6 +2,7 @@ package at.ahit.server.main;
 
 import at.ahit.server.commands.CoinsCommand;
 import at.ahit.server.commands.NeverCommand;
+import at.ahit.server.commands.QuestInfoCommand;
 import at.ahit.server.commands.StatsCommand;
 import at.ahit.server.jobs.Miner;
 import at.ahit.server.listeners.JoinListener;
@@ -31,6 +32,7 @@ public class Main extends JavaPlugin {
         System.out.println("Hallo, ich lebe");
         getCommand("never").setExecutor(new NeverCommand());
         getCommand("coins").setExecutor(new CoinsCommand());
+        getCommand("questinfo").setExecutor(new QuestInfoCommand());
 
     }
 
