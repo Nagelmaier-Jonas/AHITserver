@@ -3,6 +3,7 @@ package at.ahit.server.quests;
 public class QuestStats {
 
     private int QuestTier;
+    private int RequiredJob;
     private String QuestDescription;
     private int RewardExp;
     private int RewardCoins;

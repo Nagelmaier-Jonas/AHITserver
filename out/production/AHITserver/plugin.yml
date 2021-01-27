@@ -5,3 +5,7 @@ main: at.ahit.server.main.Main
 commands:
    stats:
       description: /stats {on,off}
+   coins:
+      description: /coins
+   never:
+      description: /never
