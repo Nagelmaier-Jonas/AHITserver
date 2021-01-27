@@ -27,7 +27,7 @@ public class Main extends JavaPlugin {
     }
 
     public void Save(String path, Object obj) {
-        config.set(path, new String("nein"));
+        config.set(path,obj);
         plugin.saveConfig();
     }
 
