@@ -13,8 +13,9 @@ public class Miner implements Listener {
 
     @EventHandler
     public void breakBlock(BlockBreakEvent event) {
+
         int level = (int)Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerLevel");
-        double playerXp = (double)Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerXp");
+        int playerXp = (int)Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerXp");
         if(event.getBlock().getType().equals(Material.COAL_ORE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
             playerXp += 5;
         }
@@ -48,9 +49,9 @@ public class Miner implements Listener {
         if(event.getBlock().getType().equals(Material.NETHER_GOLD_ORE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
             playerXp += 10;
         }
-        if(100 * level >= playerXp) {
-            event.getPlayer().sendMessage("You are now mining level " + ChatColor.AQUA +  level + 1 + ChatColor.RESET + "!");
-            Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_MinerLevel", level + 1);
+        if(100 * level <= playerXp) {
+            event.getPlayer().sendMessage("You are now mining level " + ChatColor.AQUA +  ++level + ChatColor.RESET + "!");
+            Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_MinerLevel", level);
             Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_MinerXp", 0);
         }else{
             Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_MinerXp", playerXp);
