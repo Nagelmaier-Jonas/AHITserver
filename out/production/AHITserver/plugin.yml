@@ -11,3 +11,5 @@ commands:
       description: /never
    questinfo:
       description: /questinfo
+   mine:
+      description: /nein

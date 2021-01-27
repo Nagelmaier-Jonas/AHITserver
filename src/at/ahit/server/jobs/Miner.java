@@ -66,20 +66,19 @@ public class Miner implements Listener {
     public void BreakThreeByThree(BlockBreakEvent event) {
         event.getPlayer().sendMessage(""+Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerAbiliti"));
         if((boolean) Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerAbiliti") == true){
-            Location locationList = event.getBlock().getLocation();
-            List<Location> list = new ArrayList<Location>();
-            list.add(new Location(locationList.getWorld(), locationList.getX() + 1, locationList.getY() + 1, locationList.getZ()));
-            list.add(new Location(locationList.getWorld(), locationList.getX(), locationList.getY() + 1, locationList.getZ()));
-            list.add(new Location(locationList.getWorld(), locationList.getX() - 1, locationList.getY() + 1, locationList.getZ()));
-            list.add(new Location(locationList.getWorld(), locationList.getX() + 1, locationList.getY(), locationList.getZ()));
-            list.add(new Location(locationList.getWorld(), locationList.getX() - 1, locationList.getY(), locationList.getZ()));
-            list.add(new Location(locationList.getWorld(), locationList.getX() + 1, locationList.getY() -1, locationList.getZ()));
-            list.add(new Location(locationList.getWorld(), locationList.getX(), locationList.getY() -1, locationList.getZ()));
-            list.add(new Location(locationList.getWorld(), locationList.getX() -1, locationList.getY() - 1, locationList.getZ()));
-
-            for (int i = 0; i < list.size(); i++) {
-                list.get(i).getBlock().setType(Material.AIR);
-            }//pfusch
+            Location location = event.getBlock().getLocation();
+            List<Location> locationList = new ArrayList<Location>();
+            locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
+            locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
+            locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() + 1, location.getZ()));
+            locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ()));
+            locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ()));
+            locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() -1, location.getZ()));
+            locationList.add(new Location(location.getWorld(), location.getX(), location.getY() -1, location.getZ()));
+            locationList.add(new Location(location.getWorld(), location.getX() -1, location.getY() - 1, location.getZ()));
+            for (Location l: locationList) {
+                l.getBlock().setType(Material.AIR);
+            }
         }
     }
 }
