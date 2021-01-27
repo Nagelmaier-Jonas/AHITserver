@@ -18,6 +18,7 @@ public class JoinListener implements Listener {
     public void handlePlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         event.setJoinMessage("§aHallo§4 " + player.getDisplayName());
+        customjoinmessage(event);
     }
 
     public static void createScoreboard(FileConfiguration config,Player player){
@@ -32,4 +33,14 @@ public class JoinListener implements Listener {
     public static void firstJoin(FileConfiguration config, Player player,PlayerJoinEvent event){
 
     }
+
+    public void customjoinmessage(PlayerJoinEvent event){
+        Player player = event.getPlayer();
+
+        if (player.getDisplayName() == "Symo_TMS"){
+            Bukkit.getServer().broadcastMessage("a Gaylord has appeared");
+        }
+    }
+
+
 }
