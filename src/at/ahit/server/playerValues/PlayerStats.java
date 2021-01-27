@@ -11,12 +11,12 @@ public class PlayerStats {
     private int MinerLevel;
     private int MonsterHunterLevel;
 
-    private int CookExp;
-    private int FarmerExp;
-    private int HunterExp;
-    private int LumberjackExp;
-    private int MinerExp;
-    private int MonsterHunterExp;
+    private double CookExp;
+    private double FarmerExp;
+    private double HunterExp;
+    private double LumberjackExp;
+    private double MinerExp;
+    private double MonsterHunterExp;
 
     private boolean[] CookSkills = new boolean[1];
     private boolean[] FarmerSkills = new boolean[1];
