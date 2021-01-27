@@ -1,5 +1,6 @@
 package at.ahit.server.main;
 
+import at.ahit.server.abilities.MinerAbilities;
 import at.ahit.server.commands.CoinsCommand;
 import at.ahit.server.commands.NeverCommand;
 import at.ahit.server.commands.QuestInfoCommand;
@@ -29,11 +30,11 @@ public class Main extends JavaPlugin {
         manager.registerEvents(new JoinListener(), this);
         manager.registerEvents(new Miner(), this);
         getCommand("stats").setExecutor(new StatsCommand());
-        System.out.println("Hallo, ich lebe");
         getCommand("never").setExecutor(new NeverCommand());
         getCommand("coins").setExecutor(new CoinsCommand());
         getCommand("questinfo").setExecutor(new QuestInfoCommand());
-
+        getCommand("mine").setExecutor(new MinerAbilities());
+        System.out.println("Hallo, ich lebe");
     }
 
     public static FileConfiguration getConfigFile() {

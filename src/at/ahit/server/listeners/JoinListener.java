@@ -28,6 +28,9 @@ public class JoinListener implements Listener {
             config.set(displayName + "_HasPlayedBefore", true);
             config.set(displayName + "_Amount", 0);
             config.set(displayName + "_Overlay", true);
+            config.set(displayName + "_MinerXp", 0);
+            config.set(displayName + "_MinerLevel", 1);
+            config.set(displayName + "_MinerAbiliti", false);
             Main.getPlugin().saveConfig();
         }
 
