@@ -40,6 +40,7 @@ public class JoinListener implements Listener {
         if (player.getDisplayName() == "Symo_TMS"){
             Bukkit.getServer().broadcastMessage("a Gaylord has appeared");
         }
+        player.sendMessage(player.getDisplayName());
     }
 
 
