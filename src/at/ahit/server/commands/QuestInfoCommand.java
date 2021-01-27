@@ -11,7 +11,7 @@ public class QuestInfoCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         Player player = (Player) commandSender;
         player.sendMessage("Quests are orders for your individual professions,\n" +
-                " the higher level you have on a profession the harder quests you get.\n" +
+                " the higher level you have on a profession the harder quests you get." +
                 " You get xp from quests for your profession and sometimes additional coins.");
 
         return false;
