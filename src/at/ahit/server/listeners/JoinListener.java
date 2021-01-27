@@ -27,6 +27,7 @@ public class JoinListener implements Listener {
             config.set(displayName + "_Amount", 0);
             config.set(displayName + "_Overlay", true);
         }
+
     }
 
     public void customjoinmessage(PlayerJoinEvent event){
