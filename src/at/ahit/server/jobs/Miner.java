@@ -52,6 +52,10 @@ public class Miner implements Listener {
             event.getPlayer().sendMessage("You are now mining level " + ChatColor.AQUA +  level + 1 + ChatColor.RESET + "!");
             Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_MinerLevel", level + 1);
             Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_MinerXp", 0);
+        }else{
+            Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_MinerXp", playerXp);
         }
+        Main.getPlugin().saveConfig();
+
     }
 }

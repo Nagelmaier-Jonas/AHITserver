@@ -16,6 +16,7 @@ public class JoinListener implements Listener {
     @EventHandler
     public void handlePlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
+        firstJoin(Main.getConfigFile(),player,event);
         Scoreboards.createScoreboard(Main.getConfigFile(),player);
         customjoinmessage(event);
     }
@@ -26,6 +27,7 @@ public class JoinListener implements Listener {
             config.set(displayName + "_HasPlayedBefore", true);
             config.set(displayName + "_Amount", 0);
             config.set(displayName + "_Overlay", true);
+            Main.getPlugin().saveConfig();
         }
 
     }
