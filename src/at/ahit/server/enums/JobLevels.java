@@ -12,9 +12,6 @@ public enum JobLevels {
     JOB_LEVELS_NINE(100),
     JOB_LEVELS_TEN(100);
 
-    private final int level;
-
     JobLevels(int level) {
-        this.level = level;
     }
 }
