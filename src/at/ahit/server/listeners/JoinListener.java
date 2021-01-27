@@ -17,7 +17,6 @@ public class JoinListener implements Listener {
     public void handlePlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         Scoreboards.createScoreboard(Main.getConfigFile(),player);
-        //event.setJoinMessage("");
         customjoinmessage(event);
     }
 
