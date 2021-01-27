@@ -35,7 +35,7 @@ public class JoinListener implements Listener {
             Bukkit.broadcastMessage(ChatColor.GRAY + "The " + ChatColor.RED +       "WILD " +    ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals(new String("Katoka47"))){
-            Bukkit.broadcastMessage(ChatColor.GRAY + "The " + ChatColor.DARK_BLUE + "BIRDKING " + ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(ChatColor.GRAY + "Dome dick, aber Domes dick dünn. Ach ja, " + ChatColor.DARK_BLUE + "Niki " + ChatColor.GRAY + "ist da!" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals(new String("Gaduso11"))){
             Bukkit.broadcastMessage(ChatColor.GRAY + "The "+ ChatColor.GOLD +       "ONE " +      ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);

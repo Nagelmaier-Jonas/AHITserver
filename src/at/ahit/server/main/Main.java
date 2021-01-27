@@ -1,8 +1,12 @@
 package at.ahit.server.main;
 
 import at.ahit.server.commands.StatsCommand;
+import at.ahit.server.listeners.JoinListener;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.EventListener;
 
 public class Main extends JavaPlugin {
 
@@ -17,7 +21,7 @@ public class Main extends JavaPlugin {
         plugin = this;
 
         getCommand("stats").setExecutor(new StatsCommand());
-
+        Bukkit.getPluginManager().registerEvents(new EventListener(), this);
         System.out.println("Hallo");
     }
 

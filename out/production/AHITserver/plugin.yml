@@ -1,3 +1,7 @@
 name: Server
 version: 1.0.0
 main: at.ahit.server.main.Main
+
+commands:
+   stats:
+      description: /stats {on,off}
