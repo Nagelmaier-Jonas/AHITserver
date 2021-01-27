@@ -17,7 +17,8 @@ public class JoinListener implements Listener {
     @EventHandler
     public void handlePlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
-        event.setJoinMessage("§aHallo§4 " + player.getDisplayName());
+        //event.setJoinMessage("§aHallo§4 " + player.getDisplayName());
+        event.setJoinMessage("");
         customjoinmessage(event);
     }
 
@@ -37,10 +38,21 @@ public class JoinListener implements Listener {
     public void customjoinmessage(PlayerJoinEvent event){
         Player player = event.getPlayer();
 
-        if (player.getDisplayName() == "Symo_TMS"){
-            Bukkit.getServer().broadcastMessage("a Gaylord has appeared");
+        if (player.getDisplayName().equals(new String("Symo_TMS"))){
+            Bukkit.broadcastMessage(ChatColor.GRAY + "The " + ChatColor.RED + "G" + ChatColor.GOLD + "A" + ChatColor.YELLOW + "Y" + ChatColor.GREEN + "L"
+                    + ChatColor.BLUE + "O" + ChatColor.LIGHT_PURPLE + "R" + ChatColor.RED + "D " + ChatColor.GRAY + "appears out off thin air" + ChatColor.RESET);
         }
-        player.sendMessage(player.getDisplayName());
+        if (player.getDisplayName().equals(new String("Joni04"))){
+            Bukkit.broadcastMessage(ChatColor.GRAY + "The " + ChatColor.RED +       "WILD " +    ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
+        }
+        if (player.getDisplayName().equals(new String("Katoka47"))){
+            Bukkit.broadcastMessage(ChatColor.GRAY + "The " + ChatColor.DARK_BLUE + "BIRDKING" + ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
+        }
+        if (player.getDisplayName().equals(new String("Gaduso11"))){
+            Bukkit.broadcastMessage(ChatColor.GRAY + "The "+ ChatColor.GOLD +       "ONE" +      ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
+        }
+
+
     }
 
 
