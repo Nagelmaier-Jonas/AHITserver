@@ -7,10 +7,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
 
-public class Scoreboard {
+public class Scoreboards {
+
     public static void createScoreboard(FileConfiguration config, Player player){
-        org.bukkit.scoreboard.Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective objective = scoreboard.registerNewObjective("Scoreboard","dummy","§6§l>>Info<<");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         Score score1 = objective.getScore(ChatColor.DARK_RED + "-=-=-=-=-=-=-=-");

@@ -1,7 +1,7 @@
 package at.ahit.server.listeners;
 
 import at.ahit.server.main.Main;
-import at.ahit.server.overlays.Scoreboard;
+import at.ahit.server.overlays.Scoreboards;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,7 +16,7 @@ public class JoinListener implements Listener {
     @EventHandler
     public void handlePlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
-        Scoreboard.createScoreboard(Main.getConfigFile(),player);
+        Scoreboards.createScoreboard(Main.getConfigFile(),player);
         event.setJoinMessage("");
         customjoinmessage(event);
     }

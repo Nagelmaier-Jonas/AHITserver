@@ -1,13 +1,11 @@
 package at.ahit.server.commands;
 
 import at.ahit.server.main.Main;
-import at.ahit.server.overlays.Scoreboard;
+import at.ahit.server.overlays.Scoreboards;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 
 public class StatsCommand implements CommandExecutor {
@@ -20,7 +18,7 @@ public class StatsCommand implements CommandExecutor {
                     case "on":
                         Main.getConfigFile().set(player.getDisplayName() + "_Scoreboard","true");
                         Main.getPlugin().saveConfig();
-                        Scoreboard.createScoreboard(Main.getConfigFile(),player);
+                        Scoreboards.createScoreboard(Main.getConfigFile(),player);
                         break;
                     case "off":
                         Main.getConfigFile().set(player.getDisplayName() + "_Scoreboard","false");
