@@ -9,3 +9,5 @@ commands:
       description: /coins
    never:
       description: /never
+   questinfo:
+      description: /questinfo
