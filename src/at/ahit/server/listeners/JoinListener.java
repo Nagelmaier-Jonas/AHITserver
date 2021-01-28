@@ -35,9 +35,6 @@ public class JoinListener implements Listener {
             Main.Save(displayName + "_MinerSkill2",false);
             Main.Save(displayName + "_MinerSkill3",false);
 
-            Main.Save(displayName + "_MinerAbility1",false);
-            Main.Save(displayName + "_MinerAbility2",false);
-
             Main.Save(displayName + "_CookSkill1",false);
             Main.Save(displayName + "_CookSkill2",false);
             Main.Save(displayName + "_CookSkill3",false);
@@ -60,7 +57,10 @@ public class JoinListener implements Listener {
 
 
         }
-        config.set(displayName + "_MinerAbiliti", false);
+
+        Main.Save(displayName + "_MinerAbility1",false);
+        Main.Save(displayName + "_MinerAbility2",false);
+
         Main.getPlugin().saveConfig();
     }
 
