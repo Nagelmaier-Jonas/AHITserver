@@ -30,6 +30,8 @@ public class JoinListener implements Listener {
             config.set(displayName + "_Overlay", true);
             config.set(displayName + "_MinerXp", 0);
             config.set(displayName + "_MinerLevel", 1);
+            config.set(displayName + "_LumberjackXp", 0);
+            config.set(displayName + "_LumberjackLevel", 1);
 
             Main.Save(displayName + "_MinerSkill1", false);
             Main.Save(displayName + "_MinerSkill2", false);
