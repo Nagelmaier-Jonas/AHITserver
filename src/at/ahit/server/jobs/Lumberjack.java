@@ -1,4 +1,6 @@
 package at.ahit.server.jobs;
 
-public class Lumberjack {
+import org.bukkit.event.Listener;
+
+public class Lumberjack implements Listener {
 }

@@ -5,6 +5,7 @@ import at.ahit.server.commands.CoinsCommand;
 import at.ahit.server.commands.NeverCommand;
 import at.ahit.server.commands.QuestInfoCommand;
 import at.ahit.server.commands.StatsCommand;
+import at.ahit.server.jobs.Hunter;
 import at.ahit.server.jobs.Miner;
 import at.ahit.server.listeners.BountyListener;
 import at.ahit.server.listeners.JoinListener;
@@ -27,20 +28,27 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         config = plugin.getConfig();
-        PluginManager manager = Bukkit.getPluginManager();
-        manager.registerEvents(new JoinListener(), this);
-        manager.registerEvents(new Miner(), this);
-        manager.registerEvents(new BountyListener(), this);
-        getCommand("stats").setExecutor(new StatsCommand());
-        getCommand("never").setExecutor(new NeverCommand());
-        getCommand("coins").setExecutor(new CoinsCommand());
-        getCommand("questinfo").setExecutor(new QuestInfoCommand());
-        getCommand("mine").setExecutor(new MinerAbilities());
         System.out.println("Hallo, ich lebe");
     }
 
     public void onDisable(){
 
+    }
+
+    public void registerListener(){
+        PluginManager manager = Bukkit.getPluginManager();
+        manager.registerEvents(new JoinListener(), this);
+        manager.registerEvents(new Miner(), this);
+        manager.registerEvents(new BountyListener(), this);
+        manager.registerEvents(new Hunter(),this);
+    }
+
+    public void registerCommands(){
+        getCommand("stats").setExecutor(new StatsCommand());
+        getCommand("never").setExecutor(new NeverCommand());
+        getCommand("coins").setExecutor(new CoinsCommand());
+        getCommand("questinfo").setExecutor(new QuestInfoCommand());
+        getCommand("mine").setExecutor(new MinerAbilities());
     }
 
     public static FileConfiguration getConfigFile() {
