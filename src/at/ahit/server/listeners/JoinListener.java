@@ -27,9 +27,9 @@ public class JoinListener implements Listener {
         if (config.get(displayName + "_HasPlayedBefore") == null){
             config.set(displayName + "_HasPlayedBefore", true);
             config.set(displayName + "_Amount", 0);
-            config.set(displayName + "_Overlay", true);
-            config.set(displayName + "_MinerXp", 0);
-            config.set(displayName + "_MinerLevel", 1);
+            Main.Save(displayName + "_Overlay", true);
+            Main.Save(displayName + "_MinerXp", 0);
+            Main.Save(displayName + "_MinerLevel", 1);
             Main.Save(displayName + "_MinerSkill1",false);
             Main.Save(displayName + "_MinerSkill2",false);
             Main.Save(displayName + "_MinerSkill3",false);
