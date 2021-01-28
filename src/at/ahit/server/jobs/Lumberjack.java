@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Lumberjack implements Listener {
 
@@ -27,9 +28,23 @@ public class Lumberjack implements Listener {
 
         Material m = event.getBlock().getType();
 
-        // HashMap // TODO
+        HashMap<Material, Integer> woodTypes = new HashMap<Material, Integer>();
 
-        switch (event.getBlock().getType()){
+        woodTypes.put(Material.OAK_LOG, 5);
+        woodTypes.put(Material.DARK_OAK_LOG, 7);
+        woodTypes.put(Material.BIRCH_LOG, 7);
+        woodTypes.put(Material.JUNGLE_LOG, 3);
+        woodTypes.put(Material.SPRUCE_LOG, 5);
+        woodTypes.put(Material.ACACIA_LOG, 7);
+        woodTypes.put(Material.CRIMSON_STEM, 10);
+        woodTypes.put(Material.WARPED_STEM, 10);
+
+        if (woodTypes.containsKey(m)) {
+            playerXp += woodTypes.get(m);
+            breakAdjacentBlocks(player, block, m);
+        }
+
+        /*switch (event.getBlock().getType()){
             case OAK_LOG:
                 playerXp += 5;
                 breakAdjacentBlocks(player, block, Material.OAK_LOG);
@@ -62,7 +77,7 @@ public class Lumberjack implements Listener {
                 playerXp += 10;
                 breakAdjacentBlocks(player, block, Material.WARPED_STEM);
                 break;
-        }
+        }*/
 
         if(100 * level <= playerXp) {
             player.sendMessage("You are now lumberjack level " + ChatColor.AQUA +  ++level + ChatColor.RESET + "!");
