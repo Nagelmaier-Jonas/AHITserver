@@ -5,9 +5,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +66,7 @@ public class Miner implements Listener {
     }
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
-        event.getPlayer().sendMessage(""+Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerAbiliti"));
+        event.getPlayer().sendMessage(""+event.getPlayer().getLocation().getPitch() + " " + event.getPlayer().getLocation().getPitch());
         if((boolean) Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerAbiliti") == true){
             Location location = event.getBlock().getLocation();
             List<Location> locationList = new ArrayList<Location>();
@@ -77,8 +79,13 @@ public class Miner implements Listener {
             locationList.add(new Location(location.getWorld(), location.getX(), location.getY() -1, location.getZ()));
             locationList.add(new Location(location.getWorld(), location.getX() -1, location.getY() - 1, location.getZ()));
             for (Location l: locationList) {
-                l.getBlock().setType(Material.AIR);
+                GetBlockOnDelete(event.getPlayer(), event.getBlock().getLocation());
             }
         }
+    }
+
+    private void GetBlockOnDelete(Player p, Location l) {
+        p.getInventory().addItem(new ItemStack(l.getBlock().getType()));
+        l.getBlock().setType(Material.AIR);
     }
 }
