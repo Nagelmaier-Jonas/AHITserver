@@ -11,5 +11,7 @@ commands:
     description: /never
   questinfo:
     description: /questinfo
+  aquest:
+    description: /aquest (shows you your availiable quests)
   mine:
     description: /nein

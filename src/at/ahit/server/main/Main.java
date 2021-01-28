@@ -1,10 +1,7 @@
 package at.ahit.server.main;
 
 import at.ahit.server.abilities.MinerAbilities;
-import at.ahit.server.commands.CoinsCommand;
-import at.ahit.server.commands.NeverCommand;
-import at.ahit.server.commands.QuestInfoCommand;
-import at.ahit.server.commands.StatsCommand;
+import at.ahit.server.commands.*;
 import at.ahit.server.jobs.Hunter;
 import at.ahit.server.jobs.Miner;
 import at.ahit.server.listeners.JoinListener;
@@ -46,6 +43,7 @@ public class Main extends JavaPlugin {
         getCommand("never").setExecutor(new NeverCommand());
         getCommand("coins").setExecutor(new CoinsCommand());
         getCommand("questinfo").setExecutor(new QuestInfoCommand());
+        getCommand("aquest").setExecutor(new AQuestCommand());
         getCommand("mine").setExecutor(new MinerAbilities());
     }
 
