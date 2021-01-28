@@ -109,9 +109,11 @@ public class Menu {
                     player.sendMessage("MonsterHunter");
                     break;
                 case "Close":
-                    player.sendMessage("Close");
+                    player.closeInventory();
                     break;
             }
+
+            event.setCancelled(true);
         }
     }
 
