@@ -221,15 +221,12 @@ public class Miner implements Listener {
 
 
     public static void giveHaste(Player p) {
-        /*if(!createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
-            event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 99999, 0));
+        if(createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load("Gaduso11_MinerSkill2")) {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 40, 0));
         }
-        else
-            event.getPlayer().removePotionEffect(PotionEffectType.FAST_DIGGING);*/
-        p.sendMessage("hallo");
     }
 
-    public ArrayList<Material> createArray() {
+    public static ArrayList<Material> createArray() {
         ArrayList<Material> pickAxeList = new ArrayList<Material>();
         pickAxeList.add(Material.WOODEN_PICKAXE);
         pickAxeList.add(Material.STONE_PICKAXE);
