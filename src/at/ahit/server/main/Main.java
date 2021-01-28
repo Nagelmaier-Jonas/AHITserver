@@ -51,6 +51,7 @@ public class Main extends JavaPlugin {
         getCommand("mine").setExecutor(new MinerAbilities());
         getCommand("skillshop").setExecutor(new SkillShopCommand());
         getCommand("setcoins").setExecutor(new SetCoinsCommand());
+        getCommand("auction").setExecutor(new AuctionCommand());
     }
 
     public static FileConfiguration getConfigFile() {

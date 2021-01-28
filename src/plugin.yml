@@ -18,3 +18,5 @@ commands:
     description: /skillshop
   setcoins:
     description: /setcoins <Player> <Amount>
+  auction:
+    description: /auction
