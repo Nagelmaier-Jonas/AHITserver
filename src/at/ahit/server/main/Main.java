@@ -3,6 +3,7 @@ package at.ahit.server.main;
 import at.ahit.server.abilities.MinerAbilities;
 import at.ahit.server.commands.*;
 import at.ahit.server.jobs.Hunter;
+import at.ahit.server.jobs.Lumberjack;
 import at.ahit.server.jobs.Miner;
 import at.ahit.server.listeners.JoinListener;
 import org.bukkit.Bukkit;
@@ -36,6 +37,7 @@ public class Main extends JavaPlugin {
         manager.registerEvents(new JoinListener(), this);
         manager.registerEvents(new Miner(), this);
         manager.registerEvents(new Hunter(),this);
+        manager.registerEvents(new Lumberjack(),this);
     }
 
     public void registerCommands(){
@@ -45,6 +47,7 @@ public class Main extends JavaPlugin {
         getCommand("questinfo").setExecutor(new QuestInfoCommand());
         getCommand("aquest").setExecutor(new AQuestCommand());
         getCommand("mine").setExecutor(new MinerAbilities());
+        getCommand("skillshop").setExecutor(new SkillShopCommand());
     }
 
     public static FileConfiguration getConfigFile() {

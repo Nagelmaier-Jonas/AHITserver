@@ -31,4 +31,6 @@ public class Scoreboards {
         score7.setScore(0);
         player.setScoreboard(scoreboard);
     }
+
+
 }
