@@ -77,8 +77,8 @@ public class Miner implements Listener {
 
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
-        event.getPlayer().sendMessage("" + event.getPlayer().getLocation().getPitch());
-        if ((boolean) Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerAbiliti")) {
+        event.getPlayer().sendMessage("" + event.getPlayer().getLocation().getDirection());
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility")) {
             Location location = event.getBlock().getLocation();
             List<Location> locationList = new ArrayList<Location>();
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
@@ -96,6 +96,7 @@ public class Miner implements Listener {
                 p.getInventory().addItem(new ItemStack(l.getBlock().getType()));
                 l.getBlock().setType(Material.AIR);
             }
+            
         }
     }
 
