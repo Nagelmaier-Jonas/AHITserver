@@ -5,6 +5,7 @@ import at.ahit.server.commands.*;
 import at.ahit.server.jobs.Hunter;
 import at.ahit.server.jobs.Lumberjack;
 import at.ahit.server.jobs.Miner;
+import at.ahit.server.listeners.IventoryClickListener;
 import at.ahit.server.listeners.JoinListener;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -35,6 +36,7 @@ public class Main extends JavaPlugin {
     public void registerListener(){
         PluginManager manager = Bukkit.getPluginManager();
         manager.registerEvents(new JoinListener(), this);
+        manager.registerEvents(new IventoryClickListener(), this);
         manager.registerEvents(new Miner(), this);
         manager.registerEvents(new Hunter(),this);
         manager.registerEvents(new Lumberjack(),this);
