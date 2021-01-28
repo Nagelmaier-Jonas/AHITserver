@@ -2,9 +2,11 @@ package at.ahit.server.main;
 
 import at.ahit.server.abilities.MinerAbilities;
 import at.ahit.server.commands.*;
+import at.ahit.server.enums.Color;
 import at.ahit.server.jobs.Hunter;
+import at.ahit.server.jobs.Lumberjack;
 import at.ahit.server.jobs.Miner;
-import at.ahit.server.listeners.BetterSleepListener;
+import at.ahit.server.listeners.InventoryClickListener;
 import at.ahit.server.listeners.JoinListener;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -25,7 +27,7 @@ public class Main extends JavaPlugin {
         config = plugin.getConfig();
         registerListener();
         registerCommands();
-        System.out.println("Hallo, ich lebe");
+        System.out.println(Color.GREEN + "plugin load successfull" + Color.RESET);
     }
 
     public void onDisable(){
@@ -35,18 +37,20 @@ public class Main extends JavaPlugin {
     public void registerListener(){
         PluginManager manager = Bukkit.getPluginManager();
         manager.registerEvents(new JoinListener(), this);
+        manager.registerEvents(new InventoryClickListener(), this);
         manager.registerEvents(new Miner(), this);
         manager.registerEvents(new Hunter(),this);
-        manager.registerEvents(new BetterSleepListener(), this);
+        manager.registerEvents(new Lumberjack(),this);
     }
 
     public void registerCommands(){
         getCommand("stats").setExecutor(new StatsCommand());
-        getCommand("never").setExecutor(new NeverCommand());
         getCommand("coins").setExecutor(new CoinsCommand());
         getCommand("questinfo").setExecutor(new QuestInfoCommand());
         getCommand("aquest").setExecutor(new AQuestCommand());
         getCommand("mine").setExecutor(new MinerAbilities());
+        getCommand("skillshop").setExecutor(new SkillShopCommand());
+        getCommand("setcoins").setExecutor(new SetCoinsCommand());
     }
 
     public static FileConfiguration getConfigFile() {
@@ -56,14 +60,14 @@ public class Main extends JavaPlugin {
     public static Main getPlugin() {
         return plugin;
     }
-    /*
-    public void Save(String path, Object obj) {
+
+    public static void Save(String path, Object obj) {
         config.set(path,obj);
         plugin.saveConfig();
     }
 
-    private Object Load(String path, FileConfiguration config) {
+    public static Object Load(String path) {
         return config.get(path);
-    }*/
+    }
 
 }
