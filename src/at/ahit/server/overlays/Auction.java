@@ -73,5 +73,6 @@ public class Auction {
         player.sendMessage(itemStack[0] + "");
         player.sendMessage(itemStack[1] + "");
         player.sendMessage(itemStack[2] + "");
+
     }
 }
