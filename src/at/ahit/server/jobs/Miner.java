@@ -99,6 +99,7 @@ public class Miner implements Listener {
     }
 
     public static void openMinerMenu(Player player){
+        player.sendMessage("open");
         Inventory inventory = Bukkit.createInventory(null, 9, "Miner");
 
         ItemStack skill1 = new ItemStack(Material.STONE_PICKAXE,1);
@@ -156,6 +157,7 @@ public class Miner implements Listener {
                         player.closeInventory();
                         Miner.openMinerMenu(player);
                     }else{
+                        Miner.openMinerMenu(player);
                         player.sendMessage("Not enough Money");
                     }
                     break;
@@ -165,6 +167,7 @@ public class Miner implements Listener {
                         player.closeInventory();
                         Miner.openMinerMenu(player);
                     }else{
+                        Miner.openMinerMenu(player);
                         player.sendMessage("Not enough Money");
                     }
                     break;
@@ -174,6 +177,7 @@ public class Miner implements Listener {
                         player.closeInventory();
                         Miner.openMinerMenu(player);
                     }else{
+                        Miner.openMinerMenu(player);
                         player.sendMessage("Not enough Money");
                     }
                     break;
