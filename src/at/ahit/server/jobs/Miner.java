@@ -19,55 +19,63 @@ public class Miner implements Listener {
 
     @EventHandler
     public void breakBlock(BlockBreakEvent event) {
+        Player player = event.getPlayer();
+        int level = (int) Main.getConfigFile().get(player.getDisplayName() + "_MinerLevel");
+        int playerXp = (int) Main.getConfigFile().get(player.getDisplayName() + "_MinerXp");
+        if (!event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)) {
+            switch (event.getBlock().getType()) {
+                case COAL_ORE:
+                    playerXp += 5;
+                    break;
+                case IRON_ORE:
+                    playerXp += 10;
+                    break;
+                case GOLD_ORE:
+                    playerXp += 20;
+                    break;
+                case REDSTONE_ORE:
+                    playerXp += 10;
+                    break;
+                case DIAMOND_ORE:
+                    playerXp += 30;
+                    break;
+                case EMERALD_ORE:
+                    playerXp += 100;
+                    break;
+                case STONE:
+                    playerXp += 1;
+                    break;
+                case COBBLESTONE:
+                    playerXp += 0.5;
+                    break;
+                case NETHER_QUARTZ_ORE:
+                    playerXp += 10;
+                    break;
+                case NETHERRACK:
+                    playerXp += 0.2;
+                    break;
+                case NETHER_GOLD_ORE:
+                    playerXp += 10;
+                    break;
+                default:
+                    player.sendMessage("ka erz");
 
-        int level = (int)Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerLevel");
-        int playerXp = (int)Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerXp");
-        if(event.getBlock().getType().equals(Material.COAL_ORE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
-            playerXp += 5;
+            }
         }
-        if(event.getBlock().getType().equals(Material.IRON_ORE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
-            playerXp += 10;
-        }
-        if(event.getBlock().getType().equals(Material.GOLD_ORE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
-            playerXp += 20;
-        }
-        if(event.getBlock().getType().equals(Material.REDSTONE_ORE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
-            playerXp += 10;
-        }
-        if(event.getBlock().getType().equals(Material.DIAMOND_ORE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
-            playerXp += 30;
-        }
-        if(event.getBlock().getType().equals(Material.EMERALD_ORE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
-            playerXp += 100;
-        }
-        if(event.getBlock().getType().equals(Material.STONE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
-            playerXp += 1;
-        }
-        if(event.getBlock().getType().equals(Material.COBBLESTONE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
-            playerXp += 0.5;
-        }
-        if(event.getBlock().getType().equals(Material.NETHER_QUARTZ_ORE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
-            playerXp += 10;
-        }
-        if(event.getBlock().getType().equals(Material.NETHERRACK) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
-            playerXp += 0.2;
-        }
-        if(event.getBlock().getType().equals(Material.NETHER_GOLD_ORE) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
-            playerXp += 10;
-        }
-        if(100 * level <= playerXp) {
-            event.getPlayer().sendMessage("You are now mining level " + ChatColor.AQUA +  ++level + ChatColor.RESET + "!");
+        if (100 * level <= playerXp) {
+            event.getPlayer().sendMessage("You are now mining level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
             Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_MinerLevel", level);
             Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_MinerXp", 0);
-        }else{
+        } else {
             Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_MinerXp", playerXp);
         }
         Main.getPlugin().saveConfig();
     }
+
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
-        event.getPlayer().sendMessage(""+event.getPlayer().getLocation().getPitch());
-        if((boolean) Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerAbiliti")){
+        event.getPlayer().sendMessage("" + event.getPlayer().getLocation().getPitch());
+        if ((boolean) Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerAbiliti")) {
             Location location = event.getBlock().getLocation();
             List<Location> locationList = new ArrayList<Location>();
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
@@ -75,12 +83,12 @@ public class Miner implements Listener {
             locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() + 1, location.getZ()));
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ()));
             locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ()));
-            locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() -1, location.getZ()));
-            locationList.add(new Location(location.getWorld(), location.getX(), location.getY() -1, location.getZ()));
-            locationList.add(new Location(location.getWorld(), location.getX() -1, location.getY() - 1, location.getZ()));
+            locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() - 1, location.getZ()));
+            locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
+            locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() - 1, location.getZ()));
             Player p = event.getPlayer();
-            for (Location l: locationList) {
-                p.sendMessage(""+l.getBlock().getType());
+            for (Location l : locationList) {
+                p.sendMessage("" + l.getBlock().getType());
 
                 p.getInventory().addItem(new ItemStack(l.getBlock().getType()));
                 l.getBlock().setType(Material.AIR);

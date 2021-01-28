@@ -11,7 +11,7 @@ public class Lumberjack implements Listener {
 
     @EventHandler
     public void breakBlock(BlockBreakEvent event) {
-        Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
         int level = (int) Main.getConfigFile().get(player.getDisplayName() + "_LumberjackLevel");
         int playerXp = (int)Main.getConfigFile().get(player.getDisplayName() + "_LumberjackXp");
 
