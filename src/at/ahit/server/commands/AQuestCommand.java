@@ -15,6 +15,7 @@ import java.awt.*;
 
 public class AQuestCommand implements CommandExecutor {
 
+    @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player){
             Player player = (Player) commandSender;
@@ -42,7 +43,7 @@ public class AQuestCommand implements CommandExecutor {
 
 
                 if (strings[0].equals("cook")){
-
+                    player.sendMessage("Cook you first Food");
                 }
 
                 if (strings[0].equals("farmer")){
