@@ -15,9 +15,8 @@ public class MinerAbilities implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        int level = (int) Main.Load(commandSender.getName() + "_MinerLevel");
 
-        if(level > 2)
+        if((boolean) Main.Load(commandSender.getName() + "_MinerSkill1"))
             Main.Save(commandSender.getName() + "_MinerAbility", !(boolean)Main.Load(commandSender.getName() + "_MinerAbility"));
         return false;
     }
