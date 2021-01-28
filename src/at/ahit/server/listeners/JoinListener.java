@@ -30,33 +30,32 @@ public class JoinListener implements Listener {
             config.set(displayName + "_Overlay", true);
             config.set(displayName + "_MinerXp", 0);
             config.set(displayName + "_MinerLevel", 1);
+
+            Main.Save(displayName + "_MinerSkill1", false);
+            Main.Save(displayName + "_MinerSkill2", false);
+            Main.Save(displayName + "_MinerSkill3", false);
+
+            Main.Save(displayName + "_CookSkill1", false);
+            Main.Save(displayName + "_CookSkill2", false);
+            Main.Save(displayName + "_CookSkill3", false);
+
+            Main.Save(displayName + "_FarmerSkill1", false);
+            Main.Save(displayName + "_FarmerSkill2", false);
+            Main.Save(displayName + "_FarmerSkill3", false);
+
+            Main.Save(displayName + "_HunterSkill1", false);
+            Main.Save(displayName + "_HunterSkill2", false);
+            Main.Save(displayName + "_HunterSkill3", false);
+
+            Main.Save(displayName + "_LumberjackSkill1", false);
+            Main.Save(displayName + "_LumberjackSkill2", false);
+            Main.Save(displayName + "_LumberjackSkill3", false);
+
+            Main.Save(displayName + "_MonsterHunterSkill1", false);
+            Main.Save(displayName + "_MonsterHunterSkill2", false);
+            Main.Save(displayName + "_MonsterHunterSkill3", false);
+
         }
-            Main.Save(displayName + "_MinerSkill1",false);
-            Main.Save(displayName + "_MinerSkill2",false);
-            Main.Save(displayName + "_MinerSkill3",false);
-
-            Main.Save(displayName + "_CookSkill1",false);
-            Main.Save(displayName + "_CookSkill2",false);
-            Main.Save(displayName + "_CookSkill3",false);
-
-            Main.Save(displayName + "_FarmerSkill1",false);
-            Main.Save(displayName + "_FarmerSkill2",false);
-            Main.Save(displayName + "_FarmerSkill3",false);
-
-            Main.Save(displayName + "_HunterSkill1",false);
-            Main.Save(displayName + "_HunterSkill2",false);
-            Main.Save(displayName + "_HunterSkill3",false);
-
-            Main.Save(displayName + "_LumberjackSkill1",false);
-            Main.Save(displayName + "_LumberjackSkill2",false);
-            Main.Save(displayName + "_LumberjackSkill3",false);
-
-            Main.Save(displayName + "_MonsterHunterSkill1",false);
-            Main.Save(displayName + "_MonsterHunterSkill2",false);
-            Main.Save(displayName + "_MonsterHunterSkill3",false);
-
-
-
 
         Main.Save(displayName + "_MinerAbility1",false);
         Main.Save(displayName + "_MinerAbility2",false);

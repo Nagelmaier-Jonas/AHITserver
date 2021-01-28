@@ -21,10 +21,10 @@ public class SetCoinsCommand implements CommandExecutor {
                     if (target != null){
                         FileConfiguration config = Main.getConfigFile();
                         if (strings[1].matches("[+-]?\\d*(\\.\\d+)?")){
-                            if ((int)config.get(target.getDisplayName() + "_Coins") + Integer.parseInt(strings[1]) >= 0){
+                            if ((int)config.get(target.getDisplayName() + "_Amount") + Integer.parseInt(strings[1]) >= 0){
                                 config.set(target.getDisplayName() + "_Amount", (int)config.get(target.getDisplayName() + "_Amount") + Integer.parseInt(strings[1]));
                                 Main.getPlugin().saveConfig();
-                                if (config.get(player.getDisplayName() + "_Scoreboard").equals("true")){
+                                if ((boolean) Main.Load(player.getDisplayName() + "_Overlay")){
                                     Scoreboards.createScoreboard(config,player);
                                 }else{
                                     player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
@@ -41,7 +41,7 @@ public class SetCoinsCommand implements CommandExecutor {
                             if (split[0].equals("=") && split[1].matches("[+]?\\d*(\\.\\d+)?")){
                                 config.set(target.getDisplayName() + "_Amount", Integer.parseInt(split[1]));
                                 Main.getPlugin().saveConfig();
-                                if (config.get(player.getDisplayName() + "_Scoreboard").equals("true")){
+                                if ((boolean) Main.Load(player.getDisplayName() + "_Overlay")){
                                     Scoreboards.createScoreboard(config,player);
                                 }else{
                                     player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
