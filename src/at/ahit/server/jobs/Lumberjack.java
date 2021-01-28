@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Lumberjack implements Listener {
 
@@ -27,9 +28,22 @@ public class Lumberjack implements Listener {
 
         Material m = event.getBlock().getType();
 
-        // HashMap // TODO
+        HashMap<Material, Integer> woodTypes = new HashMap<Material, Integer>();
 
-        switch (event.getBlock().getType()){
+        woodTypes.put(Material.OAK_LOG, 5);
+        woodTypes.put(Material.DARK_OAK_LOG, 7);
+        woodTypes.put(Material.BIRCH_LOG, 7);
+        woodTypes.put(Material.JUNGLE_LOG, 3);
+        woodTypes.put(Material.SPRUCE_LOG, 5);
+        woodTypes.put(Material.ACACIA_LOG, 7);
+        woodTypes.put(Material.CRIMSON_STEM, 10);
+        woodTypes.put(Material.WARPED_STEM, 10);
+
+        if (woodTypes.containsKey(m)) {
+            playerXp += breakAdjacentBlocks(player, block, m) * woodTypes.get(m);
+        }
+
+        /*switch (event.getBlock().getType()){
             case OAK_LOG:
                 playerXp += 5;
                 breakAdjacentBlocks(player, block, Material.OAK_LOG);
@@ -62,7 +76,7 @@ public class Lumberjack implements Listener {
                 playerXp += 10;
                 breakAdjacentBlocks(player, block, Material.WARPED_STEM);
                 break;
-        }
+        }*/
 
         if(100 * level <= playerXp) {
             player.sendMessage("You are now lumberjack level " + ChatColor.AQUA +  ++level + ChatColor.RESET + "!");
@@ -74,11 +88,15 @@ public class Lumberjack implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    public static void breakAdjacentBlocks(Player p, Block b, Material m) {
+    public static int breakAdjacentBlocks(Player p, Block b, Material m) {
+        return breakAdjacentBlocks(p, b, m, 1);
+    }
+
+    private static int breakAdjacentBlocks(Player p, Block b, Material m, int count) {
         World world = p.getWorld();
 
-        p.sendMessage("Break aufgerufen yey");
-        p.sendMessage(b.getLocation().toString());
+        // p.sendMessage("Break aufgerufen yey");
+        // p.sendMessage(b.getLocation().toString());
 
         //p.getInventory().addItem(new ItemStack(b.getType()));
         world.dropItem(b.getLocation(), new ItemStack(b.getType()));
@@ -88,8 +106,10 @@ public class Lumberjack implements Listener {
             for (int j = -1; j <= 1; j++)
                 for (int k = -1; k <= 1; k++) {
                     if (b.getRelative(i, j, k).getType() == m)
-                        breakAdjacentBlocks(p, b.getRelative(i, j, k), m);
-                    }
+                        count += breakAdjacentBlocks(p, b.getRelative(i, j, k), m);
+                }
+
+        return count++;
     }
 
     public static void openLumberjackMenu(Player player){
