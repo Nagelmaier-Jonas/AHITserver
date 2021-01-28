@@ -1,14 +1,13 @@
 name: Server
 version: 1.0.0
 main: at.ahit.server.main.Main
+api-version: 1.13
 
 commands:
   stats:
     description: /stats {on,off}
   coins:
     description: /coins
-  never:
-    description: /never
   questinfo:
     description: /questinfo
   aquest:

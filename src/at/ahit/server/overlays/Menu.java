@@ -1,5 +1,6 @@
 package at.ahit.server.overlays;
 
+import at.ahit.server.jobs.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,10 +15,12 @@ import java.util.ArrayList;
 
 public class Menu {
 
+    private static String a;
+
     public static void openMenu(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 9, "Job");
 
-        ItemStack miner = new ItemStack(Material.IRON_PICKAXE,1);
+        ItemStack miner = new ItemStack(Material.STONE,1);
         ItemMeta minerMeta = miner.getItemMeta();
         minerMeta.setDisplayName("Miner");
         ArrayList<String> minerLore = new ArrayList<String>();
@@ -41,7 +44,7 @@ public class Menu {
         farmerMeta.setLore(farmerLore);
         farmer.setItemMeta(farmerMeta);
 
-        ItemStack hunter = new ItemStack(Material.PORKCHOP,1);
+        ItemStack hunter = new ItemStack(Material.BOW,1);
         ItemMeta hunterMeta = hunter.getItemMeta();
         hunterMeta.setDisplayName("Hunter");
         ArrayList<String> hunterLore = new ArrayList<String>();
@@ -49,7 +52,7 @@ public class Menu {
         hunterMeta.setLore(hunterLore);
         hunter.setItemMeta(hunterMeta);
 
-        ItemStack lumberjack = new ItemStack(Material.IRON_AXE,1);
+        ItemStack lumberjack = new ItemStack(Material.OAK_WOOD,1);
         ItemMeta lumberjackMeta = lumberjack.getItemMeta();
         lumberjackMeta.setDisplayName("Lumberjack");
         ArrayList<String> lumberjackLore = new ArrayList<String>();
@@ -57,7 +60,7 @@ public class Menu {
         lumberjackMeta.setLore(lumberjackLore);
         lumberjack.setItemMeta(lumberjackMeta);
 
-        ItemStack monsterHunter = new ItemStack(Material.BOW,1);
+        ItemStack monsterHunter = new ItemStack(Material.ZOMBIE_HEAD,1);
         ItemMeta monsterHunterMeta = monsterHunter.getItemMeta();
         monsterHunterMeta.setDisplayName("MonsterHunter");
         ArrayList<String> monsterHunterLore = new ArrayList<String>();
@@ -92,22 +95,27 @@ public class Menu {
             switch (name){
                 case "Miner":
                     player.closeInventory();
-                    openMinerMenu(player);
+                    Miner.openMinerMenu(player);
                     break;
                 case "Cook":
-                    player.sendMessage("Cook");
+                    player.closeInventory();
+                    Cook.openCookMenu(player);
                     break;
                 case "Farmer":
-                    player.sendMessage("Farmer");
+                    player.closeInventory();
+                    Farmer.openFarmerMenu(player);
                     break;
                 case "Hunter":
-                    player.sendMessage("Hunter");
+                    player.closeInventory();
+                    Hunter.openHunterMenu(player);
                     break;
                 case "Lumberjack":
-                    player.sendMessage("Lumberjack");
+                    player.closeInventory();
+                    Lumberjack.openLumberjackMenu(player);
                     break;
                 case "MonsterHunter":
-                    player.sendMessage("MonsterHunter");
+                    player.closeInventory();
+                    MonsterHunter.openMonsterHunterMenu(player);
                     break;
                 case "Close":
                     player.closeInventory();
@@ -118,68 +126,6 @@ public class Menu {
         }
     }
 
-    public static void openMinerMenu(Player player){
-        Inventory inventory = Bukkit.createInventory(null, 9, "Miner");
 
-        ItemStack skill1 = new ItemStack(Material.BOOK,1);
-        ItemMeta skill1Meta = skill1.getItemMeta();
-        skill1Meta.setDisplayName("Skill1");
-        ArrayList<String> skill1Lore = new ArrayList<String>();
-        skill1Lore.add("Skill1");
-        skill1Meta.setLore(skill1Lore);
-        skill1.setItemMeta(skill1Meta);
-
-        ItemStack skill2 = new ItemStack(Material.BOOK,1);
-        ItemMeta skill2Meta = skill2.getItemMeta();
-        skill2Meta.setDisplayName("Skill2");
-        ArrayList<String> skill2Lore = new ArrayList<String>();
-        skill2Lore.add("Skill2");
-        skill2Meta.setLore(skill2Lore);
-        skill2.setItemMeta(skill2Meta);
-
-        ItemStack skill3 = new ItemStack(Material.BOOK,1);
-        ItemMeta skill3Meta = skill3.getItemMeta();
-        skill3Meta.setDisplayName("skill3");
-        ArrayList<String> skill3Lore = new ArrayList<String>();
-        skill3Lore.add("skill3");
-        skill3Meta.setLore(skill3Lore);
-        skill3.setItemMeta(skill3Meta);
-
-        ItemStack close = new ItemStack(Material.BARRIER,1);
-        ItemMeta closeMeta = close.getItemMeta();
-        closeMeta.setDisplayName("Close");
-        close.setItemMeta(closeMeta);
-
-        inventory.setItem(0,skill1);
-        inventory.setItem(0,skill2);
-        inventory.setItem(0,skill3);
-        inventory.setItem(8,close);
-
-        player.openInventory(inventory);
-    }
-
-    public static void onMinerJobsUse(InventoryClickEvent event){
-        Player player = (Player) event.getWhoClicked();
-        ItemStack itemStack = event.getCurrentItem();
-
-        if (itemStack.getType() != Material.AIR){
-            String name = itemStack.getItemMeta().getDisplayName();
-
-            switch (name){
-                case "Skill1":
-                    player.sendMessage("obtsined skill1");
-                    itemStack.setData(new MaterialData(Material.ENCHANTED_BOOK));
-                    break;
-                case "Skill2":
-                    player.sendMessage("obtsined skill2");
-                    break;
-                case "Skill3":
-                    player.sendMessage("obtsined skill3");
-                    break;
-            }
-
-            event.setCancelled(true);
-        }
-    }
 
 }
