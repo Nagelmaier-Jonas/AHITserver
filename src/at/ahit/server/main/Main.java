@@ -28,6 +28,8 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         config = plugin.getConfig();
+        registerListener();
+        registerCommands();
         System.out.println("Hallo, ich lebe");
     }
 
