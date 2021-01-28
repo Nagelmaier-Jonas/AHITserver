@@ -54,6 +54,8 @@ public class Main extends JavaPlugin {
         getCommand("skillshop").setExecutor(new SkillShopCommand());
         getCommand("setcoins").setExecutor(new SetCoinsCommand());
         getCommand("auction").setExecutor(new AuctionCommand());
+        getCommand("setVal").setExecutor(new SetValCommand());
+        getCommand("getVal").setExecutor(new GetValCommand());
     }
 
     public static FileConfiguration getConfigFile() {
