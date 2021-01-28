@@ -20,11 +20,20 @@ public class Lumberjack implements Listener {
 
     @EventHandler
     public void breakBlock(BlockBreakEvent event) {
+        // event.getPlayer().sendMessage("I'm alive!");
+
         Player player = event.getPlayer();
+
+
         int level = (int) Main.getConfigFile().get(player.getDisplayName() + "_LumberjackLevel");
         int playerXp = (int)Main.getConfigFile().get(player.getDisplayName() + "_LumberjackXp");
 
-        switch (event.getBlock().getType()){
+        Material m = event.getBlock().getType();
+
+        if (m == Material.OAK_WOOD) // TODO
+            playerXp += 100;
+
+        /*switch (event.getBlock().getType()){
             case OAK_WOOD:
                 playerXp += 5;
                 break;
@@ -51,7 +60,8 @@ public class Lumberjack implements Listener {
                 break;
             default:
                 player.sendMessage("ka Hoiz");
-        }
+        }*/
+
         if(100 * level <= playerXp) {
             player.sendMessage("You are now lumberjack level " + ChatColor.AQUA +  ++level + ChatColor.RESET + "!");
             Main.getConfigFile().set(player.getDisplayName() + "_LumberjackLevel", level);
@@ -61,6 +71,8 @@ public class Lumberjack implements Listener {
         }
         Main.getPlugin().saveConfig();
     }
+
+    // public static int breakWoodRecursive()
 
     public static void openLumberjackMenu(Player player){
         Inventory inventory = Bukkit.createInventory(null, 9, "Lumberjack");
