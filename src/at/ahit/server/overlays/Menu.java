@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
 
@@ -83,7 +84,6 @@ public class Menu {
 
     public static void onJobsUse(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
-        player.sendMessage("Debug");
         ItemStack itemStack = event.getCurrentItem();
 
         if (itemStack.getType() != Material.AIR){
@@ -91,7 +91,8 @@ public class Menu {
 
             switch (name){
                 case "Miner":
-                    player.sendMessage("Miner");
+                    player.closeInventory();
+                    openMinerMenu(player);
                     break;
                 case "Cook":
                     player.sendMessage("Cook");
@@ -110,6 +111,70 @@ public class Menu {
                     break;
                 case "Close":
                     player.closeInventory();
+                    break;
+            }
+
+            event.setCancelled(true);
+        }
+    }
+
+    public static void openMinerMenu(Player player){
+        Inventory inventory = Bukkit.createInventory(null, 9, "Miner");
+
+        ItemStack skill1 = new ItemStack(Material.BOOK,1);
+        ItemMeta skill1Meta = skill1.getItemMeta();
+        skill1Meta.setDisplayName("Skill1");
+        ArrayList<String> skill1Lore = new ArrayList<String>();
+        skill1Lore.add("Skill1");
+        skill1Meta.setLore(skill1Lore);
+        skill1.setItemMeta(skill1Meta);
+
+        ItemStack skill2 = new ItemStack(Material.BOOK,1);
+        ItemMeta skill2Meta = skill2.getItemMeta();
+        skill2Meta.setDisplayName("Skill2");
+        ArrayList<String> skill2Lore = new ArrayList<String>();
+        skill2Lore.add("Skill2");
+        skill2Meta.setLore(skill2Lore);
+        skill2.setItemMeta(skill2Meta);
+
+        ItemStack skill3 = new ItemStack(Material.BOOK,1);
+        ItemMeta skill3Meta = skill3.getItemMeta();
+        skill3Meta.setDisplayName("skill3");
+        ArrayList<String> skill3Lore = new ArrayList<String>();
+        skill3Lore.add("skill3");
+        skill3Meta.setLore(skill3Lore);
+        skill3.setItemMeta(skill3Meta);
+
+        ItemStack close = new ItemStack(Material.BARRIER,1);
+        ItemMeta closeMeta = close.getItemMeta();
+        closeMeta.setDisplayName("Close");
+        close.setItemMeta(closeMeta);
+
+        inventory.setItem(0,skill1);
+        inventory.setItem(0,skill2);
+        inventory.setItem(0,skill3);
+        inventory.setItem(8,close);
+
+        player.openInventory(inventory);
+    }
+
+    public static void onMinerJobsUse(InventoryClickEvent event){
+        Player player = (Player) event.getWhoClicked();
+        ItemStack itemStack = event.getCurrentItem();
+
+        if (itemStack.getType() != Material.AIR){
+            String name = itemStack.getItemMeta().getDisplayName();
+
+            switch (name){
+                case "Skill1":
+                    player.sendMessage("obtsined skill1");
+                    itemStack.setData(new MaterialData(Material.ENCHANTED_BOOK));
+                    break;
+                case "Skill2":
+                    player.sendMessage("obtsined skill2");
+                    break;
+                case "Skill3":
+                    player.sendMessage("obtsined skill3");
                     break;
             }
 
