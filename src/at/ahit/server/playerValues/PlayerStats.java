@@ -18,12 +18,12 @@ public class PlayerStats {
     private double MinerExp;
     private double MonsterHunterExp;
 
-    private boolean[] CookSkills = new boolean[1];
-    private boolean[] FarmerSkills = new boolean[1];
-    private boolean[] HunterSkills = new boolean[1];
-    private boolean[] LumberjackSkills = new boolean[1];
-    private boolean[] MinerSkills = new boolean[1];
-    private boolean[] MonsterHunterSkills = new boolean[1];
+    private boolean[] CookSkills = new boolean[3];
+    private boolean[] FarmerSkills = new boolean[3];
+    private boolean[] HunterSkills = new boolean[3];
+    private boolean[] LumberjackSkills = new boolean[3];
+    private boolean[] MinerSkills = new boolean[3];
+    private boolean[] MonsterHunterSkills = new boolean[3];
 
     public boolean[] getCookSkills() {
         return CookSkills;
