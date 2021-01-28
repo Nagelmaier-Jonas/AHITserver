@@ -66,8 +66,8 @@ public class Miner implements Listener {
     }
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
-        event.getPlayer().sendMessage(""+event.getPlayer().getLocation().getPitch() + " " + event.getPlayer().getLocation().getPitch());
-        if((boolean) Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerAbiliti") == true){
+        event.getPlayer().sendMessage(""+event.getPlayer().getLocation().getPitch());
+        if((boolean) Main.getConfigFile().get(event.getPlayer().getDisplayName() + "_MinerAbiliti")){
             Location location = event.getBlock().getLocation();
             List<Location> locationList = new ArrayList<Location>();
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
@@ -78,14 +78,13 @@ public class Miner implements Listener {
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() -1, location.getZ()));
             locationList.add(new Location(location.getWorld(), location.getX(), location.getY() -1, location.getZ()));
             locationList.add(new Location(location.getWorld(), location.getX() -1, location.getY() - 1, location.getZ()));
+            Player p = event.getPlayer();
             for (Location l: locationList) {
-                GetBlockOnDelete(event.getPlayer(), event.getBlock().getLocation());
+                p.sendMessage(""+l.getBlock().getType());
+
+                p.getInventory().addItem(new ItemStack(l.getBlock().getType()));
+                l.getBlock().setType(Material.AIR);
             }
         }
-    }
-
-    private void GetBlockOnDelete(Player p, Location l) {
-        p.getInventory().addItem(new ItemStack(l.getBlock().getType()));
-        l.getBlock().setType(Material.AIR);
     }
 }
