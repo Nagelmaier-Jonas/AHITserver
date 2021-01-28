@@ -1,11 +1,13 @@
 package at.ahit.server.abilities;
 
+import at.ahit.server.jobs.Miner;
 import at.ahit.server.main.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 
@@ -32,7 +34,8 @@ public class MinerAbilities implements CommandExecutor {
             }
         }
         if(strings.length == 0) {
-            commandSender.sendMessage("AutoSmelter is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility1") + ChatColor.RESET + " and BigMine is " + ChatColor.AQUA  + Main.Load(commandSender.getName() + "_MinerAbility3") + ChatColor.RESET);
+            commandSender.sendMessage("AutoSmelter is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility1") + ChatColor.RESET + " Haste is " + ChatColor.AQUA  + Main.Load(commandSender.getName() + "_MinerAbility2") + ChatColor.RESET + " and BigMine is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerSkill3")  + ChatColor.RESET);
+            Miner.giveHaste((Player)commandSender);
         }
 
         return false;
