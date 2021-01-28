@@ -23,7 +23,7 @@ public class Scoreboards {
         score3.setScore(4);
         Score score4 = objective.getScore(ChatColor.BLUE + "Online Players: " + ChatColor.AQUA + Bukkit.getOnlinePlayers().size());
         score4.setScore(3);
-        Score score5 = objective.getScore(ChatColor.BLUE + "Coins: " + ChatColor.AQUA + config.get(player.getDisplayName() + "_Coins"));
+        Score score5 = objective.getScore(ChatColor.BLUE + "Coins: " + ChatColor.AQUA + config.get(player.getDisplayName() + "_Amount"));
         score5.setScore(2);
         Score score6 = objective.getScore(ChatColor.RED + "");
         score6.setScore(1);
@@ -31,4 +31,6 @@ public class Scoreboards {
         score7.setScore(0);
         player.setScoreboard(scoreboard);
     }
+
+
 }

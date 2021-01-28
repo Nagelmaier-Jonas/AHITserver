@@ -16,8 +16,10 @@ public class CoinsCommand implements CommandExecutor {
             if (strings.length == 0) {
                 FileConfiguration config = Main.getPlugin().getConfig();
                 player.sendMessage("§aDu hast§6 " + config.get(player.getDisplayName() + "_Coins") + " §aCoins");
+                return true;
             } else {
                 player.sendMessage("§5Bitte benutze nur §6/coins §5!");
+                return true;
             }
         }
         return false;
