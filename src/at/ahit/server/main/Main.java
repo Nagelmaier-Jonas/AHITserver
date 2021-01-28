@@ -38,7 +38,6 @@ public class Main extends JavaPlugin {
         PluginManager manager = Bukkit.getPluginManager();
         manager.registerEvents(new JoinListener(), this);
         manager.registerEvents(new Miner(), this);
-
         manager.registerEvents(new Hunter(),this);
     }
 
