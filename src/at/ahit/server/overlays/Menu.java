@@ -91,7 +91,6 @@ public class Menu {
 
         if (itemStack.getType() != Material.AIR){
             String name = itemStack.getItemMeta().getDisplayName();
-            player.sendMessage(name);
 
             switch (name){
                 case "Miner":

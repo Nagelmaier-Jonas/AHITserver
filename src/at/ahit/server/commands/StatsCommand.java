@@ -16,12 +16,12 @@ public class StatsCommand implements CommandExecutor {
             if (strings.length == 1){
                 switch (strings[0]){
                     case "on":
-                        Main.getConfigFile().set(player.getDisplayName() + "_Scoreboard","true");
+                        Main.getConfigFile().set(player.getDisplayName() + "_Scoreboard",true);
                         Main.getPlugin().saveConfig();
                         Scoreboards.createScoreboard(Main.getConfigFile(),player);
                         break;
                     case "off":
-                        Main.getConfigFile().set(player.getDisplayName() + "_Scoreboard","false");
+                        Main.getConfigFile().set(player.getDisplayName() + "_Scoreboard",false);
                         Main.getPlugin().saveConfig();
                         player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
                         break;
