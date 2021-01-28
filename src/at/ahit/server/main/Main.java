@@ -4,6 +4,7 @@ import at.ahit.server.abilities.MinerAbilities;
 import at.ahit.server.commands.*;
 import at.ahit.server.jobs.Hunter;
 import at.ahit.server.jobs.Miner;
+import at.ahit.server.listeners.BetterSleepListener;
 import at.ahit.server.listeners.JoinListener;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -36,6 +37,7 @@ public class Main extends JavaPlugin {
         manager.registerEvents(new JoinListener(), this);
         manager.registerEvents(new Miner(), this);
         manager.registerEvents(new Hunter(),this);
+        manager.registerEvents(new BetterSleepListener(), this);
     }
 
     public void registerCommands(){

@@ -8,6 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.awt.*;
+
 public class AQuestCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -15,12 +17,12 @@ public class AQuestCommand implements CommandExecutor {
             Player player = (Player) commandSender;
             if (strings.length == 0){
 
-            }else {
-                player.sendMessage("Bitte nur /aquest benutzen");
+
             }
+
         }
         else {
-            commandSender.sendMessage("Die Console hat keine Quests");
+            commandSender.sendMessage("Console mach was anderes sonst Faust");
         }
         return false;
     }
