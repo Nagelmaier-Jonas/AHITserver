@@ -200,6 +200,7 @@ public class Miner implements Listener {
 
     @EventHandler
     public void autoSmeltOre(BlockBreakEvent event) {
+        if((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility2")){
         switch (event.getBlock().getType()) {
             case IRON_ORE:
                 event.getPlayer().getInventory().addItem(new ItemStack(Material.IRON_INGOT));
@@ -216,6 +217,7 @@ public class Miner implements Listener {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
                 break;
+            }
         }
     }
 }
