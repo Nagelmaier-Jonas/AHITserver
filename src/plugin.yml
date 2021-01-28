@@ -3,13 +3,25 @@ version: 1.0.0
 main: at.ahit.server.main.Main
 
 commands:
-   stats:
-      description: /stats {on,off}
-   coins:
-      description: /coins
-   never:
-      description: /never
-   questinfo:
-      description: /questinfo
-   mine:
-      description: /nein
+  stats:
+    description: /stats {on,off}
+  coins:
+    description: /coins
+  never:
+    description: /never
+  questinfo:
+    description: /questinfo
+  mine:
+    description: /nein
+  bounty:
+    description: Allows you to take out a bounty on another player
+    usage: /bounty [-ao] <player> <€€€>
+  unbounty:
+    description: Removes a bounty on a player and refunds part of the cost
+    usage: /unbounty <player>
+  bounties:
+    description: Shows all bounties
+    usage: /bounties
+  bountyon:
+    description: Shows the total bounty on a player
+    usage: /bountyon <player
