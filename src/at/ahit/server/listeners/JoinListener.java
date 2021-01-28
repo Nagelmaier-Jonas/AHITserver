@@ -30,6 +30,8 @@ public class JoinListener implements Listener {
             config.set(displayName + "_Overlay", true);
             config.set(displayName + "_MinerXp", 0);
             config.set(displayName + "_MinerLevel", 1);
+            config.set(displayName + "_LumberjackXp", 0);
+            config.set(displayName + "_LumberjackLevel", 1);
 
             Main.Save(displayName + "_MinerSkill1", false);
             Main.Save(displayName + "_MinerSkill2", false);
@@ -83,7 +85,12 @@ public class JoinListener implements Listener {
         if (player.getDisplayName().equals(new String("guzms"))){
             Bukkit.broadcastMessage(ChatColor.GRAY + "The "+ ChatColor.GREEN +       "SEW-GUY " +      ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
         }
-
+        if (player.getDisplayName().equals(new String("Marcl_Gengsch"))){
+            Bukkit.broadcastMessage(ChatColor.GRAY + "The "+ ChatColor.AQUA +       "NON-ALCOHOLIC " +      ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
+        }
+        if (player.getDisplayName().equals(new String("siegfried55b"))){
+            Bukkit.broadcastMessage(ChatColor.GRAY + "The "+ ChatColor.MAGIC +       "HIGH IQ GYMNASIUM GUY " +      ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
+        }
 
     }
 

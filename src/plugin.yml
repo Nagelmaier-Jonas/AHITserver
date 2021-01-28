@@ -11,7 +11,7 @@ commands:
   questinfo:
     description: /questinfo
   aquest:
-    description: /aquest (shows you your availiable quests)
+    description: /aquest
   mine:
     description: /nein
   skillshop:

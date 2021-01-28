@@ -3,20 +3,21 @@ package at.ahit.server.jobs;
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 //3x3
@@ -75,10 +76,11 @@ public class Miner implements Listener {
         Main.getPlugin().saveConfig();
     }
 
+
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
-        //event.getPlayer().sendMessage("" + event.getPlayer().getLocation().getDirection());
-        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility2")) {
+
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
             Location location = event.getBlock().getLocation();
             List<Location> locationList = new ArrayList<Location>();
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
@@ -89,17 +91,13 @@ public class Miner implements Listener {
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() - 1, location.getZ()));
             locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
             locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() - 1, location.getZ()));
-            Player p = event.getPlayer();
-            for (Location l : locationList) {
-                //p.sendMessage("" + l.getBlock().getType());
 
-                p.getInventory().addItem(new ItemStack(l.getBlock().getType()));
-                l.getBlock().setType(Material.AIR);
+            for (Location l : locationList) {
+                l.getBlock().breakNaturally();
             }
-            
         }
     }
-
+    // shop
     public static void openMinerMenu(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 9, "Miner");
 
@@ -122,7 +120,7 @@ public class Miner implements Listener {
         skill2Meta.setDisplayName("Skill2");
         ArrayList<String> skill2Lore = new ArrayList<String>();
         skill2Lore.add("Skill2");
-        skill2Lore.add("Costs: 5000c");
+        skill2Lore.add("Costs: 10000 Coins");
         skill2Meta.setLore(skill2Lore);
         skill2.setItemMeta(skill2Meta);
 
@@ -131,7 +129,7 @@ public class Miner implements Listener {
         skill3Meta.setDisplayName("Skill3");
         ArrayList<String> skill3Lore = new ArrayList<String>();
         skill3Lore.add("Skill3");
-        skill3Lore.add("Costs: 10000c");
+        skill3Lore.add("Costs: 25000 Coins");
         skill3Meta.setLore(skill3Lore);
         skill3.setItemMeta(skill3Meta);
 
@@ -158,9 +156,9 @@ public class Miner implements Listener {
             switch (name) {
                 case "Autosmelt":
                     if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill1"))) {
-                        Main.Save(player.getDisplayName() + "_MinerSkill1",true);
-                        Main.Save(player.getDisplayName() + "_Amount",(int)Main.Load(player.getDisplayName() + "_Amount") - 2500);
-                        Scoreboards.createScoreboard(Main.getConfigFile(),player);
+                        Main.Save(player.getDisplayName() + "_MinerSkill1", true);
+                        Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
+                        Scoreboards.createScoreboard(Main.getConfigFile(), player);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
                     } else {
@@ -169,23 +167,27 @@ public class Miner implements Listener {
                     }
                     break;
                 case "Skill2":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") > 10000) {
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000) {
                         Main.Save(player.getDisplayName() + "_MinerSkill2", true);
+                        Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
+                        Scoreboards.createScoreboard(Main.getConfigFile(), player);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
                     } else {
                         Miner.openMinerMenu(player);
-                        player.sendMessage("Not enough Money");
+                        player.sendMessage("You can't buy that you little motherfucker");
                     }
                     break;
                 case "Skill3":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") > 25000) {
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000) {
                         Main.Save(player.getDisplayName() + "_MinerSkill3", true);
+                        Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
+                        Scoreboards.createScoreboard(Main.getConfigFile(), player);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
                     } else {
                         Miner.openMinerMenu(player);
-                        player.sendMessage("Not enough Money");
+                        player.sendMessage("You can't buy that you little motherfucker");
                     }
                     break;
                 case "Close":
@@ -193,30 +195,63 @@ public class Miner implements Listener {
                     Menu.openMenu(player);
                     break;
             }
+
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void autoSmeltOre(BlockBreakEvent event) {
-        if((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1")){
-        switch (event.getBlock().getType()) {
-            case IRON_ORE:
-                event.getPlayer().getInventory().addItem(new ItemStack(Material.IRON_INGOT));
-                event.setCancelled(true);
-                event.getBlock().setType(Material.AIR);
-                break;
-            case GOLD_ORE:
-                event.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_INGOT));
-                event.setCancelled(true);
-                event.getBlock().setType(Material.AIR);
-                break;
-            case STONE:
-                event.getPlayer().getInventory().addItem(new ItemStack(Material.STONE));
-                event.setCancelled(true);
-                event.getBlock().setType(Material.AIR);
-                break;
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1")) {
+            switch (event.getBlock().getType()) {
+                case IRON_ORE:
+                    event.getPlayer().getInventory().addItem(new ItemStack(Material.IRON_INGOT));
+                    event.setCancelled(true);
+                    event.getBlock().setType(Material.AIR);
+                    break;
+                case GOLD_ORE:
+                    event.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_INGOT));
+                    event.setCancelled(true);
+                    event.getBlock().setType(Material.AIR);
+                    break;
+                case STONE:
+                    event.getPlayer().getInventory().addItem(new ItemStack(Material.STONE));
+                    event.setCancelled(true);
+                    event.getBlock().setType(Material.AIR);
+                    break;
             }
         }
+    }
+
+
+    public static void giveHaste(Player p) {
+        if(createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_MinerSkill2")) {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 40, 0));
+        }
+    }
+
+    public static ArrayList<Material> createArray() {
+        ArrayList<Material> pickAxeList = new ArrayList<Material>();
+        pickAxeList.add(Material.WOODEN_PICKAXE);
+        pickAxeList.add(Material.STONE_PICKAXE);
+        pickAxeList.add(Material.IRON_PICKAXE);
+        pickAxeList.add(Material.GOLDEN_PICKAXE);
+        pickAxeList.add(Material.DIAMOND_PICKAXE);
+        pickAxeList.add(Material.NETHERITE_PICKAXE);
+        return pickAxeList;
+    }
+
+    public static void startRunnable(){
+        List<Player> pList = (List<Player>) Bukkit.getOnlinePlayers();
+        Bukkit.getScheduler().runTaskTimer(Main.plugin, new Runnable(){
+
+            @Override
+            public void run() {
+                for (Player p:pList) {
+                    giveHaste(p);
+                }
+            }
+
+        }, 20, 20);//Time in ticks before first run and each time after that*/
     }
 }

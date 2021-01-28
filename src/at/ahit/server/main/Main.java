@@ -28,6 +28,8 @@ public class Main extends JavaPlugin {
         registerListener();
         registerCommands();
         System.out.println(Color.GREEN + "plugin load successfull" + Color.RESET);
+
+        Miner.startRunnable();
     }
 
     public void onDisable(){
