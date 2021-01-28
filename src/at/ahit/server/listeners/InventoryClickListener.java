@@ -1,6 +1,7 @@
 package at.ahit.server.listeners;
 
 import at.ahit.server.jobs.*;
+import at.ahit.server.overlays.Auction;
 import at.ahit.server.overlays.Menu;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,6 +33,11 @@ public class InventoryClickListener implements Listener {
                 break;
             case "MonsterHunter":
                 MonsterHunter.onMonsterHunterJobsUse(event);
+            case "§4Auction":
+                Auction.onAuctionUse(event);
+                break;
+            case "§4Select_Price":
+                Auction.sellItem(event);
                 break;
         }
     }
