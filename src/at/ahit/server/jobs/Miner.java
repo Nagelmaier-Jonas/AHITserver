@@ -193,7 +193,6 @@ public class Miner implements Listener {
                     Menu.openMenu(player);
                     break;
             }
-
             event.setCancelled(true);
         }
     }
