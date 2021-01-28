@@ -17,7 +17,7 @@ public class MinerAbilities implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
         if((boolean) Main.Load(commandSender.getName() + "_MinerSkill1"))
-            Main.Save(commandSender.getName() + "_MinerAbility", !(boolean)Main.Load(commandSender.getName() + "_MinerAbility"));
+            Main.Save(commandSender.getName() + "_MinerAbility1", !(boolean)Main.Load(commandSender.getName() + "_MinerAbility1"));
         return false;
     }
 }
