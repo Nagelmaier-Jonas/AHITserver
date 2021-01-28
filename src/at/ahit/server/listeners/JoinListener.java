@@ -33,6 +33,12 @@ public class JoinListener implements Listener {
             Main.Save(displayName + "_MinerSkill1",false);
             Main.Save(displayName + "_MinerSkill2",false);
             Main.Save(displayName + "_MinerSkill3",false);
+
+            Main.Save(displayName + "_LumberjackXp", 0);
+            Main.Save(displayName + "_LumberjackLevel", 1);
+            Main.Save(displayName + "_LumberjackSkill1",false);
+            Main.Save(displayName + "_LumberjackSkill2",false);
+            Main.Save(displayName + "_LumberjackSkill3",false);
         }
         config.set(displayName + "_MinerAbility", false);
         Main.getPlugin().saveConfig();
