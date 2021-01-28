@@ -15,10 +15,10 @@ public class MinerAbilities implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        int level = (int) Main.getConfigFile().get(commandSender.getName() + "_MinerLevel");
+        int level = (int) Main.Load(commandSender.getName() + "_MinerLevel");
 
         if(level > 2)
-            Main.getConfigFile().set(commandSender.getName() + "_MinerAbiliti", !(boolean)Main.getConfigFile().get(commandSender.getName() + "_MinerAbiliti"));
+            Main.Save(commandSender.getName() + "_MinerAbility", !(boolean)Main.Load(commandSender.getName() + "_MinerAbility"));
         return false;
     }
 }
