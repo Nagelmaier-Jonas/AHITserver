@@ -25,9 +25,9 @@ public class Lumberjack implements Listener {
                 break;
             case ACACIA_WOOD:
                 break;
-            case :
+            case CRIMSON_STEM:
                 break;
-            case ACACIA_WOOD:
+            case WARPED_STEM:
                 break;
 
         }
