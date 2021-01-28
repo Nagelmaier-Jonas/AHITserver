@@ -31,6 +31,10 @@ public class MinerAbilities implements CommandExecutor {
                 }
             }
         }
+        if(strings.length == 0) {
+            commandSender.sendMessage("AutoSmelter is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility1") + ChatColor.RESET + " and BigMine is " + ChatColor.AQUA  + Main.Load(commandSender.getName() + "_MinerAbility3") + ChatColor.RESET);
+        }
+
         return false;
     }
 }

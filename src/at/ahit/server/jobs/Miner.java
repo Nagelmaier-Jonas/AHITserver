@@ -3,19 +3,19 @@ package at.ahit.server.jobs;
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -79,14 +79,8 @@ public class Miner implements Listener {
 
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
-        ArrayList<Material> pickAxeList = new ArrayList<Material>();
-        pickAxeList.add(Material.WOODEN_PICKAXE);
-        pickAxeList.add(Material.STONE_PICKAXE);
-        pickAxeList.add(Material.IRON_PICKAXE);
-        pickAxeList.add(Material.GOLDEN_PICKAXE);
-        pickAxeList.add(Material.DIAMOND_PICKAXE);
-        pickAxeList.add(Material.NETHERITE_PICKAXE);
-        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && pickAxeList.contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
+
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
             Location location = event.getBlock().getLocation();
             List<Location> locationList = new ArrayList<Location>();
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
@@ -97,28 +91,10 @@ public class Miner implements Listener {
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() - 1, location.getZ()));
             locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
             locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() - 1, location.getZ()));
-            Player p = event.getPlayer();
-            for (Location l : locationList) {
-                if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1")) {
-                    switch (l.getBlock().getType()) {
-                        case IRON_ORE:
-                            p.getInventory().addItem(new ItemStack(Material.IRON_INGOT));
-                            break;
-                        case GOLD_ORE:
-                            p.getInventory().addItem(new ItemStack(Material.GOLD_INGOT));
-                            break;
-                        case STONE:
-                            p.getInventory().addItem(new ItemStack(Material.STONE));
-                            break;
-                        default:
-                            p.getInventory().addItem(new ItemStack(l.getBlock().getType()));
-                    }
-                }
-                else
-                    p.getInventory().addItem(new ItemStack(l.getBlock().getType()));
-                l.getBlock().setType(Material.AIR);
-            }
 
+            for (Location l : locationList) {
+                l.getBlock().breakNaturally();
+            }
         }
     }
 
@@ -242,5 +218,36 @@ public class Miner implements Listener {
             }
         }
     }
-}
 
+
+    public static void giveHaste(Player p) {
+        if(createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load("Gaduso11_MinerSkill2")) {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 40, 0));
+        }
+    }
+
+    public static ArrayList<Material> createArray() {
+        ArrayList<Material> pickAxeList = new ArrayList<Material>();
+        pickAxeList.add(Material.WOODEN_PICKAXE);
+        pickAxeList.add(Material.STONE_PICKAXE);
+        pickAxeList.add(Material.IRON_PICKAXE);
+        pickAxeList.add(Material.GOLDEN_PICKAXE);
+        pickAxeList.add(Material.DIAMOND_PICKAXE);
+        pickAxeList.add(Material.NETHERITE_PICKAXE);
+        return pickAxeList;
+    }
+
+    public static void startRunnable(){
+        List<Player> pList = (List<Player>) Bukkit.getOnlinePlayers();
+        Bukkit.getScheduler().runTaskTimer(Main.plugin, new Runnable(){
+
+            @Override
+            public void run() {
+                for (Player p:pList) {
+                    giveHaste(p);
+                }
+            }
+
+        }, 100, 100);//Time in ticks before first run and each time after that
+    }
+}
