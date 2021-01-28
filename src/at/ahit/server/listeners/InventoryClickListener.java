@@ -11,6 +11,7 @@ public class InventoryClickListener implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event){
         String name = event.getView().getTitle();
+        event.getWhoClicked().sendMessage(name);
         switch (name){
             case "Job":
                 Menu.onJobsUse(event);

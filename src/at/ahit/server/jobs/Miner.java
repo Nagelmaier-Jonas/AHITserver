@@ -98,21 +98,24 @@ public class Miner implements Listener {
         }
     }
 
-    public static void openMinerMenu(Player player){
-        player.sendMessage("open");
+    public static void openMinerMenu(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 9, "Miner");
 
-        ItemStack skill1 = new ItemStack(Material.STONE_PICKAXE,1);
+        ItemStack skill1 = new ItemStack(Material.STONE_PICKAXE, 1);
         ItemMeta skill1Meta = skill1.getItemMeta();
         skill1Meta.setDisplayName("Faster...");
         ArrayList<String> skill1Lore = new ArrayList<String>();
         skill1Lore.add("Faster mining");
         skill1Lore.add("Costs: 2500c");
-        if (Main.getConfigFile().get(player.getDisplayName() + "_MinerSkill1").equals(false)){skill1Lore.add(ChatColor.RED + "Item not acquired");}else{skill1Lore.add(ChatColor.GREEN + "Item acquired");}
+        if (Main.getConfigFile().get(player.getDisplayName() + "_MinerSkill1").equals(false)) {
+            skill1Lore.add(ChatColor.RED + "Item not acquired");
+        } else {
+            skill1Lore.add(ChatColor.GREEN + "Item acquired");
+        }
         skill1Meta.setLore(skill1Lore);
         skill1.setItemMeta(skill1Meta);
 
-        ItemStack skill2 = new ItemStack(Material.IRON_PICKAXE,1);
+        ItemStack skill2 = new ItemStack(Material.IRON_PICKAXE, 1);
         ItemMeta skill2Meta = skill2.getItemMeta();
         skill2Meta.setDisplayName("Skill2");
         ArrayList<String> skill2Lore = new ArrayList<String>();
@@ -121,7 +124,7 @@ public class Miner implements Listener {
         skill2Meta.setLore(skill2Lore);
         skill2.setItemMeta(skill2Meta);
 
-        ItemStack skill3 = new ItemStack(Material.DIAMOND_PICKAXE,1);
+        ItemStack skill3 = new ItemStack(Material.DIAMOND_PICKAXE, 1);
         ItemMeta skill3Meta = skill3.getItemMeta();
         skill3Meta.setDisplayName("Skill3");
         ArrayList<String> skill3Lore = new ArrayList<String>();
@@ -130,53 +133,53 @@ public class Miner implements Listener {
         skill3Meta.setLore(skill3Lore);
         skill3.setItemMeta(skill3Meta);
 
-        ItemStack close = new ItemStack(Material.BARRIER,1);
+        ItemStack close = new ItemStack(Material.BARRIER, 1);
         ItemMeta closeMeta = close.getItemMeta();
         closeMeta.setDisplayName("Close");
         close.setItemMeta(closeMeta);
 
-        inventory.setItem(1,skill1);
-        inventory.setItem(3,skill2);
-        inventory.setItem(5,skill3);
-        inventory.setItem(8,close);
+        inventory.setItem(1, skill1);
+        inventory.setItem(3, skill2);
+        inventory.setItem(5, skill3);
+        inventory.setItem(8, close);
 
         player.openInventory(inventory);
     }
 
-    public static void onMinerJobsUse(InventoryClickEvent event){
+    public static void onMinerJobsUse(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
 
-        if (itemStack.getType() != Material.AIR){
+        if (itemStack.getType() != Material.AIR) {
             String name = itemStack.getItemMeta().getDisplayName();
 
-            switch (name){
+            switch (name) {
                 case "Skill1":
-                    if((int)Main.Load(player.getDisplayName() + "_Amount") > 2500){
-                        Main.Save(player.getDisplayName() + "_MinerSkill1",true);
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") > 2500) {
+                        Main.Save(player.getDisplayName() + "_MinerSkill1", true);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
-                    }else{
+                    } else {
                         Miner.openMinerMenu(player);
                         player.sendMessage("Not enough Money");
                     }
                     break;
                 case "Skill2":
-                    if((int)Main.Load(player.getDisplayName() + "_Amount") > 10000){
-                        Main.Save(player.getDisplayName() + "_MinerSkill2",true);
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") > 10000) {
+                        Main.Save(player.getDisplayName() + "_MinerSkill2", true);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
-                    }else{
+                    } else {
                         Miner.openMinerMenu(player);
                         player.sendMessage("Not enough Money");
                     }
                     break;
                 case "Skill3":
-                    if((int)Main.Load(player.getDisplayName() + "_Amount") > 25000){
-                        Main.Save(player.getDisplayName() + "_MinerSkill3",true);
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") > 25000) {
+                        Main.Save(player.getDisplayName() + "_MinerSkill3", true);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
-                    }else{
+                    } else {
                         Miner.openMinerMenu(player);
                         player.sendMessage("Not enough Money");
                     }
