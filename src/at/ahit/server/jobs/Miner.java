@@ -17,6 +17,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 //3x3
@@ -75,9 +76,17 @@ public class Miner implements Listener {
         Main.getPlugin().saveConfig();
     }
 
+
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
-        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3")) {
+        ArrayList<Material> pickAxeList = new ArrayList<Material>();
+        pickAxeList.add(Material.WOODEN_PICKAXE);
+        pickAxeList.add(Material.STONE_PICKAXE);
+        pickAxeList.add(Material.IRON_PICKAXE);
+        pickAxeList.add(Material.GOLDEN_PICKAXE);
+        pickAxeList.add(Material.DIAMOND_PICKAXE);
+        pickAxeList.add(Material.NETHERITE_PICKAXE);
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && pickAxeList.contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
             Location location = event.getBlock().getLocation();
             List<Location> locationList = new ArrayList<Location>();
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
