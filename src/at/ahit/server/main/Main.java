@@ -50,6 +50,7 @@ public class Main extends JavaPlugin {
         getCommand("aquest").setExecutor(new AQuestCommand());
         getCommand("mine").setExecutor(new MinerAbilities());
         getCommand("skillshop").setExecutor(new SkillShopCommand());
+        getCommand("setcoins").setExecutor(new SetCoinsCommand());
     }
 
     public static FileConfiguration getConfigFile() {
