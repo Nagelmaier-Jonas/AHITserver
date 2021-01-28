@@ -2,6 +2,7 @@ package at.ahit.server.jobs;
 
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
+import at.ahit.server.overlays.Scoreboards;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -154,14 +155,16 @@ public class Miner implements Listener {
             String name = itemStack.getItemMeta().getDisplayName();
 
             switch (name) {
-                case "Skill1":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") > 2500) {
-                        Main.Save(player.getDisplayName() + "_MinerSkill1", true);
+                case "Faster...":
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill1"))) {
+                        Main.Save(player.getDisplayName() + "_MinerSkill1",true);
+                        Main.Save(player.getDisplayName() + "_Amount",(int)Main.Load(player.getDisplayName() + "_Amount") - 2500);
+                        Scoreboards.createScoreboard(Main.getConfigFile(),player);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
                     } else {
                         Miner.openMinerMenu(player);
-                        player.sendMessage("Not enough Money");
+                        player.sendMessage("You can't buy that you little motherfucker");
                     }
                     break;
                 case "Skill2":
