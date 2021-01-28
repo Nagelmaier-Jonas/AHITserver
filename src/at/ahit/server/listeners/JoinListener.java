@@ -59,6 +59,7 @@ public class JoinListener implements Listener {
 
         Main.Save(displayName + "_MinerAbility1",false);
         Main.Save(displayName + "_MinerAbility2",false);
+        Main.Save(displayName + "_MinerAbility3",false);
 
         Main.getPlugin().saveConfig();
     }

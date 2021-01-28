@@ -52,13 +52,13 @@ public class Miner implements Listener {
                     playerXp += 1;
                     break;
                 case COBBLESTONE:
-                    playerXp += 0.5;
+                    playerXp += 1;
                     break;
                 case NETHER_QUARTZ_ORE:
                     playerXp += 10;
                     break;
                 case NETHERRACK:
-                    playerXp += 0.2;
+                    playerXp += 1;
                     break;
                 case NETHER_GOLD_ORE:
                     playerXp += 10;
@@ -122,7 +122,7 @@ public class Miner implements Listener {
         skill2Meta.setDisplayName("Skill2");
         ArrayList<String> skill2Lore = new ArrayList<String>();
         skill2Lore.add("Skill2");
-        skill2Lore.add("Costs: 10000c");
+        skill2Lore.add("Costs: 5000c");
         skill2Meta.setLore(skill2Lore);
         skill2.setItemMeta(skill2Meta);
 
@@ -131,7 +131,7 @@ public class Miner implements Listener {
         skill3Meta.setDisplayName("Skill3");
         ArrayList<String> skill3Lore = new ArrayList<String>();
         skill3Lore.add("Skill3");
-        skill3Lore.add("Costs: 25000c");
+        skill3Lore.add("Costs: 10000c");
         skill3Meta.setLore(skill3Lore);
         skill3.setItemMeta(skill3Meta);
 
