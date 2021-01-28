@@ -15,6 +15,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class Lumberjack implements Listener {
 
@@ -26,9 +28,25 @@ public class Lumberjack implements Listener {
         int level = (int) Main.Load(player.getDisplayName() + "_LumberjackLevel");
         int playerXp = (int) Main.Load(player.getDisplayName() + "_LumberjackXp");
 
+
         Material m = event.getBlock().getType();
 
         HashMap<Material, Integer> woodTypes = new HashMap<Material, Integer>();
+        HashMap<Material, Material> leafTypes = new HashMap<Material, Material>();
+
+        leafTypes.put(Material.OAK_LEAVES, Material.OAK_SAPLING);
+        leafTypes.put(Material.DARK_OAK_LEAVES, Material.DARK_OAK_SAPLING);
+        leafTypes.put(Material.BIRCH_LEAVES, Material.BIRCH_SAPLING);
+        leafTypes.put(Material.JUNGLE_LEAVES, Material.JUNGLE_SAPLING);
+        leafTypes.put(Material.SPRUCE_LEAVES, Material.SPRUCE_SAPLING);
+        leafTypes.put(Material.ACACIA_LEAVES, Material.ACACIA_SAPLING);
+        // leafTypes.add(Material.OAK_LEAVES); // Nether Wart Block | Shroomlight // TODO
+        // leafTypes.add(Material.OAK_LEAVES); // Warped Block | ShroomLight // TODO
+
+
+        if (leafTypes.containsKey(m)) {
+            breakAdjacentBlocks(player, block, m, leafTypes.get(m), ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill3")) ? 0.2 : 0.05);
+        }
 
         woodTypes.put(Material.OAK_LOG, 5);
         woodTypes.put(Material.DARK_OAK_LOG, 7);
@@ -40,8 +58,7 @@ public class Lumberjack implements Listener {
         woodTypes.put(Material.WARPED_STEM, 10);
 
         if (woodTypes.containsKey(m)) {
-            playerXp += woodTypes.get(m);
-            breakAdjacentBlocks(player, block, m);
+            playerXp += breakAdjacentBlocks(player, block, m, m, 1) * woodTypes.get(m);
         }
 
         /*switch (event.getBlock().getType()){
@@ -89,22 +106,36 @@ public class Lumberjack implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    public static void breakAdjacentBlocks(Player p, Block b, Material m) {
+    public static int breakAdjacentBlocks(Player p, Block b, Material m, Material drop, double chance) {
+        if ((boolean) Main.Load(p.getDisplayName() + "_LumberjackSkill3"))
+            return breakAdjacentBlocks(p, b, m, drop, chance, 1);
+        return 1;
+    }
+
+    private static int breakAdjacentBlocks(Player p, Block b, Material m, Material drop, double chance, int count) {
         World world = p.getWorld();
 
-        p.sendMessage("Break aufgerufen yey");
-        p.sendMessage(b.getLocation().toString());
+        Random random = new Random();
+
+        // p.sendMessage("Break aufgerufen yey");
+        // p.sendMessage(b.getLocation().toString());
 
         //p.getInventory().addItem(new ItemStack(b.getType()));
-        world.dropItem(b.getLocation(), new ItemStack(b.getType()));
+        if (random.nextDouble() >= 1 - chance)
+            world.dropItem(b.getLocation(), new ItemStack(drop));
+
         b.setType(Material.AIR);
 
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++)
                 for (int k = -1; k <= 1; k++) {
-                    if (b.getRelative(i, j, k).getType() == m)
-                        breakAdjacentBlocks(p, b.getRelative(i, j, k), m);
+                    if (b.getRelative(i, j, k).getType() == m) {
+                        count += breakAdjacentBlocks(p, b.getRelative(i, j, k), m, drop, chance, 0);
                     }
+                }
+
+
+        return count++;
     }
 
     public static void openLumberjackMenu(Player player){
@@ -162,10 +193,12 @@ public class Lumberjack implements Listener {
                     player.sendMessage("obtained skill1");
                     break;
                 case "Skill2":
-                    player.sendMessage("obtained skill2");
+                    player.sendMessage("MUCH higher sapling chance!"); // TODO
+                    Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill2", true);
                     break;
                 case "Skill3":
-                    player.sendMessage("obtained skill3");
+                    player.sendMessage("Obtained tree-insta-break!"); // TODO
+                    Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill3", true);
                     break;
                 case "Close":
                     player.closeInventory();
