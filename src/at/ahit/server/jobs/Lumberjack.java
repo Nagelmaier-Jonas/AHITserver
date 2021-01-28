@@ -40,8 +40,7 @@ public class Lumberjack implements Listener {
         woodTypes.put(Material.WARPED_STEM, 10);
 
         if (woodTypes.containsKey(m)) {
-            playerXp += woodTypes.get(m);
-            breakAdjacentBlocks(player, block, m);
+            playerXp += breakAdjacentBlocks(player, block, m) * woodTypes.get(m);
         }
 
         /*switch (event.getBlock().getType()){
@@ -89,11 +88,15 @@ public class Lumberjack implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    public static void breakAdjacentBlocks(Player p, Block b, Material m) {
+    public static int breakAdjacentBlocks(Player p, Block b, Material m) {
+        return breakAdjacentBlocks(p, b, m, 1);
+    }
+
+    private static int breakAdjacentBlocks(Player p, Block b, Material m, int count) {
         World world = p.getWorld();
 
-        p.sendMessage("Break aufgerufen yey");
-        p.sendMessage(b.getLocation().toString());
+        // p.sendMessage("Break aufgerufen yey");
+        // p.sendMessage(b.getLocation().toString());
 
         //p.getInventory().addItem(new ItemStack(b.getType()));
         world.dropItem(b.getLocation(), new ItemStack(b.getType()));
@@ -103,8 +106,10 @@ public class Lumberjack implements Listener {
             for (int j = -1; j <= 1; j++)
                 for (int k = -1; k <= 1; k++) {
                     if (b.getRelative(i, j, k).getType() == m)
-                        breakAdjacentBlocks(p, b.getRelative(i, j, k), m);
-                    }
+                        count += breakAdjacentBlocks(p, b.getRelative(i, j, k), m);
+                }
+
+        return count++;
     }
 
     public static void openLumberjackMenu(Player player){
