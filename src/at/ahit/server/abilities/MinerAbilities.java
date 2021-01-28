@@ -24,10 +24,10 @@ public class MinerAbilities implements CommandExecutor {
                 }
             }
             if (strings[0].equals("big")) {
-                if ((boolean) Main.Load(commandSender.getName() + "_MinerSkill2"))
-                    Main.Save(commandSender.getName() + "_MinerAbility2", !(boolean) Main.Load(commandSender.getName() + "_MinerAbility2"));
+                if ((boolean) Main.Load(commandSender.getName() + "_MinerSkill3"))
+                    Main.Save(commandSender.getName() + "_MinerAbility3", !(boolean) Main.Load(commandSender.getName() + "_MinerAbility3"));
                 {
-                    commandSender.sendMessage("Mine toggled " + ChatColor.AQUA  + Main.Load(commandSender.getName() + "_MinerAbility2") + ChatColor.RESET);
+                    commandSender.sendMessage("Mine toggled " + ChatColor.AQUA  + Main.Load(commandSender.getName() + "_MinerAbility3") + ChatColor.RESET);
                 }
             }
         }

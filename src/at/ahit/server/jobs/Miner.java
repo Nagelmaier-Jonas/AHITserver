@@ -52,13 +52,13 @@ public class Miner implements Listener {
                     playerXp += 1;
                     break;
                 case COBBLESTONE:
-                    playerXp += 0.5;
+                    playerXp += 1;
                     break;
                 case NETHER_QUARTZ_ORE:
                     playerXp += 10;
                     break;
                 case NETHERRACK:
-                    playerXp += 0.2;
+                    playerXp += 1;
                     break;
                 case NETHER_GOLD_ORE:
                     playerXp += 10;
@@ -77,7 +77,7 @@ public class Miner implements Listener {
 
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
-        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility2")) {
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3")) {
             Location location = event.getBlock().getLocation();
             List<Location> locationList = new ArrayList<Location>();
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
