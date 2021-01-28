@@ -155,6 +155,8 @@ public class Miner implements Listener {
                         Main.Save(player.getDisplayName() + "_MinerSkill1",true);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
+                    }else{
+                        player.sendMessage("Not enough Money");
                     }
                     break;
                 case "Skill2":
@@ -162,6 +164,8 @@ public class Miner implements Listener {
                         Main.Save(player.getDisplayName() + "_MinerSkill2",true);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
+                    }else{
+                        player.sendMessage("Not enough Money");
                     }
                     break;
                 case "Skill3":
@@ -169,6 +173,8 @@ public class Miner implements Listener {
                         Main.Save(player.getDisplayName() + "_MinerSkill3",true);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
+                    }else{
+                        player.sendMessage("Not enough Money");
                     }
                     break;
                 case "Close":
