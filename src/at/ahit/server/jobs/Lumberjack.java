@@ -2,9 +2,8 @@ package at.ahit.server.jobs;
 
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,59 +19,78 @@ public class Lumberjack implements Listener {
 
     @EventHandler
     public void breakBlock(BlockBreakEvent event) {
-        // event.getPlayer().sendMessage("I'm alive!");
-
         Player player = event.getPlayer();
+        Block block = event.getBlock();
 
-
-        int level = (int) Main.getConfigFile().get(player.getDisplayName() + "_LumberjackLevel");
-        int playerXp = (int)Main.getConfigFile().get(player.getDisplayName() + "_LumberjackXp");
+        int level = (int) Main.Load(player.getDisplayName() + "_LumberjackLevel");
+        int playerXp = (int) Main.Load(player.getDisplayName() + "_LumberjackXp");
 
         Material m = event.getBlock().getType();
 
-        if (m == Material.OAK_WOOD) // TODO
-            playerXp += 100;
+        // HashMap // TODO
 
-        /*switch (event.getBlock().getType()){
-            case OAK_WOOD:
+        switch (event.getBlock().getType()){
+            case OAK_LOG:
                 playerXp += 5;
+                breakAdjacentBlocks(player, block, Material.OAK_LOG);
                 break;
-            case DARK_OAK_WOOD:
+            case DARK_OAK_LOG:
                 playerXp += 7;
+                breakAdjacentBlocks(player, block, Material.DARK_OAK_LOG);
                 break;
-            case BIRCH_WOOD:
+            case BIRCH_LOG:
                 playerXp += 7;
+                breakAdjacentBlocks(player, block, Material.BIRCH_LOG);
                 break;
-            case JUNGLE_WOOD:
+            case JUNGLE_LOG:
                 playerXp += 3;
+                breakAdjacentBlocks(player, block, Material.JUNGLE_LOG);
                 break;
-            case SPRUCE_WOOD:
+            case SPRUCE_LOG:
                 playerXp += 5;
+                breakAdjacentBlocks(player, block, Material.SPRUCE_LOG);
                 break;
-            case ACACIA_WOOD:
+            case ACACIA_LOG:
                 playerXp += 7;
+                breakAdjacentBlocks(player, block, Material.ACACIA_LOG);
                 break;
             case CRIMSON_STEM:
                 playerXp += 10;
+                breakAdjacentBlocks(player, block, Material.CRIMSON_STEM);
                 break;
             case WARPED_STEM:
                 playerXp += 10;
+                breakAdjacentBlocks(player, block, Material.WARPED_STEM);
                 break;
-            default:
-                player.sendMessage("ka Hoiz");
-        }*/
+        }
 
         if(100 * level <= playerXp) {
             player.sendMessage("You are now lumberjack level " + ChatColor.AQUA +  ++level + ChatColor.RESET + "!");
-            Main.getConfigFile().set(player.getDisplayName() + "_LumberjackLevel", level);
-            Main.getConfigFile().set(player.getDisplayName() + "_LumberjackXp", 0);
+            Main.Save(player.getDisplayName() + "_LumberjackLevel", level);
+            Main.Save(player.getDisplayName() + "_LumberjackXp", 0);
         }else{
-            Main.getConfigFile().set(player.getDisplayName() + "_LumberjackXp", playerXp);
+            Main.Save(player.getDisplayName() + "_LumberjackXp", playerXp);
         }
         Main.getPlugin().saveConfig();
     }
 
-    // public static int breakWoodRecursive()
+    public static void breakAdjacentBlocks(Player p, Block b, Material m) {
+        World world = p.getWorld();
+
+        p.sendMessage("Break aufgerufen yey");
+        p.sendMessage(b.getLocation().toString());
+
+        //p.getInventory().addItem(new ItemStack(b.getType()));
+        world.dropItem(b.getLocation(), new ItemStack(b.getType()));
+        b.setType(Material.AIR);
+
+        for (int i = -1; i <= 1; i++)
+            for (int j = -1; j <= 1; j++)
+                for (int k = -1; k <= 1; k++) {
+                    if (b.getRelative(i, j, k).getType() == m)
+                        breakAdjacentBlocks(p, b.getRelative(i, j, k), m);
+                    }
+    }
 
     public static void openLumberjackMenu(Player player){
         Inventory inventory = Bukkit.createInventory(null, 9, "Lumberjack");
