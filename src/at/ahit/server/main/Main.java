@@ -7,14 +7,11 @@ import at.ahit.server.commands.QuestInfoCommand;
 import at.ahit.server.commands.StatsCommand;
 import at.ahit.server.jobs.Hunter;
 import at.ahit.server.jobs.Miner;
-import at.ahit.server.listeners.BountyListener;
 import at.ahit.server.listeners.JoinListener;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.EventListener;
 
 public class Main extends JavaPlugin {
 
@@ -41,7 +38,7 @@ public class Main extends JavaPlugin {
         PluginManager manager = Bukkit.getPluginManager();
         manager.registerEvents(new JoinListener(), this);
         manager.registerEvents(new Miner(), this);
-        manager.registerEvents(new BountyListener(), this);
+
         manager.registerEvents(new Hunter(),this);
     }
 
