@@ -76,7 +76,7 @@ public class Miner implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-
+    // TODO: DAMAGE ITEM IN HAND ON USE, DEPENDS ON DIRECTION, FIX ITEM NAMES
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
 
