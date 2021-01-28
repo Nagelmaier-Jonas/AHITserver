@@ -41,31 +41,39 @@ public class AQuestCommand implements CommandExecutor {
                 miner.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner"));
                 monsterhunter.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter"));
 
+                player.spigot().sendMessage(cook);player.spigot().sendMessage(farmer);
+                player.spigot().sendMessage(hunter);player.spigot().sendMessage(lumber);
+                player.spigot().sendMessage(miner);player.spigot().sendMessage(monsterhunter);
 
-                if (strings[0].equals("cook")){
-                    player.sendMessage("Cook you first Food");
-                }
-
-                if (strings[0].equals("farmer")){
-
-                }
-
-                if (strings[0].equals("hunter")){
-
-                }
-
-                if (strings[0].equals("lumber")){
-
-                }
-
-                if (strings[0].equals("miner")){
-
-                }
-
-                if (strings[0].equals("monsterhunter")){
-
-                }
+                return true;
             }
+
+            if (strings[0].equals("cook")){
+                player.sendMessage("Cook you first Food");
+            }
+
+            if (strings[0].equals("farmer")){
+                player.sendMessage("Collect you first seeds");
+            }
+
+            if (strings[0].equals("hunter")){
+                player.sendMessage("Kill you first Animals");
+            }
+
+            if (strings[0].equals("lumber")){
+                player.sendMessage("Get some Wood");
+            }
+
+            if (strings[0].equals("miner")){
+                player.sendMessage("Mine some cobblestone");
+            }
+
+            if (strings[0].equals("monsterhunter")){
+                player.sendMessage("Kill your first Monsters");
+            }
+            return true;
+
+
         }
         else {
             commandSender.sendMessage("Console mach was anderes sonst Faust");
