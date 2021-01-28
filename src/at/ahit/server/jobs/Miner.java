@@ -77,7 +77,8 @@ public class Miner implements Listener {
 
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
-        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3")) {
+        //event.getPlayer().sendMessage("" + event.getPlayer().getLocation().getDirection());
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility2")) {
             Location location = event.getBlock().getLocation();
             List<Location> locationList = new ArrayList<Location>();
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
@@ -90,26 +91,12 @@ public class Miner implements Listener {
             locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() - 1, location.getZ()));
             Player p = event.getPlayer();
             for (Location l : locationList) {
-                if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1")) {
-                    switch (l.getBlock().getType()) {
-                        case IRON_ORE:
-                            p.getInventory().addItem(new ItemStack(Material.IRON_INGOT));
-                            break;
-                        case GOLD_ORE:
-                            p.getInventory().addItem(new ItemStack(Material.GOLD_INGOT));
-                            break;
-                        case STONE:
-                            p.getInventory().addItem(new ItemStack(Material.STONE));
-                            break;
-                        default:
-                            p.getInventory().addItem(new ItemStack(l.getBlock().getType()));
-                    }
-                }
-                else
-                    p.getInventory().addItem(new ItemStack(l.getBlock().getType()));
+                //p.sendMessage("" + l.getBlock().getType());
+
+                p.getInventory().addItem(new ItemStack(l.getBlock().getType()));
                 l.getBlock().setType(Material.AIR);
             }
-
+            
         }
     }
 
@@ -135,7 +122,7 @@ public class Miner implements Listener {
         skill2Meta.setDisplayName("Skill2");
         ArrayList<String> skill2Lore = new ArrayList<String>();
         skill2Lore.add("Skill2");
-        skill2Lore.add("Costs: 10000 Coins");
+        skill2Lore.add("Costs: 5000c");
         skill2Meta.setLore(skill2Lore);
         skill2.setItemMeta(skill2Meta);
 
@@ -144,7 +131,7 @@ public class Miner implements Listener {
         skill3Meta.setDisplayName("Skill3");
         ArrayList<String> skill3Lore = new ArrayList<String>();
         skill3Lore.add("Skill3");
-        skill3Lore.add("Costs: 25000 Coins");
+        skill3Lore.add("Costs: 10000c");
         skill3Meta.setLore(skill3Lore);
         skill3.setItemMeta(skill3Meta);
 
@@ -171,9 +158,9 @@ public class Miner implements Listener {
             switch (name) {
                 case "Autosmelt":
                     if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill1"))) {
-                        Main.Save(player.getDisplayName() + "_MinerSkill1", true);
-                        Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
-                        Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                        Main.Save(player.getDisplayName() + "_MinerSkill1",true);
+                        Main.Save(player.getDisplayName() + "_Amount",(int)Main.Load(player.getDisplayName() + "_Amount") - 2500);
+                        Scoreboards.createScoreboard(Main.getConfigFile(),player);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
                     } else {
@@ -206,32 +193,30 @@ public class Miner implements Listener {
                     Menu.openMenu(player);
                     break;
             }
-
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void autoSmeltOre(BlockBreakEvent event) {
-        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1")) {
-            switch (event.getBlock().getType()) {
-                case IRON_ORE:
-                    event.getPlayer().getInventory().addItem(new ItemStack(Material.IRON_INGOT));
-                    event.setCancelled(true);
-                    event.getBlock().setType(Material.AIR);
-                    break;
-                case GOLD_ORE:
-                    event.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_INGOT));
-                    event.setCancelled(true);
-                    event.getBlock().setType(Material.AIR);
-                    break;
-                case STONE:
-                    event.getPlayer().getInventory().addItem(new ItemStack(Material.STONE));
-                    event.setCancelled(true);
-                    event.getBlock().setType(Material.AIR);
-                    break;
+        if((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1")){
+        switch (event.getBlock().getType()) {
+            case IRON_ORE:
+                event.getPlayer().getInventory().addItem(new ItemStack(Material.IRON_INGOT));
+                event.setCancelled(true);
+                event.getBlock().setType(Material.AIR);
+                break;
+            case GOLD_ORE:
+                event.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_INGOT));
+                event.setCancelled(true);
+                event.getBlock().setType(Material.AIR);
+                break;
+            case STONE:
+                event.getPlayer().getInventory().addItem(new ItemStack(Material.STONE));
+                event.setCancelled(true);
+                event.getBlock().setType(Material.AIR);
+                break;
             }
         }
     }
 }
-
