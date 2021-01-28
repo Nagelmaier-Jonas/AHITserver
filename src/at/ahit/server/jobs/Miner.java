@@ -57,9 +57,6 @@ public class Miner implements Listener {
                 case NETHER_GOLD_ORE:
                     playerXp += 10;
                     break;
-                default:
-                    player.sendMessage("ka erz");
-
             }
         }
         if (100 * level <= playerXp) {

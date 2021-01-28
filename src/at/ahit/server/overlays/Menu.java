@@ -73,17 +73,17 @@ public class Menu {
         inventory.setItem(1,cook);
         inventory.setItem(2,farmer);
         inventory.setItem(3,hunter);
-        inventory.setItem(4,farmer);
+        inventory.setItem(4,lumberjack);
         inventory.setItem(5,monsterHunter);
 
-        inventory.setItem(8,monsterHunter);
+        inventory.setItem(8,close);
 
         player.openInventory(inventory);
     }
 
     public static void onJobsUse(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
-
+        player.sendMessage("Debug");
         ItemStack itemStack = event.getCurrentItem();
 
         if (itemStack.getType() != Material.AIR){

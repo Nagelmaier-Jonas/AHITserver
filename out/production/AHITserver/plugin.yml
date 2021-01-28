@@ -15,3 +15,5 @@ commands:
     description: /aquest (shows you your availiable quests)
   mine:
     description: /nein
+  skillshop:
+    description: /skillshop

@@ -6,12 +6,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class IventoryClickListener implements Listener {
+public class InventoryClickListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event){
         String name = event.getView().getTitle();
-        if (name == "Jobs"){
+        event.getWhoClicked().sendMessage("Step 1");
+        if (name.equals("Job")){
+            event.getWhoClicked().sendMessage("Step 2");
             Menu.onJobsUse(event);
         }
     }
