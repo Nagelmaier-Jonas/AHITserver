@@ -24,13 +24,13 @@ public class JoinListener implements Listener {
 
     public static void firstJoin(FileConfiguration config, Player player,PlayerJoinEvent event){
         String displayName = player.getDisplayName();
-        if (config.get(displayName + "_HasPlayedBefore") == null){
+        if (config.get(displayName + "_HasPlayedBefore") == null) {
             config.set(displayName + "_HasPlayedBefore", true);
             config.set(displayName + "_Amount", 0);
             config.set(displayName + "_Overlay", true);
             config.set(displayName + "_MinerXp", 0);
             config.set(displayName + "_MinerLevel", 1);
-
+        }
             Main.Save(displayName + "_MinerSkill1",false);
             Main.Save(displayName + "_MinerSkill2",false);
             Main.Save(displayName + "_MinerSkill3",false);
@@ -56,7 +56,7 @@ public class JoinListener implements Listener {
             Main.Save(displayName + "_MonsterHunterSkill3",false);
 
 
-        }
+
 
         Main.Save(displayName + "_MinerAbility1",false);
         Main.Save(displayName + "_MinerAbility2",false);
