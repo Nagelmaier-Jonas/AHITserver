@@ -2,6 +2,7 @@ package at.ahit.server.main;
 
 import at.ahit.server.abilities.MinerAbilities;
 import at.ahit.server.commands.*;
+import at.ahit.server.enums.Color;
 import at.ahit.server.jobs.Hunter;
 import at.ahit.server.jobs.Lumberjack;
 import at.ahit.server.jobs.Miner;
@@ -26,6 +27,7 @@ public class Main extends JavaPlugin {
         config = plugin.getConfig();
         registerListener();
         registerCommands();
+        System.out.println(Color.GREEN + "plugin load successfull" + Color.RESET);
     }
 
     public void onDisable(){
