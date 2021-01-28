@@ -24,7 +24,7 @@ public class JoinListener implements Listener {
 
     public static void firstJoin(FileConfiguration config, Player player,PlayerJoinEvent event){
         String displayName = player.getDisplayName();
-        if (config.get(displayName + "_HasPlayedBefore") == null || !(boolean) config.get(displayName + "_HasPlayedBefore")){
+        if (config.get(displayName + "_HasPlayedBefore") == null){
             config.set(displayName + "_HasPlayedBefore", true);
             config.set(displayName + "_Amount", 0);
             config.set(displayName + "_Overlay", true);
