@@ -2,8 +2,11 @@ package at.ahit.server.jobs;
 
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
+import net.minecraft.server.v1_16_R3.EnchantmentProtection;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,14 +14,14 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Lumberjack implements Listener {
+
+
 
     @EventHandler
     public void breakBlock(BlockBreakEvent event) {
@@ -34,19 +37,30 @@ public class Lumberjack implements Listener {
         HashMap<Material, Integer> woodTypes = new HashMap<Material, Integer>();
         HashMap<Material, Material> leafTypes = new HashMap<Material, Material>();
 
+        // TODO Leave Drop Chance
         leafTypes.put(Material.OAK_LEAVES, Material.OAK_SAPLING);
         leafTypes.put(Material.DARK_OAK_LEAVES, Material.DARK_OAK_SAPLING);
         leafTypes.put(Material.BIRCH_LEAVES, Material.BIRCH_SAPLING);
         leafTypes.put(Material.JUNGLE_LEAVES, Material.JUNGLE_SAPLING);
         leafTypes.put(Material.SPRUCE_LEAVES, Material.SPRUCE_SAPLING);
         leafTypes.put(Material.ACACIA_LEAVES, Material.ACACIA_SAPLING);
-        // leafTypes.add(Material.OAK_LEAVES); // Nether Wart Block | Shroomlight // TODO
-        // leafTypes.add(Material.OAK_LEAVES); // Warped Block | ShroomLight // TODO
+        // leafTypes.add(Material.OAK_LEAVES); // Nether Wart Block | Shroomlight // TODO Nether Wart Leaves & Shroom Lights
+        // leafTypes.add(Material.OAK_LEAVES); // Warped Block | ShroomLight // TODO Warped Leaves & Shroom Lights
 
 
         if (leafTypes.containsKey(m)) {
-            breakAdjacentBlocks(player, block, m, leafTypes.get(m), ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill3")) ? 0.2 : 0.05);
+            Random random = new Random();
+
+            if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill2")) ? 0.2 : 0.05))
+                player.getWorld().dropItem(block.getLocation(), new ItemStack(leafTypes.get(m)));
+
+            //breakAdjacentBlocks(player, block, m, leafTypes.get(m), ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill3")) ? 0.2 : 0.05);
         }
+
+        // TODO: Auf "new BlockBreakEvent" umsteigen | https://bukkit.org/threads/simulating-block-destruction-by-player.27574/
+
+        // TODO Auf skill level 1
+        // TODO Hast auf skill level 2
 
         woodTypes.put(Material.OAK_LOG, 5);
         woodTypes.put(Material.DARK_OAK_LOG, 7);
@@ -57,8 +71,21 @@ public class Lumberjack implements Listener {
         woodTypes.put(Material.CRIMSON_STEM, 10);
         woodTypes.put(Material.WARPED_STEM, 10);
 
-        if (woodTypes.containsKey(m)) {
-            playerXp += breakAdjacentBlocks(player, block, m, m, 1) * woodTypes.get(m);
+        List<Material> axes = Arrays.asList((new Material[] { Material.DIAMOND_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.WOODEN_AXE, Material.STONE_AXE, Material.NETHERITE_AXE }).clone());
+
+        if (woodTypes.containsKey(m) && axes.contains(player.getInventory().getItemInMainHand().getType())) {
+            int blocksBroken = breakAdjacentBlocks(player, block, m, m, 1);
+            playerXp += blocksBroken * woodTypes.get(m);
+
+            ItemStack i = player.getInventory().getItemInMainHand();
+            // i.setDurability((short) (i.getDurability() - (blocksBroken))); /// (i.getEnchantmentLevel(Enchantment.DURABILITY) + 1)))); // TODO: FIX UNBREAKING ENCHANTMENT!
+
+            // TODO Fix Axe Durablity
+
+            // Damageable meta = (Damageable) i.getItemMeta();
+
+            // meta.setDamage(meta.getDamage() + blocksBroken / i.getEnchantmentLevel(Enchantment.DURABILITY) + 1);
+            // meta.setDamage(100);
         }
 
         /*switch (event.getBlock().getType()){
