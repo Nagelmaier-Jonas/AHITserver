@@ -4,6 +4,7 @@ import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
 import org.bukkit.*;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,6 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 //3x3
 
 public class Miner implements Listener {
@@ -77,7 +79,7 @@ public class Miner implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    // TODO: DAMAGE ITEM IN HAND ON USE, DEPENDS ON DIRECTION
+    // TODO: DEPENDS ON DIRECTION, MAGIER KÖNNTE ENCHANTLVL ERHÖHEN, as telekinesis
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
 
@@ -94,13 +96,38 @@ public class Miner implements Listener {
             locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() - 1, location.getZ()));
 
             for (Location l : locationList) {
-                l.getBlock().breakNaturally();
                 ItemMeta im = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
-                if(im instanceof Damageable) {
-                    Damageable dmg = (Damageable) im;
-                        dmg.setDamage(dmg.getDamage()+1);
-                    event.getPlayer().getInventory().getItemInMainHand().(im);
+                if(l.getBlock().getType() != Material.AIR) {
+                    if (im instanceof Damageable) {
+                        event.getPlayer().sendMessage("Damaged");
+                        Damageable dmg = (Damageable) im;
+                        Random r = new Random();
+                        switch (event.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY))
+                        {
+                            case 0:
+                                dmg.setDamage(dmg.getDamage() + 1);
+                                break;
+                            case 1:
+                                if(r.nextInt(100) <= 80)
+                                    dmg.setDamage(dmg.getDamage() + 1);
+                                break;
+                            case 2:
+                                if(r.nextInt(100) <= 60)
+                                    dmg.setDamage(dmg.getDamage() + 1);
+                                break;
+                            case 3:
+                                if(r.nextInt(100) <= 50)
+                                    dmg.setDamage(dmg.getDamage() + 1);
+                                break;
+                            case 4: // TODO 80, 60, 50 40
+                                if(r.nextInt(100) <= 40)
+                                    dmg.setDamage(dmg.getDamage() + 1);
+                                break;
+                        }
+                        event.getPlayer().getInventory().getItemInMainHand().setItemMeta(im);
+                    }
                 }
+                l.getBlock().breakNaturally();
             }
         }
     }
@@ -162,7 +189,6 @@ public class Miner implements Listener {
 
         player.openInventory(inventory);
     }
-
     public static void onMinerJobsUse(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
