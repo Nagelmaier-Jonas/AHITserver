@@ -10,7 +10,6 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Scoreboards {

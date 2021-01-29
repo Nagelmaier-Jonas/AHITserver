@@ -19,9 +19,6 @@ public class InventoryClickListener implements Listener {
             case "Miner":
                 Miner.onMinerJobsUse(event);
                 break;
-            case "Cook":
-                Cook.onCookJobsUse(event);
-                break;
             case "Farmer":
                 Farmer.onFarmerJobsUse(event);
                 break;
