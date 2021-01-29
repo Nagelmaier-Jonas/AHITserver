@@ -40,9 +40,24 @@ public class SkillMenu {
         return itemStack;
     }
 
+    public static ItemStack createItem(Player player,Material material, int amount, String displayName, ArrayList<String> lore){
+        ItemStack itemStack = new ItemStack(material,amount);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName(displayName);
+
+        ArrayList<String> itemLore = new ArrayList<>(lore);
+
+        itemMeta.setLore(itemLore);
+        itemStack.setItemMeta(itemMeta);
+
+        return itemStack;
+    }
+
     public static ItemStack createItem(Material material, int amount, String displayName){
         ItemStack itemStack = new ItemStack(material,amount);
         ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
         itemMeta.setDisplayName(displayName);
         itemStack.setItemMeta(itemMeta);
 

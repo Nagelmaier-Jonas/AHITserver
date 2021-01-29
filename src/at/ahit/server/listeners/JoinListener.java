@@ -37,10 +37,6 @@ public class JoinListener implements Listener {
             Main.Save(displayName + "_MinerSkill2", false);
             Main.Save(displayName + "_MinerSkill3", false);
 
-            Main.Save(displayName + "_CookSkill1", false);
-            Main.Save(displayName + "_CookSkill2", false);
-            Main.Save(displayName + "_CookSkill3", false);
-
             Main.Save(displayName + "_FarmerSkill1", false);
             Main.Save(displayName + "_FarmerSkill2", false);
             Main.Save(displayName + "_FarmerSkill3", false);
@@ -89,7 +85,7 @@ public class JoinListener implements Listener {
             Bukkit.broadcastMessage(ChatColor.GRAY + "The "+ ChatColor.AQUA +       "NON-ALCOHOLIC " +      ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals("siegfried55b")){
-            Bukkit.broadcastMessage(ChatColor.GRAY + "The "+ ChatColor.MAGIC +       "HIGH IQ GYMNASIUM GUY " +      ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(ChatColor.GRAY + "The "+ ChatColor.MAGIC + ChatColor.RED +      "HIGH IQ GYMNASIUM GUY " +      ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals("SnoobyTV")){
             Bukkit.broadcastMessage(ChatColor.GRAY + "The "+ ChatColor.MAGIC +       "DRUGS " +      ChatColor.GRAY + "appears out of thin air" + ChatColor.RESET);
