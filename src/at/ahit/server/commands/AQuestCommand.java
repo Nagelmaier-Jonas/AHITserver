@@ -161,9 +161,9 @@ public class AQuestCommand implements CommandExecutor {
             if (strings[0].equals("hunter") && strings.length == 1){
                 TextComponent hunterq1 = new TextComponent(ChatColor.AQUA + "Get your first food " + ChatColor.GREEN +
                         "(requires 3x Raw Beef)");hunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q1"));
-                TextComponent hunterq2 = new TextComponent(ChatColor.AQUA + "Shit someone in their house " + ChatColor.GREEN + "");hunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q2"));
+                TextComponent hunterq2 = new TextComponent(ChatColor.AQUA + " " + ChatColor.GREEN + "");hunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q2"));
                 TextComponent hunterq3 = new TextComponent(ChatColor.AQUA + "Summon the Weathergod " + ChatColor.GREEN + "");hunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q3"));
-                TextComponent hunterq4 = new TextComponent(ChatColor.AQUA + "Get kicked for Flying " + ChatColor.GREEN + "");hunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q4"));
+                TextComponent hunterq4 = new TextComponent(ChatColor.AQUA + "Get a Saddle " + ChatColor.GREEN + "(1x Saddle required)");hunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q4"));
                 TextComponent hunterq5 = new TextComponent(ChatColor.AQUA + "Get hit by lightning " + ChatColor.GREEN + "");hunterq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q5"));
                 player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
                 hunterq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
