@@ -12,7 +12,7 @@ public class Bullshit {
 
         ItemStack[] itemstack = inventory.getContents();
 
-        for (ItemStack i : itemstack) {
+        /*for (ItemStack i : itemstack) {
 
             if (i.getType() == material && i.getAmount() >= amount){
 
@@ -23,8 +23,25 @@ public class Bullshit {
 
             }
 
+        }*/
+        if (inventory.getItem(7).getType() == material){
+            if (inventory.getItem(7).getAmount() >= amount){
+
+                if (removeitem) {
+                    inventory.getItem(7).setAmount(inventory.getItem(7).getAmount() - amount);
+                }
+
+                player.sendMessage(ChatColor.GREEN + "You got " + reward + " Coins!");
+            }
+            else {
+                player.sendMessage(ChatColor.RED +  "You don´t have enough of the requested Item!");
+            }
         }
-        player.sendMessage(ChatColor.RED +  "You don´t have enough Items!");
+        else {
+            player.sendMessage(ChatColor.RED +  "You don´t have the quest item on Slot 7!");
+        }
+
+
 
     }
 }
