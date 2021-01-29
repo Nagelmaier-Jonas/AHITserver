@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -108,7 +109,7 @@ public class Miner implements Listener {
                                 if(r.nextInt(100) <= 50)
                                     dmg.setDamage(dmg.getDamage() + 1);
                                 break;
-                            case 4: // TODO 80, 60, 50 40, 5345
+                            case 4:
                                 if(r.nextInt(100) <= 40)
                                     dmg.setDamage(dmg.getDamage() + 1);
                                 break;
