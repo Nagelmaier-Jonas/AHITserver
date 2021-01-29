@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -18,9 +17,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 //3x3
 
 public class Miner implements Listener {
@@ -30,19 +29,19 @@ public class Miner implements Listener {
         Player player = event.getPlayer();
         int level = (int) Main.Load(player.getDisplayName() + "_MinerLevel");
         int playerXp = (int) Main.Load(player.getDisplayName() + "_MinerXp");
-        if (!event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)) {
+        if (!event.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH)) {
             switch (event.getBlock().getType()) {
                 case COAL_ORE:
                     playerXp += 5;
                     break;
                 case IRON_ORE:
+                case REDSTONE_ORE:
+                case NETHER_QUARTZ_ORE:
+                case NETHER_GOLD_ORE:
                     playerXp += 10;
                     break;
                 case GOLD_ORE:
                     playerXp += 20;
-                    break;
-                case REDSTONE_ORE:
-                    playerXp += 10;
                     break;
                 case DIAMOND_ORE:
                     playerXp += 30;
@@ -50,20 +49,12 @@ public class Miner implements Listener {
                 case EMERALD_ORE:
                     playerXp += 100;
                     break;
+                case COBBLESTONE:
+                case NETHERRACK:
                 case STONE:
                     playerXp += 1;
                     break;
-                case COBBLESTONE:
-                    playerXp += 1;
-                    break;
-                case NETHER_QUARTZ_ORE:
-                    playerXp += 10;
-                    break;
-                case NETHERRACK:
-                    playerXp += 1;
-                    break;
-                case NETHER_GOLD_ORE:
-                    playerXp += 10;
+                default:
                     break;
             }
         }
@@ -77,13 +68,13 @@ public class Miner implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    // TODO: DAMAGE ITEM IN HAND ON USE, DEPENDS ON DIRECTION
+    // TODO: DEPENDS ON DIRECTION, MAGIER KÖNNTE ENCHANTLVL ERHÖHEN, as telekinesis
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
 
         if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
             Location location = event.getBlock().getLocation();
-            List<Location> locationList = new ArrayList<Location>();
+            List<Location> locationList = new ArrayList<>();
             locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
             locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
             locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() + 1, location.getZ()));
@@ -94,13 +85,38 @@ public class Miner implements Listener {
             locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() - 1, location.getZ()));
 
             for (Location l : locationList) {
-                l.getBlock().breakNaturally();
                 ItemMeta im = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
-                if(im instanceof Damageable) {
-                    Damageable dmg = (Damageable) im;
-                        dmg.setDamage(dmg.getDamage()+1);
-                    event.getPlayer().getInventory().getItemInMainHand().(im);
+                if(l.getBlock().getType() != Material.AIR) {
+                    if (im instanceof Damageable) {
+                        event.getPlayer().sendMessage("Damaged");
+                        Damageable dmg = (Damageable) im;
+                        Random r = new Random();
+                        switch (event.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY))
+                        {
+                            case 0:
+                                dmg.setDamage(dmg.getDamage() + 1);
+                                break;
+                            case 1:
+                                if(r.nextInt(100) <= 80)
+                                    dmg.setDamage(dmg.getDamage() + 1);
+                                break;
+                            case 2:
+                                if(r.nextInt(100) <= 60)
+                                    dmg.setDamage(dmg.getDamage() + 1);
+                                break;
+                            case 3:
+                                if(r.nextInt(100) <= 50)
+                                    dmg.setDamage(dmg.getDamage() + 1);
+                                break;
+                            case 4: // TODO 80, 60, 50 40, 5345
+                                if(r.nextInt(100) <= 40)
+                                    dmg.setDamage(dmg.getDamage() + 1);
+                                break;
+                        }
+                        event.getPlayer().getInventory().getItemInMainHand().setItemMeta(im);
+                    }
                 }
+                l.getBlock().breakNaturally();
             }
         }
     }
@@ -111,7 +127,7 @@ public class Miner implements Listener {
         ItemStack skill1 = new ItemStack(Material.STONE_PICKAXE, 1);
         ItemMeta skill1Meta = skill1.getItemMeta();
         skill1Meta.setDisplayName("Autosmelt");
-        ArrayList<String> skill1Lore = new ArrayList<String>();
+        ArrayList<String> skill1Lore = new ArrayList<>();
         skill1Lore.add("Ores are smelted automatically");
         skill1Lore.add("Costs: 2500 Coins");
         if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) {
@@ -125,7 +141,7 @@ public class Miner implements Listener {
         ItemStack skill2 = new ItemStack(Material.IRON_PICKAXE, 1);
         ItemMeta skill2Meta = skill2.getItemMeta();
         skill2Meta.setDisplayName("Faster...");
-        ArrayList<String> skill2Lore = new ArrayList<String>();
+        ArrayList<String> skill2Lore = new ArrayList<>();
         skill2Lore.add("Blocks break faster with a Pickaxe");
         skill2Lore.add("Costs: 10000 Coins");
         if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) {
@@ -139,7 +155,7 @@ public class Miner implements Listener {
         ItemStack skill3 = new ItemStack(Material.DIAMOND_PICKAXE, 1);
         ItemMeta skill3Meta = skill3.getItemMeta();
         skill3Meta.setDisplayName("BigMiner");
-        ArrayList<String> skill3Lore = new ArrayList<String>();
+        ArrayList<String> skill3Lore = new ArrayList<>();
         skill3Lore.add("You can use the /mine big now!");
         skill3Lore.add("Costs: 25000 Coins");
         if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) {
@@ -162,7 +178,6 @@ public class Miner implements Listener {
 
         player.openInventory(inventory);
     }
-
     public static void onMinerJobsUse(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
@@ -248,7 +263,7 @@ public class Miner implements Listener {
     }
 
     public static ArrayList<Material> createArray() {
-        ArrayList<Material> pickAxeList = new ArrayList<Material>();
+        ArrayList<Material> pickAxeList = new ArrayList<>();
         pickAxeList.add(Material.WOODEN_PICKAXE);
         pickAxeList.add(Material.STONE_PICKAXE);
         pickAxeList.add(Material.IRON_PICKAXE);
@@ -260,15 +275,10 @@ public class Miner implements Listener {
 
     public static void startRunnable(){
         List<Player> pList = (List<Player>) Bukkit.getOnlinePlayers();
-        Bukkit.getScheduler().runTaskTimer(Main.plugin, new Runnable(){
-
-            @Override
-            public void run() {
-                for (Player p:pList) {
-                    giveHaste(p);
-                }
+        Bukkit.getScheduler().runTaskTimer(Main.plugin, () -> {
+            for (Player p:pList) {
+                giveHaste(p);
             }
-
         }, 20, 20);//Time in ticks before first run and each time after that*/
     }
 }
