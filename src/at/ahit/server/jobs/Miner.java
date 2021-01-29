@@ -76,7 +76,7 @@ public class Miner implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-
+    // TODO: DAMAGE ITEM IN HAND ON USE, DEPENDS ON DIRECTION, FIX ITEM NAMES
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
 
@@ -97,7 +97,7 @@ public class Miner implements Listener {
             }
         }
     }
-
+    // shop
     public static void openMinerMenu(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 9, "Miner");
 
@@ -167,23 +167,27 @@ public class Miner implements Listener {
                     }
                     break;
                 case "Skill2":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") > 10000) {
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000) {
                         Main.Save(player.getDisplayName() + "_MinerSkill2", true);
+                        Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
+                        Scoreboards.createScoreboard(Main.getConfigFile(), player);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
                     } else {
                         Miner.openMinerMenu(player);
-                        player.sendMessage("Not enough Money");
+                        player.sendMessage("You can't buy that you little motherfucker");
                     }
                     break;
                 case "Skill3":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") > 25000) {
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000) {
                         Main.Save(player.getDisplayName() + "_MinerSkill3", true);
+                        Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
+                        Scoreboards.createScoreboard(Main.getConfigFile(), player);
                         player.closeInventory();
                         Miner.openMinerMenu(player);
                     } else {
                         Miner.openMinerMenu(player);
-                        player.sendMessage("Not enough Money");
+                        player.sendMessage("You can't buy that you little motherfucker");
                     }
                     break;
                 case "Close":
@@ -221,7 +225,7 @@ public class Miner implements Listener {
 
 
     public static void giveHaste(Player p) {
-        if(createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load("Gaduso11_MinerSkill2")) {
+        if(createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_MinerSkill2")) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 40, 0));
         }
     }
@@ -248,6 +252,6 @@ public class Miner implements Listener {
                 }
             }
 
-        }, 100, 100);//Time in ticks before first run and each time after that
+        }, 20, 20);//Time in ticks before first run and each time after that*/
     }
 }

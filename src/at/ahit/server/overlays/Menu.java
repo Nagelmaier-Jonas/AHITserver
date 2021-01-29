@@ -15,8 +15,6 @@ import java.util.ArrayList;
 
 public class Menu {
 
-    private static String a;
-
     public static void openMenu(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 9, "Job");
 
