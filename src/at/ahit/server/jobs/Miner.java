@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -76,7 +77,7 @@ public class Miner implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    // TODO: DAMAGE ITEM IN HAND ON USE, DEPENDS ON DIRECTION, FIX ITEM NAMES
+    // TODO: DAMAGE ITEM IN HAND ON USE, DEPENDS ON DIRECTION
     @EventHandler
     public void BreakThreeByThree(BlockBreakEvent event) {
 
@@ -94,6 +95,12 @@ public class Miner implements Listener {
 
             for (Location l : locationList) {
                 l.getBlock().breakNaturally();
+                ItemMeta im = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
+                if(im instanceof Damageable) {
+                    Damageable dmg = (Damageable) im;
+                        dmg.setDamage(dmg.getDamage()+1);
+                    event.getPlayer().getInventory().getItemInMainHand().(im);
+                }
             }
         }
     }
@@ -108,9 +115,9 @@ public class Miner implements Listener {
         skill1Lore.add("Ores are smelted automatically");
         skill1Lore.add("Costs: 2500 Coins");
         if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) {
-            skill1Lore.add(ChatColor.RED + "Item not acquired");
+            skill1Lore.add(ChatColor.RED + "Skill not acquired");
         } else {
-            skill1Lore.add(ChatColor.GREEN + "Item acquired");
+            skill1Lore.add(ChatColor.GREEN + "Skill acquired");
         }
         skill1Meta.setLore(skill1Lore);
         skill1.setItemMeta(skill1Meta);
@@ -119,17 +126,27 @@ public class Miner implements Listener {
         ItemMeta skill2Meta = skill2.getItemMeta();
         skill2Meta.setDisplayName("Faster...");
         ArrayList<String> skill2Lore = new ArrayList<String>();
-        skill2Lore.add("Skill2");
+        skill2Lore.add("Blocks break faster with a Pickaxe");
         skill2Lore.add("Costs: 10000 Coins");
+        if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) {
+            skill2Lore.add(ChatColor.RED + "Skill not acquired");
+        } else {
+            skill2Lore.add(ChatColor.GREEN + "Skill acquired");
+        }
         skill2Meta.setLore(skill2Lore);
         skill2.setItemMeta(skill2Meta);
 
         ItemStack skill3 = new ItemStack(Material.DIAMOND_PICKAXE, 1);
         ItemMeta skill3Meta = skill3.getItemMeta();
-        skill3Meta.setDisplayName("Skill3");
+        skill3Meta.setDisplayName("BigMiner");
         ArrayList<String> skill3Lore = new ArrayList<String>();
-        skill3Lore.add("Skill3");
+        skill3Lore.add("You can use the /mine big now!");
         skill3Lore.add("Costs: 25000 Coins");
+        if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) {
+            skill3Lore.add(ChatColor.RED + "Skill not acquired");
+        } else {
+            skill3Lore.add(ChatColor.GREEN + "Skill acquired");
+        }
         skill3Meta.setLore(skill3Lore);
         skill3.setItemMeta(skill3Meta);
 
@@ -167,7 +184,7 @@ public class Miner implements Listener {
                     }
                     break;
                 case "Faster...":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000) {
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill2"))) {
                         Main.Save(player.getDisplayName() + "_MinerSkill2", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
@@ -178,8 +195,8 @@ public class Miner implements Listener {
                         player.sendMessage("You can't buy that you little motherfucker");
                     }
                     break;
-                case "Skill3":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000) {
+                case "BigMiner":
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill3"))) {
                         Main.Save(player.getDisplayName() + "_MinerSkill3", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);

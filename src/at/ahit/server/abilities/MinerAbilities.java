@@ -18,26 +18,27 @@ public class MinerAbilities implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length == 1) {
-            if (strings[0].equals("autosmelt")) {
-                if ((boolean) Main.Load(commandSender.getName() + "_MinerSkill1")) {
-                    Main.Save(commandSender.getName() + "_MinerAbility1", !(boolean) Main.Load(commandSender.getName() + "_MinerAbility1"));
-                    commandSender.sendMessage("AutoSmelt toggled to " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility1") + ChatColor.RESET);
+        if(commandSender instanceof Player) {
+            if (strings.length == 1) {
+                if (strings[0].equals("autosmelt") || strings[0].equals("autosmelter") || strings[0].equals("as")) {
+                    if ((boolean) Main.Load(commandSender.getName() + "_MinerSkill1")) {
+                        Main.Save(commandSender.getName() + "_MinerAbility1", !(boolean) Main.Load(commandSender.getName() + "_MinerAbility1"));
+                        commandSender.sendMessage("AutoSmelt toggled to " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility1") + ChatColor.RESET);
+                    }
+                }
+                if (strings[0].equals("big")) {
+                    if ((boolean) Main.Load(commandSender.getName() + "_MinerSkill3"))
+                        Main.Save(commandSender.getName() + "_MinerAbility3", !(boolean) Main.Load(commandSender.getName() + "_MinerAbility3"));
+                    {
+                        commandSender.sendMessage("Mine toggled " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility3") + ChatColor.RESET);
+                    }
                 }
             }
-            if (strings[0].equals("big")) {
-                if ((boolean) Main.Load(commandSender.getName() + "_MinerSkill3"))
-                    Main.Save(commandSender.getName() + "_MinerAbility3", !(boolean) Main.Load(commandSender.getName() + "_MinerAbility3"));
-                {
-                    commandSender.sendMessage("Mine toggled " + ChatColor.AQUA  + Main.Load(commandSender.getName() + "_MinerAbility3") + ChatColor.RESET);
-                }
+            if (strings.length == 0) {
+                commandSender.sendMessage("AutoSmelter is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility1") + ChatColor.RESET + " Haste is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerSkill2") + ChatColor.RESET + " and BigMine is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility3") + ChatColor.RESET);
+                Miner.giveHaste((Player) commandSender);
             }
         }
-        if(strings.length == 0) {
-            commandSender.sendMessage("AutoSmelter is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility1") + ChatColor.RESET + " Haste is " + ChatColor.AQUA  + Main.Load(commandSender.getName() + "_MinerSkill2") + ChatColor.RESET + " and BigMine is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility3")  + ChatColor.RESET);
-            Miner.giveHaste((Player)commandSender);
-        }
-
         return false;
     }
 }
