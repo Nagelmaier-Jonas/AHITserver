@@ -119,7 +119,7 @@ public class Miner implements Listener {
                                 if(r.nextInt(100) <= 50)
                                     dmg.setDamage(dmg.getDamage() + 1);
                                 break;
-                            case 4: // TODO 80, 60, 50 40
+                            case 4: // TODO 80, 60, 50 40, 5345
                                 if(r.nextInt(100) <= 40)
                                     dmg.setDamage(dmg.getDamage() + 1);
                                 break;
