@@ -96,7 +96,8 @@ public class Menu {
         ItemStack itemStack = event.getCurrentItem();
 
         assert itemStack != null;
-        if (itemStack.getType() != Material.AIR){
+        player.sendMessage(itemStack.getType() + "");
+
             String name = Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
 
             switch (name){
@@ -122,11 +123,6 @@ public class Menu {
                     player.closeInventory();
                     break;
             }
-
             event.setCancelled(true);
-        }
     }
-
-
-
 }
