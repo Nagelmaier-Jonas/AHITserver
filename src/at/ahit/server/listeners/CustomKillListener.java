@@ -1,17 +1,14 @@
 package at.ahit.server.listeners;
 
-import net.minecraft.server.v1_16_R3.Material;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
+
+import java.util.Objects;
 
 public class CustomKillListener implements Listener {
 
@@ -27,12 +24,12 @@ public class CustomKillListener implements Listener {
         Bukkit.broadcastMessage(ChatColor.BLUE + "Killer: " +  victim.getKiller() + ChatColor.RESET);
 
         if (killer != null){
-            Bukkit.broadcastMessage(ChatColor.BLUE + victim.getKiller().getName() + ChatColor.RESET);
+            Bukkit.broadcastMessage(ChatColor.BLUE + Objects.requireNonNull(victim.getKiller()).getName() + ChatColor.RESET);
             Bukkit.broadcastMessage(ChatColor.BLUE + "KILLER NAME: " + killer.getName() + " KILLER ENTITY: " + event.getEntity().getKiller() + ChatColor.RESET);
 
         }
 
-        if (victim.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.SUICIDE)
+        if (Objects.requireNonNull(victim.getLastDamageCause()).getCause() == EntityDamageEvent.DamageCause.SUICIDE)
         {
             Bukkit.broadcastMessage(ChatColor.RED + victim.getName() + " took the L" + ChatColor.RESET);
         }
@@ -41,6 +38,8 @@ public class CustomKillListener implements Listener {
         switch (victim.getName()){ //SPIELERSPEZIEFISCHE
             case "Symo_TMS":
                 Bukkit.broadcastMessage(ChatColor.RED + victim.getName() + " Got Fucked up" + ChatColor.RESET);
+                break;
+            case "Joni04":
                 break;
             default:
                 Bukkit.broadcastMessage(ChatColor.RED + victim.getName() + " wurde von nicht idetifizierbarem Spieler vernichtet" + ChatColor.RESET);

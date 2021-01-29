@@ -14,7 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
+import java.util.Objects;
 
 public class Main extends JavaPlugin {
 
@@ -50,16 +50,16 @@ public class Main extends JavaPlugin {
     }
 
     public void registerCommands(){
-        getCommand("stats").setExecutor(new StatsCommand());
-        getCommand("coins").setExecutor(new CoinsCommand());
-        getCommand("questinfo").setExecutor(new QuestInfoCommand());
-        getCommand("aquest").setExecutor(new AQuestCommand());
-        getCommand("mine").setExecutor(new MinerAbilities());
-        getCommand("skillshop").setExecutor(new SkillShopCommand());
-        getCommand("setcoins").setExecutor(new SetCoinsCommand());
-        getCommand("auction").setExecutor(new AuctionCommand());
-        getCommand("setVal").setExecutor(new SetValCommand());
-        getCommand("getVal").setExecutor(new GetValCommand());
+        Objects.requireNonNull(getCommand("stats")).setExecutor(new StatsCommand());
+        Objects.requireNonNull(getCommand("coins")).setExecutor(new CoinsCommand());
+        Objects.requireNonNull(getCommand("questinfo")).setExecutor(new QuestInfoCommand());
+        Objects.requireNonNull(getCommand("aquest")).setExecutor(new AQuestCommand());
+        Objects.requireNonNull(getCommand("mine")).setExecutor(new MinerAbilities());
+        Objects.requireNonNull(getCommand("skillshop")).setExecutor(new SkillShopCommand());
+        Objects.requireNonNull(getCommand("setcoins")).setExecutor(new SetCoinsCommand());
+        Objects.requireNonNull(getCommand("auction")).setExecutor(new AuctionCommand());
+        Objects.requireNonNull(getCommand("setVal")).setExecutor(new SetValCommand());
+        Objects.requireNonNull(getCommand("getVal")).setExecutor(new GetValCommand());
     }
 
     public static FileConfiguration getConfigFile() {

@@ -1,6 +1,5 @@
 package at.ahit.server.overlays;
 
-import at.ahit.server.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,14 +9,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Objects;
+
 public class Auction {
 
     public static void openAuctionMenu(Player player) {
         Inventory AuctionInventory = Bukkit.createInventory(null, 54, "§4Auction");
-        Inventory PlayerInventory = player.getInventory();
 
         ItemStack freeSlot = new ItemStack(Material.LIME_STAINED_GLASS_PANE,1);
         ItemMeta freeSlotMeta = freeSlot.getItemMeta();
+        assert freeSlotMeta != null;
         freeSlotMeta.setDisplayName("FreeSlot");
         freeSlot.setItemMeta(freeSlotMeta);
 
@@ -28,11 +29,13 @@ public class Auction {
 
         ItemStack previous = new ItemStack(Material.ARROW,1);
         ItemMeta previousMeta = previous.getItemMeta();
+        assert previousMeta != null;
         previousMeta.setDisplayName("Previous");
         previous.setItemMeta(previousMeta);
 
         ItemStack next = new ItemStack(Material.ARROW,1);
         ItemMeta nextMeta = next.getItemMeta();
+        assert nextMeta != null;
         nextMeta.setDisplayName("Next");
         next.setItemMeta(nextMeta);
 
@@ -46,16 +49,11 @@ public class Auction {
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
 
+        assert itemStack != null;
         if (itemStack.getType() != Material.AIR){
-            String name = itemStack.getItemMeta().getDisplayName();
-            switch (name){
-                case "Next":
-                    break;
-                case "Previous":
-                    break;
-                case "FreeSlot":
-                    openSellMenu(player);
-                    break;
+            String name = Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
+            if (name.equals("FreeSlot")){
+                openSellMenu(player);
             }
         }
             event.setCancelled(true);
@@ -72,9 +70,10 @@ public class Auction {
     }
 
     public static void sellItem(InventoryClickEvent event){
-        Player player = (Player) event.getWhoClicked();
         Inventory inventory = event.getClickedInventory();
+        assert inventory != null;
         ItemStack itemStack = inventory.getItem(0);
+        assert itemStack != null;
         itemStack.getItemMeta();
     }
 }
