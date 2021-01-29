@@ -146,7 +146,7 @@ public class Lumberjack implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    public static void UptadeMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT, low priority
+    public static void UptadeMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
         ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
 
         if (im instanceof Damageable) {
