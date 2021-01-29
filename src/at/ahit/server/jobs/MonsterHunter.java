@@ -35,7 +35,7 @@ public class MonsterHunter {
 
         assert itemStack != null;
             String name = Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
-            player.sendMessage(name);
+
 
             switch (name) {
                 case "Damage+":
@@ -75,7 +75,6 @@ public class MonsterHunter {
                     }
                     break;
                 case "Close":
-                    player.closeInventory();
                     Menu.openMenu(player);
                     break;
         }

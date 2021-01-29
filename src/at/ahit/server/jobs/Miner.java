@@ -4,12 +4,14 @@ import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
 import org.bukkit.*;
+import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -76,51 +78,213 @@ public class Miner implements Listener {
         if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
             Location location = event.getBlock().getLocation();
             List<Location> locationList = new ArrayList<>();
-            locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
-            locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
-            locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() + 1, location.getZ()));
-            locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ()));
-            locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ()));
-            locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() - 1, location.getZ()));
-            locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
-            locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() - 1, location.getZ()));
+            switch ((String) Main.Load(event.getPlayer().getDisplayName() + "_BlockHitDirection")) {
+                case "NORTH":
+                case "SOUTH":
+                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
+                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() + 1, location.getZ()));
+                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ()));
+                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ()));
+                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() - 1, location.getZ()));
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
+                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() - 1, location.getZ()));
+                    break;
+                case "UP":
+                case "DOWN":
+                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ() + 1));
+                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ()));
+                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ() - 1));
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() + 1));
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() - 1));
+                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ() + 1));
+                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ()));
+                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ() - 1));
+                    break;
+                case "WEST":
+                case "EAST":
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ() + 1));
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ() - 1));
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() + 1));
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() - 1));
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ() + 1));
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
+                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ() - 1));
+                    break;
+            }
 
-            for (Location l : locationList) {
-                ItemMeta im = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
-                if(l.getBlock().getType() != Material.AIR) {
-                    if (im instanceof Damageable) {
-                        event.getPlayer().sendMessage("Damaged");
-                        Damageable dmg = (Damageable) im;
-                        Random r = new Random();
-                        switch (event.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY))
-                        {
-                            case 0:
-                                dmg.setDamage(dmg.getDamage() + 1);
-                                break;
-                            case 1:
-                                if(r.nextInt(100) <= 80)
+            ArrayList<Material> breakableStuff = new ArrayList<>();
+            breakableStuff.add(Material.STONE);
+            breakableStuff.add(Material.ANDESITE);
+            breakableStuff.add(Material.BLACKSTONE);
+            breakableStuff.add(Material.GILDED_BLACKSTONE);
+            breakableStuff.add(Material.POLISHED_BLACKSTONE);
+            breakableStuff.add(Material.CHISELED_POLISHED_BLACKSTONE);
+            breakableStuff.add(Material.POLISHED_BLACKSTONE_BRICKS);
+            breakableStuff.add(Material.CRACKED_POLISHED_BLACKSTONE_BRICKS);
+            breakableStuff.add(Material.COBBLESTONE);
+            breakableStuff.add(Material.DIORITE);
+            breakableStuff.add(Material.GLOWSTONE);
+            breakableStuff.add(Material.GRANITE);
+            breakableStuff.add(Material.ICE);
+            breakableStuff.add(Material.PRISMARINE);
+            breakableStuff.add(Material.IRON_ORE);
+            breakableStuff.add(Material.COAL_ORE);
+            breakableStuff.add(Material.GOLD_ORE);
+            breakableStuff.add(Material.DIAMOND_ORE);
+            breakableStuff.add(Material.ANCIENT_DEBRIS);
+            breakableStuff.add(Material.GOLD_BLOCK);
+            breakableStuff.add(Material.COAL_BLOCK);
+            breakableStuff.add(Material.IRON_BLOCK);
+            breakableStuff.add(Material.DIAMOND_BLOCK);
+            breakableStuff.add(Material.NETHERITE_BLOCK);
+            breakableStuff.add(Material.NETHER_GOLD_ORE);
+            breakableStuff.add(Material.NETHER_QUARTZ_ORE);
+            breakableStuff.add(Material.POLISHED_DIORITE);
+            breakableStuff.add(Material.POLISHED_ANDESITE);
+            breakableStuff.add(Material.DIRT);
+            breakableStuff.add(Material.GRASS_BLOCK);
+            breakableStuff.add(Material.PODZOL);
+            breakableStuff.add(Material.GRAVEL);
+            breakableStuff.add(Material.GLASS);
+            breakableStuff.add(Material.LAPIS_ORE);
+            breakableStuff.add(Material.LAPIS_BLOCK);
+            breakableStuff.add(Material.SANDSTONE);
+            breakableStuff.add(Material.CHISELED_SANDSTONE);
+            breakableStuff.add(Material.CUT_SANDSTONE);
+            breakableStuff.add(Material.SMOOTH_QUARTZ);
+            breakableStuff.add(Material.SMOOTH_RED_SANDSTONE);
+            breakableStuff.add(Material.SMOOTH_SANDSTONE);
+            breakableStuff.add(Material.SMOOTH_STONE);
+            breakableStuff.add(Material.BRICKS);
+            breakableStuff.add(Material.SNOW_BLOCK);
+            breakableStuff.add(Material.CLAY);
+            breakableStuff.add(Material.NETHERRACK);
+            breakableStuff.add(Material.SOUL_SAND);
+            breakableStuff.add(Material.SOUL_SOIL);
+            breakableStuff.add(Material.BASALT);
+            breakableStuff.add(Material.POLISHED_BASALT);
+            breakableStuff.add(Material.STONE_BRICKS);
+            breakableStuff.add(Material.MOSSY_STONE_BRICKS);
+            breakableStuff.add(Material.CRACKED_STONE_BRICKS);
+            breakableStuff.add(Material.CHISELED_STONE_BRICKS);
+            breakableStuff.add(Material.CRACKED_NETHER_BRICKS);
+            breakableStuff.add(Material.CHISELED_NETHER_BRICKS);
+            breakableStuff.add(Material.END_STONE);
+            breakableStuff.add(Material.END_STONE_BRICKS);
+            breakableStuff.add(Material.EMERALD_ORE);
+            breakableStuff.add(Material.EMERALD_BLOCK);
+            breakableStuff.add(Material.CHISELED_QUARTZ_BLOCK);
+            breakableStuff.add(Material.QUARTZ_BLOCK);
+            breakableStuff.add(Material.QUARTZ_BRICKS);
+            breakableStuff.add(Material.QUARTZ_PILLAR);
+            breakableStuff.add(Material.WHITE_TERRACOTTA);
+            breakableStuff.add(Material.ORANGE_TERRACOTTA);
+            breakableStuff.add(Material.MAGENTA_TERRACOTTA);
+            breakableStuff.add(Material.LIGHT_BLUE_TERRACOTTA);
+            breakableStuff.add(Material.YELLOW_TERRACOTTA);
+            breakableStuff.add(Material.LIME_TERRACOTTA);
+            breakableStuff.add(Material.PINK_TERRACOTTA);
+            breakableStuff.add(Material.GRAY_TERRACOTTA);
+            breakableStuff.add(Material.LIGHT_GRAY_TERRACOTTA);
+            breakableStuff.add(Material.CYAN_TERRACOTTA);
+            breakableStuff.add(Material.PURPLE_TERRACOTTA);
+            breakableStuff.add(Material.BLUE_TERRACOTTA);
+            breakableStuff.add(Material.BROWN_TERRACOTTA);
+            breakableStuff.add(Material.GREEN_TERRACOTTA);
+            breakableStuff.add(Material.RED_TERRACOTTA);
+            breakableStuff.add(Material.BLACK_TERRACOTTA);
+            breakableStuff.add(Material.TERRACOTTA);
+            breakableStuff.add(Material.PACKED_ICE);
+            breakableStuff.add(Material.PRISMARINE);
+            breakableStuff.add(Material.PRISMARINE_BRICKS);
+            breakableStuff.add(Material.DARK_PRISMARINE);
+            breakableStuff.add(Material.RED_SANDSTONE);
+            breakableStuff.add(Material.CHISELED_RED_SANDSTONE);
+            breakableStuff.add(Material.CUT_RED_SANDSTONE);
+            breakableStuff.add(Material.MAGMA_BLOCK);
+            breakableStuff.add(Material.BONE_BLOCK);
+            breakableStuff.add(Material.RED_NETHER_BRICKS);
+            breakableStuff.add(Material.WHITE_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.ORANGE_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.MAGENTA_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.LIGHT_BLUE_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.YELLOW_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.LIME_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.PINK_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.GRAY_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.LIGHT_GRAY_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.CYAN_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.PURPLE_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.BLUE_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.BROWN_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.GREEN_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.RED_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.BLACK_GLAZED_TERRACOTTA);
+            breakableStuff.add(Material.WHITE_CONCRETE);
+            breakableStuff.add(Material.ORANGE_CONCRETE);
+            breakableStuff.add(Material.MAGENTA_CONCRETE);
+            breakableStuff.add(Material.LIGHT_BLUE_CONCRETE);
+            breakableStuff.add(Material.YELLOW_CONCRETE);
+            breakableStuff.add(Material.LIME_CONCRETE);
+            breakableStuff.add(Material.PINK_CONCRETE);
+            breakableStuff.add(Material.GRAY_CONCRETE);
+            breakableStuff.add(Material.LIGHT_GRAY_CONCRETE);
+            breakableStuff.add(Material.CYAN_CONCRETE);
+            breakableStuff.add(Material.PURPLE_CONCRETE);
+            breakableStuff.add(Material.BLUE_CONCRETE);
+            breakableStuff.add(Material.BROWN_CONCRETE);
+            breakableStuff.add(Material.GREEN_CONCRETE);
+            breakableStuff.add(Material.RED_CONCRETE);
+            breakableStuff.add(Material.BLACK_CONCRETE);
+            breakableStuff.add(Material.BLACK_CONCRETE);
+            breakableStuff.add(Material.REDSTONE_ORE);
+            breakableStuff.add(Material.REDSTONE_BLOCK);
+
+
+            if (breakableStuff.contains(event.getBlock().getType())) {
+                for (Location l : locationList) {
+                    ItemMeta im = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
+                    if (breakableStuff.contains(l.getBlock().getType())) {
+                        if (im instanceof Damageable) {
+                            Damageable dmg = (Damageable) im;
+                            Random r = new Random();
+                            switch (event.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY)) {
+                                case 0:
                                     dmg.setDamage(dmg.getDamage() + 1);
-                                break;
-                            case 2:
-                                if(r.nextInt(100) <= 60)
-                                    dmg.setDamage(dmg.getDamage() + 1);
-                                break;
-                            case 3:
-                                if(r.nextInt(100) <= 50)
-                                    dmg.setDamage(dmg.getDamage() + 1);
-                                break;
-                            case 4:
-                                if(r.nextInt(100) <= 40)
-                                    dmg.setDamage(dmg.getDamage() + 1);
-                                break;
+                                    break;
+                                case 1:
+                                    if (r.nextInt(100) <= 80)
+                                        dmg.setDamage(dmg.getDamage() + 1);
+                                    break;
+                                case 2:
+                                    if (r.nextInt(100) <= 60)
+                                        dmg.setDamage(dmg.getDamage() + 1);
+                                    break;
+                                case 3:
+                                    if (r.nextInt(100) <= 50)
+                                        dmg.setDamage(dmg.getDamage() + 1);
+                                    break;
+                                case 4:
+                                    if (r.nextInt(100) <= 40)
+                                        dmg.setDamage(dmg.getDamage() + 1);
+                                    break;
+                            }
+                            event.getPlayer().getInventory().getItemInMainHand().setItemMeta(im);
                         }
-                        event.getPlayer().getInventory().getItemInMainHand().setItemMeta(im);
+                        l.getBlock().breakNaturally();
                     }
                 }
-                l.getBlock().breakNaturally();
             }
         }
     }
+
+    @EventHandler
+    public void GetBlockLookingDirection(PlayerInteractEvent event) {
+        Main.Save(event.getPlayer().getDisplayName() + "_BlockHitDirection", event.getBlockFace().toString());
+    }
+
     // shop
     public static void openMinerMenu(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 9, "Miner");
@@ -179,6 +343,7 @@ public class Miner implements Listener {
 
         player.openInventory(inventory);
     }
+
     public static void onMinerJobsUse(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
@@ -258,7 +423,7 @@ public class Miner implements Listener {
 
 
     public static void giveHaste(Player p) {
-        if(createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_MinerSkill2")) {
+        if (createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_MinerSkill2")) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 40, 0));
         }
     }
@@ -274,10 +439,10 @@ public class Miner implements Listener {
         return pickAxeList;
     }
 
-    public static void startRunnable(){
+    public static void startRunnable() {
         List<Player> pList = (List<Player>) Bukkit.getOnlinePlayers();
         Bukkit.getScheduler().runTaskTimer(Main.plugin, () -> {
-            for (Player p:pList) {
+            for (Player p : pList) {
                 giveHaste(p);
             }
         }, 20, 20);//Time in ticks before first run and each time after that*/
