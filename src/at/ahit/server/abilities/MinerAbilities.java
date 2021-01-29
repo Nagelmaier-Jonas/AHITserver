@@ -3,16 +3,10 @@ package at.ahit.server.abilities;
 import at.ahit.server.jobs.Miner;
 import at.ahit.server.main.Main;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.BlockBreakEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MinerAbilities implements CommandExecutor {
 

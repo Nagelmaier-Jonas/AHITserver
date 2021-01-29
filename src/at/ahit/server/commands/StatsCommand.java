@@ -8,6 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
+
 public class StatsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -23,7 +25,7 @@ public class StatsCommand implements CommandExecutor {
                     case "off":
                         Main.getConfigFile().set(player.getDisplayName() + "_Scoreboard",false);
                         Main.getPlugin().saveConfig();
-                        player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                        player.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard());
                         break;
                     default:
                         player.sendMessage("§7Bitte benutze §c/stats §2<Option> §b{on,off}");
