@@ -1,4 +1,4 @@
-package at.ahit.server.bullshit;
+package at.ahit.server.usefulstuff;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class Bullshit {
+public class AQuestMethods {
 
     public static void getInventoryLocation(Material material, Integer amount, Inventory inventory, Player player, Integer reward, Boolean removeitem){
 
