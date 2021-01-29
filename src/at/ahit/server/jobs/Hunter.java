@@ -24,8 +24,8 @@ public class Hunter implements Listener {
     public void killAnimal(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player) {
             Player player = (Player) event.getDamager();
-            int level = (int) Main.getConfigFile().get(player.getDisplayName() + "_HunterLevel");
-            int playerXp = (int) Main.getConfigFile().get(player.getDisplayName() + "_HunterXp");
+            int level = (int) Main.Load(player.getDisplayName() + "_HunterLevel");
+            int playerXp = (int) Main.Load(player.getDisplayName() + "_HunterXp");
 
             if (event.getEntity().isDead()) {
                 switch (event.getEntityType()) {

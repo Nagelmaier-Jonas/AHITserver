@@ -117,7 +117,7 @@ public class Miner implements Listener {
 
         ItemStack skill2 = new ItemStack(Material.IRON_PICKAXE, 1);
         ItemMeta skill2Meta = skill2.getItemMeta();
-        skill2Meta.setDisplayName("Skill2");
+        skill2Meta.setDisplayName("Faster...");
         ArrayList<String> skill2Lore = new ArrayList<String>();
         skill2Lore.add("Skill2");
         skill2Lore.add("Costs: 10000 Coins");
@@ -166,7 +166,7 @@ public class Miner implements Listener {
                         player.sendMessage("You can't buy that you little motherfucker");
                     }
                     break;
-                case "Skill2":
+                case "Faster...":
                     if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000) {
                         Main.Save(player.getDisplayName() + "_MinerSkill2", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
