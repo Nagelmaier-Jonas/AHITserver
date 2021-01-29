@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 public class Menu {
 
+    //TODO: Set cursor position
+
     public static void openMenu(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 9, "Job");
 
@@ -92,27 +94,21 @@ public class Menu {
 
             switch (name){
                 case "Miner":
-                    player.closeInventory();
                     Miner.openMinerMenu(player);
                     break;
                 case "Cook":
-                    player.closeInventory();
                     Cook.openCookMenu(player);
                     break;
                 case "Farmer":
-                    player.closeInventory();
                     Farmer.openFarmerMenu(player);
                     break;
                 case "Hunter":
-                    player.closeInventory();
                     Hunter.openHunterMenu(player);
                     break;
                 case "Lumberjack":
-                    player.closeInventory();
                     Lumberjack.openLumberjackMenu(player);
                     break;
                 case "MonsterHunter":
-                    player.closeInventory();
                     MonsterHunter.openMonsterHunterMenu(player);
                     break;
                 case "Close":

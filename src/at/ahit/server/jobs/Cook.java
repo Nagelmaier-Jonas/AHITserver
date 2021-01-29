@@ -74,7 +74,6 @@ public class Cook {
                     player.sendMessage("obtained skill3");
                     break;
                 case "Close":
-                    player.closeInventory();
                     Menu.openMenu(player);
                     break;
             }

@@ -63,16 +63,18 @@ public class Auction {
 
     public static void openSellMenu(Player player){
         Inventory SellMenu = Bukkit.createInventory(player, InventoryType.ANVIL,"§4Select_Price");
+
+        SellMenu.setItem(0,new ItemStack(Material.AIR));
+        SellMenu.setItem(1,new ItemStack(Material.AIR));
+        SellMenu.setItem(2,new ItemStack(Material.AIR));
+
         player.openInventory(SellMenu);
     }
 
     public static void sellItem(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
         Inventory inventory = event.getClickedInventory();
-        ItemStack itemStack[] = event.getInventory().getContents();
-        player.sendMessage(itemStack[0] + "");
-        player.sendMessage(itemStack[1] + "");
-        player.sendMessage(itemStack[2] + "");
-
+        ItemStack itemStack = inventory.getItem(0);
+        itemStack.getItemMeta();
     }
 }

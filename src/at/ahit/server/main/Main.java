@@ -14,6 +14,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public class Main extends JavaPlugin {
 
     public static Main plugin;
@@ -76,5 +78,8 @@ public class Main extends JavaPlugin {
     public static Object Load(String path) {
         return config.get(path);
     }
+
+
+
 
 }

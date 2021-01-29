@@ -1,9 +1,16 @@
 package at.ahit.server.jobs;
 
+import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.CropState;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -11,7 +18,53 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class Farmer {
+public class Farmer implements Listener {
+
+    @EventHandler
+    public void breakBlock(BlockBreakEvent event) {
+        Player player = event.getPlayer();
+        int level = (int) Main.Load(player.getDisplayName() + "_FarmerLevel");
+        int playerXp = (int) Main.Load(player.getDisplayName() + "_FarmerXp");
+
+        if (event.getBlock().getState().equals(CropState.RIPE)){
+            switch (event.getBlock().getType()) {
+                case CARROTS:
+                    playerXp += 5;
+                    break;
+                case WHEAT_SEEDS:
+                    playerXp += 1;
+                    break;
+                case BEETROOT_SEEDS:
+                    playerXp += 1;
+                    break;
+                case POTATOES:
+                    playerXp += 10;
+                    break;
+                case COCOA_BEANS:
+                    playerXp += 10;
+                    break;
+                case NETHER_WART:
+                    playerXp += 10;
+                    break;
+        }
+
+        if (event.getBlock().getType().equals(Material.MELON) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
+            playerXp += 10;
+        }
+        if (event.getBlock().getType().equals(Material.PUMPKIN)){
+            playerXp += 10;
+        }
+
+        }
+        if (100 * level <= playerXp) {
+            event.getPlayer().sendMessage("You are now farming level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
+            Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_FarmerLevel", level);
+            Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_FarmerXp", 0);
+        } else {
+            Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_FarmerXp", playerXp);
+        }
+        Main.getPlugin().saveConfig();
+    }
 
     public static void openFarmerMenu(Player player){
         Inventory inventory = Bukkit.createInventory(null, 9, "Farmer");
@@ -74,7 +127,6 @@ public class Farmer {
                     player.sendMessage("obtained skill3");
                     break;
                 case "Close":
-                    player.closeInventory();
                     Menu.openMenu(player);
                     break;
             }
