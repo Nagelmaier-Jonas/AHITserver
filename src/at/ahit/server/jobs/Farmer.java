@@ -2,6 +2,7 @@ package at.ahit.server.jobs;
 
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
+import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.CropState;
@@ -17,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class Farmer implements Listener {
 
@@ -67,6 +70,28 @@ public class Farmer implements Listener {
     }
 
     public static void openFarmerMenu(Player player){
+
+        ArrayList<ItemStack> items = new ArrayList<>();
+
+        items.add(SkillMenu.createItem(player, Material.STONE_HOE, 1, "Skill1+", new ArrayList<>(
+                Arrays.asList("Your dealt damage is increased", "Costs: 5000c")), "Farmer", 1));
+        items.add(SkillMenu.createItem(player, Material.IRON_HOE, 1, "Skill2+", new ArrayList<>(Arrays.asList(
+                "Your damage taken will be reduced", "Costs: 10000c")), "Farmer", 2));
+        items.add(SkillMenu.createItem(player, Material.DIAMOND_HOE, 1, "Replenish", new ArrayList<>(Arrays.asList(
+                "Monster heads drop more often", "Costs: 25000c")), "Farmer", 3));
+        items.add(SkillMenu.createItem(Material.BARRIER, 1, "Close"));
+
+        Inventory inventory = SkillMenu.createSkillInventory(player, "Farmer", new HashMap<Integer, ItemStack>() {{
+            put(1, items.get(0));
+            put(3, items.get(1));
+            put(5, items.get(2));
+            put(8, items.get(3));
+        }});
+        player.openInventory(inventory);
+
+        //--
+
+        /*
         Inventory inventory = Bukkit.createInventory(null, 9, "Farmer");
 
         ItemStack skill1 = new ItemStack(Material.STONE_HOE,1);
@@ -106,7 +131,7 @@ public class Farmer implements Listener {
         inventory.setItem(5,skill3);
         inventory.setItem(8,close);
 
-        player.openInventory(inventory);
+        player.openInventory(inventory);*/
     }
 
     public static void onFarmerJobsUse(InventoryClickEvent event){

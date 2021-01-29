@@ -89,7 +89,6 @@ public class Miner implements Listener {
                 ItemMeta im = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
                 if(l.getBlock().getType() != Material.AIR) {
                     if (im instanceof Damageable) {
-                        event.getPlayer().sendMessage("Damaged");
                         Damageable dmg = (Damageable) im;
                         Random r = new Random();
                         switch (event.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY))
