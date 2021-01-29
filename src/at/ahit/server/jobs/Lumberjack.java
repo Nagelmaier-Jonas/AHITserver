@@ -228,7 +228,6 @@ public class Lumberjack implements Listener {
                     Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill3", true);
                     break;
                 case "Close":
-                    player.closeInventory();
                     Menu.openMenu(player);
                     break;
             }
