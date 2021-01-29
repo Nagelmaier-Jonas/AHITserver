@@ -37,10 +37,6 @@ public class JoinListener implements Listener {
             Main.Save(displayName + "_MinerSkill2", false);
             Main.Save(displayName + "_MinerSkill3", false);
 
-            Main.Save(displayName + "_CookSkill1", false);
-            Main.Save(displayName + "_CookSkill2", false);
-            Main.Save(displayName + "_CookSkill3", false);
-
             Main.Save(displayName + "_FarmerSkill1", false);
             Main.Save(displayName + "_FarmerSkill2", false);
             Main.Save(displayName + "_FarmerSkill3", false);

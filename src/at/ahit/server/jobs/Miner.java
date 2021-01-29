@@ -4,7 +4,6 @@ import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
 import org.bukkit.*;
-import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,7 +26,6 @@ import java.util.Random;
 
 public class Miner implements Listener {
 
-    @EventHandler
     public void breakBlock(BlockBreakEvent event) {
         Player player = event.getPlayer();
         int level = (int) Main.Load(player.getDisplayName() + "_MinerLevel");
@@ -71,8 +69,8 @@ public class Miner implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    // TODO: DEPENDS ON DIRECTION, MAGIER KÖNNTE ENCHANTLVL ERHÖHEN, as telekinesis
-    @EventHandler
+    // TODO: MAGIER KÖNNTE ENCHANTLVL ERHÖHEN, as telekinesis
+
     public void BreakThreeByThree(BlockBreakEvent event) {
 
         if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
@@ -279,7 +277,6 @@ public class Miner implements Listener {
             }
         }
     }
-
     @EventHandler
     public void GetBlockLookingDirection(PlayerInteractEvent event) {
         Main.Save(event.getPlayer().getDisplayName() + "_BlockHitDirection", event.getBlockFace().toString());
@@ -398,29 +395,27 @@ public class Miner implements Listener {
         }
     }
 
-    @EventHandler
     public void autoSmeltOre(BlockBreakEvent event) {
         if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1")) {
             switch (event.getBlock().getType()) {
                 case IRON_ORE:
-                    event.getPlayer().getInventory().addItem(new ItemStack(Material.IRON_INGOT));
+                    event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.IRON_INGOT));
                     event.setCancelled(true);
                     event.getBlock().setType(Material.AIR);
                     break;
                 case GOLD_ORE:
-                    event.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_INGOT));
+                    event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.GOLD_INGOT));
                     event.setCancelled(true);
                     event.getBlock().setType(Material.AIR);
                     break;
                 case STONE:
-                    event.getPlayer().getInventory().addItem(new ItemStack(Material.STONE));
+                    event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.STONE));
                     event.setCancelled(true);
                     event.getBlock().setType(Material.AIR);
                     break;
             }
         }
     }
-
 
     public static void giveHaste(Player p) {
         if (createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_MinerSkill2")) {
@@ -446,5 +441,12 @@ public class Miner implements Listener {
                 giveHaste(p);
             }
         }, 20, 20);//Time in ticks before first run and each time after that*/
+    }
+
+    @EventHandler
+    public void triggerEvents(BlockBreakEvent event) {
+        autoSmeltOre(event);
+        BreakThreeByThree(event);
+        breakBlock(event);
     }
 }
