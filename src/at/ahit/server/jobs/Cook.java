@@ -18,8 +18,9 @@ public class Cook {
 
         ItemStack skill1 = new ItemStack(Material.TORCH,1);
         ItemMeta skill1Meta = skill1.getItemMeta();
+        assert skill1Meta != null;
         skill1Meta.setDisplayName("Skill1");
-        ArrayList<String> skill1Lore = new ArrayList<String>();
+        ArrayList<String> skill1Lore = new ArrayList<>();
         skill1Lore.add("Skill1");
         skill1Lore.add("Costs: 1000c");
         skill1Meta.setLore(skill1Lore);
@@ -27,8 +28,9 @@ public class Cook {
 
         ItemStack skill2 = new ItemStack(Material.FLINT_AND_STEEL,1);
         ItemMeta skill2Meta = skill2.getItemMeta();
+        assert skill2Meta != null;
         skill2Meta.setDisplayName("Skill2");
-        ArrayList<String> skill2Lore = new ArrayList<String>();
+        ArrayList<String> skill2Lore = new ArrayList<>();
         skill2Lore.add("Skill2");
         skill2Lore.add("Costs: 1000c");
         skill2Meta.setLore(skill2Lore);
@@ -36,8 +38,9 @@ public class Cook {
 
         ItemStack skill3 = new ItemStack(Material.SMOKER,1);
         ItemMeta skill3Meta = skill3.getItemMeta();
+        assert skill3Meta != null;
         skill3Meta.setDisplayName("Skill3");
-        ArrayList<String> skill3Lore = new ArrayList<String>();
+        ArrayList<String> skill3Lore = new ArrayList<>();
         skill3Lore.add("Skill3");
         skill3Lore.add("Costs: 1000c");
         skill3Meta.setLore(skill3Lore);
@@ -45,6 +48,7 @@ public class Cook {
 
         ItemStack close = new ItemStack(Material.BARRIER,1);
         ItemMeta closeMeta = close.getItemMeta();
+        assert closeMeta != null;
         closeMeta.setDisplayName("Close");
         close.setItemMeta(closeMeta);
 
@@ -74,7 +78,6 @@ public class Cook {
                     player.sendMessage("obtained skill3");
                     break;
                 case "Close":
-                    player.closeInventory();
                     Menu.openMenu(player);
                     break;
             }

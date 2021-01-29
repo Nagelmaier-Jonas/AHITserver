@@ -8,10 +8,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class SetCoinsCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
@@ -21,13 +24,13 @@ public class SetCoinsCommand implements CommandExecutor {
                     if (target != null){
                         FileConfiguration config = Main.getConfigFile();
                         if (strings[1].matches("[+-]?\\d*(\\.\\d+)?")){
-                            if ((int)config.get(target.getDisplayName() + "_Amount") + Integer.parseInt(strings[1]) >= 0){
-                                config.set(target.getDisplayName() + "_Amount", (int)config.get(target.getDisplayName() + "_Amount") + Integer.parseInt(strings[1]));
+                            if ((int)Main.Load(target.getDisplayName() + "_Amount") + Integer.parseInt(strings[1]) >= 0){
+                                config.set(target.getDisplayName() + "_Amount", (int)Main.Load(target.getDisplayName() + "_Amount") + Integer.parseInt(strings[1]));
                                 Main.getPlugin().saveConfig();
                                 if ((boolean) Main.Load(player.getDisplayName() + "_Overlay")){
                                     Scoreboards.createScoreboard(config,player);
                                 }else{
-                                    player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                                    player.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard());
                                 }
                                 //Save Server
                                 target.sendMessage("§aDir wurden§6 " + strings[1] + " §aCoins hinzugefügt! Dein Guthaben beträgt:§6 " + config.get(player.getDisplayName() + "_Amount"));
@@ -44,7 +47,7 @@ public class SetCoinsCommand implements CommandExecutor {
                                 if ((boolean) Main.Load(player.getDisplayName() + "_Overlay")){
                                     Scoreboards.createScoreboard(config,player);
                                 }else{
-                                    player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                                    player.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard());
                                 }
                                 //Save Server
                                 target.sendMessage("§aDein Geld wurde auf§6 " + split[1] + " §agesetzt!");

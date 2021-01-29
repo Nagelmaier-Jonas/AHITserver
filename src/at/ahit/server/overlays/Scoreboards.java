@@ -9,10 +9,12 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
+import java.util.Objects;
+
 public class Scoreboards {
 
     public static void createScoreboard(FileConfiguration config, Player player){
-        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        Scoreboard scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
         Objective objective = scoreboard.registerNewObjective("Scoreboard","dummy","§6§l>>Info<<");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         Score score1 = objective.getScore(ChatColor.DARK_RED + "-=-=-=-=-=-=-=-");
