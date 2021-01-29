@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -30,7 +31,6 @@ public class Lumberjack implements Listener {
 
         int level = (int) Main.Load(player.getDisplayName() + "_LumberjackLevel");
         int playerXp = (int) Main.Load(player.getDisplayName() + "_LumberjackXp");
-
 
         Material m = event.getBlock().getType();
 
@@ -74,54 +74,67 @@ public class Lumberjack implements Listener {
         List<Material> axes = Arrays.asList((new Material[] { Material.DIAMOND_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.WOODEN_AXE, Material.STONE_AXE, Material.NETHERITE_AXE }).clone());
 
         if (woodTypes.containsKey(m) && axes.contains(player.getInventory().getItemInMainHand().getType())) {
-            int blocksBroken = breakAdjacentBlocks(player, block, m, m, 1);
+
+            int blocksBroken = breakAdjacentBlocks(player, block, m);
             playerXp += blocksBroken * woodTypes.get(m);
 
-            ItemStack i = player.getInventory().getItemInMainHand();
+            // ItemStack i = player.getInventory().getItemInMainHand();
             // i.setDurability((short) (i.getDurability() - (blocksBroken))); /// (i.getEnchantmentLevel(Enchantment.DURABILITY) + 1)))); // TODO: FIX UNBREAKING ENCHANTMENT!
 
             // TODO Fix Axe Durablity
+
+            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
+
+            if (im instanceof Damageable) {
+                Damageable dmg = (Damageable) im;
+                Random r = new Random();
+
+                int damageToDeal = 0;
+
+                for (int i = 0; i < blocksBroken; i++)
+                    switch (event.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY))
+                    {
+                        case 0:
+                            damageToDeal++;
+                            break;
+                        case 1:
+                            if(r.nextInt(100) <= 80)
+                                damageToDeal++;
+                            break;
+                        case 2:
+                            if(r.nextInt(100) <= 60)
+                                damageToDeal++;
+                            break;
+                        case 3:
+                            if(r.nextInt(100) <= 50)
+                                damageToDeal++;
+                            break;
+                        case 4:
+                            if(r.nextInt(100) <= 40)
+                                damageToDeal++;
+                            break;
+                        default:
+                            // Invalid Enchantment Level
+                            break;
+                    }
+
+                // player.sendMessage(damageToDeal + " " + blocksBroken);
+
+                dmg.setDamage(dmg.getDamage() + damageToDeal);
+                event.getPlayer().getInventory().getItemInMainHand().setItemMeta(im);
+
+
+                if (player.getInventory().getItemInMainHand().getType().getMaxDurability() < dmg.getDamage()) {
+                    player.getInventory().remove(player.getInventory().getItemInMainHand());
+                }
+            }
+
 
             // Damageable meta = (Damageable) i.getItemMeta();
 
             // meta.setDamage(meta.getDamage() + blocksBroken / i.getEnchantmentLevel(Enchantment.DURABILITY) + 1);
             // meta.setDamage(100);
         }
-
-        /*switch (event.getBlock().getType()){
-            case OAK_LOG:
-                playerXp += 5;
-                breakAdjacentBlocks(player, block, Material.OAK_LOG);
-                break;
-            case DARK_OAK_LOG:
-                playerXp += 7;
-                breakAdjacentBlocks(player, block, Material.DARK_OAK_LOG);
-                break;
-            case BIRCH_LOG:
-                playerXp += 7;
-                breakAdjacentBlocks(player, block, Material.BIRCH_LOG);
-                break;
-            case JUNGLE_LOG:
-                playerXp += 3;
-                breakAdjacentBlocks(player, block, Material.JUNGLE_LOG);
-                break;
-            case SPRUCE_LOG:
-                playerXp += 5;
-                breakAdjacentBlocks(player, block, Material.SPRUCE_LOG);
-                break;
-            case ACACIA_LOG:
-                playerXp += 7;
-                breakAdjacentBlocks(player, block, Material.ACACIA_LOG);
-                break;
-            case CRIMSON_STEM:
-                playerXp += 10;
-                breakAdjacentBlocks(player, block, Material.CRIMSON_STEM);
-                break;
-            case WARPED_STEM:
-                playerXp += 10;
-                breakAdjacentBlocks(player, block, Material.WARPED_STEM);
-                break;
-        }*/
 
         if(100 * level <= playerXp) {
             player.sendMessage("You are now lumberjack level " + ChatColor.AQUA +  ++level + ChatColor.RESET + "!");
@@ -133,13 +146,58 @@ public class Lumberjack implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    public static int breakAdjacentBlocks(Player p, Block b, Material m, Material drop, double chance) {
+    public static void UptadeMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
+        ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+
+        if (im instanceof Damageable) {
+            Damageable dmg = (Damageable) im;
+            Random r = new Random();
+
+            int damageToDeal = 0;
+
+            for (int i = 0; i < blocksBroken; i++)
+                switch (p.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY)) {
+                    case 0:
+                        damageToDeal++;
+                        break;
+                    case 1:
+                        if (r.nextInt(100) <= 80)
+                            damageToDeal++;
+                        break;
+                    case 2:
+                        if (r.nextInt(100) <= 60)
+                            damageToDeal++;
+                        break;
+                    case 3:
+                        if (r.nextInt(100) <= 50)
+                            damageToDeal++;
+                        break;
+                    case 4:
+                        if (r.nextInt(100) <= 40)
+                            damageToDeal++;
+                        break;
+                    default:
+                        // Invalid Enchantment Level
+                        break;
+                }
+
+            dmg.setDamage(dmg.getDamage() + damageToDeal);
+            p.getInventory().getItemInMainHand().setItemMeta(im);
+
+
+            if (p.getInventory().getItemInMainHand().getType().getMaxDurability() < dmg.getDamage()) {
+                p.getInventory().remove(p.getInventory().getItemInMainHand());
+            }
+        }
+    }
+
+    public static int breakAdjacentBlocks(Player p, Block b, Material m) {
         if ((boolean) Main.Load(p.getDisplayName() + "_LumberjackSkill3"))
-            return breakAdjacentBlocks(p, b, m, drop, chance, 1);
+            return breakAdjacentBlocks(p, b, m, 0, 1000);
         return 1;
     }
 
-    private static int breakAdjacentBlocks(Player p, Block b, Material m, Material drop, double chance, int count) {
+    private static int breakAdjacentBlocks(Player p, Block b, Material m, int count, int maxCount) {
         World world = p.getWorld();
 
         Random random = new Random();
@@ -148,21 +206,21 @@ public class Lumberjack implements Listener {
         // p.sendMessage(b.getLocation().toString());
 
         //p.getInventory().addItem(new ItemStack(b.getType()));
-        if (random.nextDouble() >= 1 - chance)
-            world.dropItem(b.getLocation(), new ItemStack(drop));
-
-        b.setType(Material.AIR);
+        b.breakNaturally();
 
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++)
                 for (int k = -1; k <= 1; k++) {
-                    if (b.getRelative(i, j, k).getType() == m) {
-                        count += breakAdjacentBlocks(p, b.getRelative(i, j, k), m, drop, chance, 0);
+                    if (b.getRelative(i, j, k).getType() == m && maxCount > 1) {
+                        int brokenBlocks = breakAdjacentBlocks(p, b.getRelative(i, j, k), m, 0, maxCount - 1);
+
+                        count += brokenBlocks;
+                        maxCount -= brokenBlocks;
                     }
                 }
 
 
-        return count++;
+        return ++count;
     }
 
     public static void openLumberjackMenu(Player player){
