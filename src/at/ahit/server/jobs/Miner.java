@@ -23,7 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
-//TODO: lvl shop, AS AUF BIGMIER, DAMAGE ITEM ON USE AS
+//TODO: lvl shop, AS AUF BIGMIER,  DAMAGE ITEM ON USE AS
 public class Miner implements Listener {
 
     public void breakBlock(Player player, Block b) {
