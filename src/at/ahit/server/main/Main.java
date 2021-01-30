@@ -4,7 +4,6 @@ import at.ahit.server.abilities.MinerAbilities;
 import at.ahit.server.commands.*;
 import at.ahit.server.enums.Color;
 import at.ahit.server.jobs.*;
-import at.ahit.server.listeners.CustomKillListener;
 import at.ahit.server.listeners.InventoryClickListener;
 import at.ahit.server.listeners.JoinListener;
 import org.bukkit.Bukkit;
@@ -48,8 +47,6 @@ public class Main extends JavaPlugin {
         manager.registerEvents(new Farmer(),this);
         manager.registerEvents(new MonsterHunter(),this);
         manager.registerEvents(new Wizard(),this);
-
-        manager.registerEvents(new CustomKillListener(), this);
     }
 
     public void registerCommands(){

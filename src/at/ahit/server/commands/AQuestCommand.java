@@ -50,22 +50,23 @@ public class AQuestCommand implements CommandExecutor {
                 monsterhunter.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to view you Monsterhunter Quests").color(ChatColor.GOLD).italic(true).create()));
 
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 player.spigot().sendMessage(wizard);player.spigot().sendMessage(farmer);
                 player.spigot().sendMessage(hunter);player.spigot().sendMessage(lumber);
                 player.spigot().sendMessage(miner);player.spigot().sendMessage(monsterhunter);
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
+
+
 
                 return true;
             }
 
             if (strings[0].equals("wizard") && strings.length == 1){
-                TextComponent wizardq1 = new TextComponent("Do a magic trick");wizardq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest wizard q1"));
-                TextComponent wizardq2 = new TextComponent("Shit someone in their house");wizardq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest wizard q2"));
-                TextComponent wizardq3 = new TextComponent("Summon the Weathergod");wizardq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest wizard q3"));
-                TextComponent wizardq4 = new TextComponent("Get kicked for Flying");wizardq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest wizard q4"));
-                TextComponent wizardq5 = new TextComponent("Get hit by lightning");wizardq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest wizard q5"));
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                TextComponent wizardq1 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");wizardq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q1"));
+                TextComponent wizardq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");wizardq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q2"));
+                TextComponent wizardq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");wizardq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q3"));
+                TextComponent wizardq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");wizardq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q4"));
+                TextComponent wizardq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");wizardq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q5"));player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 wizardq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(wizardq1);
@@ -81,7 +82,7 @@ public class AQuestCommand implements CommandExecutor {
                 wizardq5.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(wizardq5);
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 return true;
             }
 
@@ -107,11 +108,11 @@ public class AQuestCommand implements CommandExecutor {
             if (strings[0].equals("farmer") && strings.length == 1){
                 TextComponent farmerq1 = new TextComponent(ChatColor.AQUA + "Collect you first Seeds " + ChatColor.GREEN + "(4x Seeds required)");farmerq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q1"));
                 TextComponent farmerq2 = new TextComponent(ChatColor.AQUA + "Craft a Compostor " + ChatColor.GREEN +  "(1x Compostor required)");farmerq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q2"));
-                TextComponent farmerq3 = new TextComponent(ChatColor.AQUA + "Craft a Diamond Hoe " + ChatColor.GREEN + "(1x Netherite Hoe)");farmerq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q3"));
-                TextComponent farmerq4 = new TextComponent(ChatColor.AQUA + "Craft a Netherite Hoe "+ ChatColor.GREEN + "(1x Diamond Hoe)");farmerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q4"));
+                TextComponent farmerq3 = new TextComponent(ChatColor.AQUA + "Craft a Diamond Hoe " + ChatColor.GREEN + "(1x Diamond Hoe)");farmerq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q3"));
+                TextComponent farmerq4 = new TextComponent(ChatColor.AQUA + "Craft a Netherite Hoe "+ ChatColor.GREEN + "(1x Netherite Hoe)");farmerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q4"));
                 TextComponent farmerq5 = new TextComponent(ChatColor.AQUA + "Build a Big Farm \n" +
-                        ChatColor.GREEN + "(64x Pumpkin Pies required");farmerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q5"));
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                        ChatColor.GREEN + "(64x Pumpkin Pies required)");farmerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q5"));
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 farmerq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(farmerq1);
@@ -127,26 +128,27 @@ public class AQuestCommand implements CommandExecutor {
                 farmerq5.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(farmerq5);
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
+
                 return true;
             }
 
             if (strings[0].equals("farmer")){
                 switch (strings[1]){
                     case "q1":
-                        getInventoryLocation(Material.WHEAT_SEEDS , 4, player.getInventory(), player, 12, true);
+                        getInventoryLocation(Material.WHEAT_SEEDS , 4, player, 12, true);
                         break;
                     case "q2":
-                        getInventoryLocation(Material.COMPOSTER , 1, player.getInventory(), player, 17, false);
+                        getInventoryLocation(Material.COMPOSTER , 1, player, 17, false);
                         break;
                     case "q3":
-                        getInventoryLocation(Material.DIAMOND_HOE , 1, player.getInventory(), player, 100, false);
+                        getInventoryLocation(Material.DIAMOND_HOE , 1, player, 100, false);
                         break;
                     case "q4":
-                        getInventoryLocation(Material.NETHERITE_HOE , 1, player.getInventory(), player, 250, false);
+                        getInventoryLocation(Material.NETHERITE_HOE , 1, player, 250, false);
                         break;
                     case "q5":
-                        getInventoryLocation(Material.PUMPKIN_PIE , 64, player.getInventory(), player, 400, true);
+                        getInventoryLocation(Material.PUMPKIN_PIE , 64, player, 400, true);
                         break;
                     default:
                         return true;
@@ -157,11 +159,12 @@ public class AQuestCommand implements CommandExecutor {
             if (strings[0].equals("hunter") && strings.length == 1){
                 TextComponent hunterq1 = new TextComponent(ChatColor.AQUA + "Get your first food " + ChatColor.GREEN +
                         "(requires 3x Raw Beef)");hunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q1"));
-                TextComponent hunterq2 = new TextComponent(ChatColor.AQUA + " " + ChatColor.GREEN + "");hunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q2"));
+                TextComponent hunterq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");hunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q2"));
                 TextComponent hunterq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");hunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q3"));
                 TextComponent hunterq4 = new TextComponent(ChatColor.AQUA + "Get a Saddle " + ChatColor.GREEN + "(1x Saddle required)");hunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q4"));
                 TextComponent hunterq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");hunterq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q5"));
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
+
                 hunterq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(hunterq1);
@@ -177,26 +180,27 @@ public class AQuestCommand implements CommandExecutor {
                 hunterq5.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(hunterq5);
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
+
                 return true;
             }
 
             if (strings[0].equals("hunter")){
                 switch (strings[1]){
                     case "q1":
-                        getInventoryLocation(Material.BEEF , 3, player.getInventory(), player, 12, true);
+                        getInventoryLocation(Material.BEEF , 3,  player, 12, false);
                         break;
                     case "q2":
-                        getInventoryLocation(Material.WHEAT_SEEDS , 4, player.getInventory(), player, 12, true);
+
                         break;
                     case "q3":
-                        getInventoryLocation(Material.WHEAT_SEEDS , 4, player.getInventory(), player, 12, true);
+
                         break;
                     case "q4":
-                        getInventoryLocation(Material.WHEAT_SEEDS , 4, player.getInventory(), player, 12, true);
+                        getInventoryLocation(Material.SADDLE , 1,  player, 12, false);
                         break;
                     case "q5":
-                        getInventoryLocation(Material.WHEAT_SEEDS , 4, player.getInventory(), player, 12, true);
+
                         break;
                     default:
                         return true;
@@ -210,7 +214,7 @@ public class AQuestCommand implements CommandExecutor {
                 TextComponent lumberq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q3"));
                 TextComponent lumberq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q4"));
                 TextComponent lumberq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q5"));
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 lumberq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(lumberq1);
@@ -226,7 +230,7 @@ public class AQuestCommand implements CommandExecutor {
                 lumberq5.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(lumberq5);
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 return true;
             }
 
@@ -254,7 +258,7 @@ public class AQuestCommand implements CommandExecutor {
                 TextComponent minerq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q3"));
                 TextComponent minerq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q4"));
                 TextComponent minerq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q5"));
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 minerq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(minerq1);
@@ -270,7 +274,7 @@ public class AQuestCommand implements CommandExecutor {
                 minerq5.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(minerq5);
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 return true;
             }
 
@@ -298,7 +302,7 @@ public class AQuestCommand implements CommandExecutor {
                 TextComponent monsterhunterq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q3"));
                 TextComponent monsterhunterq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q4"));
                 TextComponent monsterhunterq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q5"));
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 monsterhunterq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(monsterhunterq1);
@@ -314,7 +318,7 @@ public class AQuestCommand implements CommandExecutor {
                 monsterhunterq5.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(monsterhunterq5);
-                player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
+                player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 return true;
             }
 

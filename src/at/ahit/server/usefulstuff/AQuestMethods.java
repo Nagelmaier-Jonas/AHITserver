@@ -1,47 +1,39 @@
 package at.ahit.server.usefulstuff;
 
+import at.ahit.server.main.Main;
+import at.ahit.server.overlays.Scoreboards;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import static at.ahit.server.main.Main.config;
+
+
 
 public class AQuestMethods {
 
-    public static void getInventoryLocation(Material material, Integer amount, Inventory inventory, Player player, Integer reward, Boolean removeitem){
+    public static void getInventoryLocation(Material material, Integer amount, Player player, Integer reward, Boolean removeitem){
 
-        ItemStack[] itemstack = inventory.getContents();
 
-        /*for (ItemStack i : itemstack) {
+        for (ItemStack i : player.getInventory()) {
+            if (i != null){
 
-            if (i.getType() == material && i.getAmount() >= amount){
+                if (i.getType() == material){
+                    if (i.getAmount() >= amount) {
 
-                if (removeitem){
-                    i.setAmount(i.getAmount() -amount);
+                        if (removeitem) {
+                            i.setAmount(i.getAmount() - amount);
+                        }
+                        Main.Save(player.getDisplayName() + "_Amount", (Integer) Main.Load(player.getDisplayName() + "_Amount") + reward);
+                        player.sendMessage(ChatColor.GREEN + "You got " + reward + " Coins!");
+                        Scoreboards.createScoreboard(config, player);
+                        return;
+                    }
+
                 }
-                 player.sendMessage(ChatColor.GREEN + "You got " + reward + " Coins!");
-
-            }
-
-        }*/
-        if (inventory.getItem(7).getType() == material){
-            if (inventory.getItem(7).getAmount() >= amount){
-
-                if (removeitem) {
-                    inventory.getItem(7).setAmount(inventory.getItem(7).getAmount() - amount);
-                }
-
-                player.sendMessage(ChatColor.GREEN + "You got " + reward + " Coins!");
-            }
-            else {
-                player.sendMessage(ChatColor.RED +  "You don´t have enough of the requested Item!");
+                player.sendMessage(ChatColor.RED + "You don´t have the Quest Item in your Inventory!");
             }
         }
-        else {
-            player.sendMessage(ChatColor.RED +  "You don´t have the quest item on Slot 7!");
-        }
-
-
 
     }
 }
