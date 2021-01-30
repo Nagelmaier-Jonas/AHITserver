@@ -47,8 +47,6 @@ public class Main extends JavaPlugin {
         manager.registerEvents(new Farmer(),this);
         manager.registerEvents(new MonsterHunter(),this);
         manager.registerEvents(new Wizard(),this);
-
-        manager.registerEvents(new CustomKillListener(), this);
     }
 
     public void registerCommands(){
