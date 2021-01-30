@@ -44,7 +44,6 @@ public class MonsterHunter implements Listener {
                         Main.Save(player.getDisplayName() + "_MonsterHunterSkill1", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                        player.closeInventory();
                         MonsterHunter.openMonsterHunterMenu(player);
                     } else {
                         MonsterHunter.openMonsterHunterMenu(player);
@@ -56,7 +55,6 @@ public class MonsterHunter implements Listener {
                         Main.Save(player.getDisplayName() + "_MonsterHunterSkill2", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                        player.closeInventory();
                         MonsterHunter.openMonsterHunterMenu(player);
                     } else {
                         MonsterHunter.openMonsterHunterMenu(player);
@@ -68,7 +66,6 @@ public class MonsterHunter implements Listener {
                         Main.Save(player.getDisplayName() + "_MonsterHunterSkill3", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                        player.closeInventory();
                         MonsterHunter.openMonsterHunterMenu(player);
                     } else {
                         MonsterHunter.openMonsterHunterMenu(player);

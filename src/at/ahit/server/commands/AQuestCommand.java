@@ -10,13 +10,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
-import static at.ahit.server.bullshit.Bullshit.getInventoryLocation;
+import static at.ahit.server.usefulstuff.AQuestMethods.getInventoryLocation;
 
 
 public class AQuestCommand implements CommandExecutor {
@@ -161,10 +157,10 @@ public class AQuestCommand implements CommandExecutor {
             if (strings[0].equals("hunter") && strings.length == 1){
                 TextComponent hunterq1 = new TextComponent(ChatColor.AQUA + "Get your first food " + ChatColor.GREEN +
                         "(requires 3x Raw Beef)");hunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q1"));
-                TextComponent hunterq2 = new TextComponent(ChatColor.AQUA + "Shit someone in their house " + ChatColor.GREEN + "");hunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q2"));
-                TextComponent hunterq3 = new TextComponent(ChatColor.AQUA + "Summon the Weathergod " + ChatColor.GREEN + "");hunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q3"));
-                TextComponent hunterq4 = new TextComponent(ChatColor.AQUA + "Get kicked for Flying " + ChatColor.GREEN + "");hunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q4"));
-                TextComponent hunterq5 = new TextComponent(ChatColor.AQUA + "Get hit by lightning " + ChatColor.GREEN + "");hunterq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q5"));
+                TextComponent hunterq2 = new TextComponent(ChatColor.AQUA + " " + ChatColor.GREEN + "");hunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q2"));
+                TextComponent hunterq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");hunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q3"));
+                TextComponent hunterq4 = new TextComponent(ChatColor.AQUA + "Get a Saddle " + ChatColor.GREEN + "(1x Saddle required)");hunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q4"));
+                TextComponent hunterq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");hunterq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q5"));
                 player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
                 hunterq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
@@ -209,11 +205,11 @@ public class AQuestCommand implements CommandExecutor {
             }
 
             if (strings[0].equals("lumber") && strings.length == 1){
-                TextComponent lumberq1 = new TextComponent("Do a magic trick");lumberq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q1"));
-                TextComponent lumberq2 = new TextComponent("Shit someone in their house");lumberq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q2"));
-                TextComponent lumberq3 = new TextComponent("Summon the Weathergod");lumberq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q3"));
-                TextComponent lumberq4 = new TextComponent("Get kicked for Flying");lumberq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q4"));
-                TextComponent lumberq5 = new TextComponent("Get hit by lightning");lumberq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q5"));
+                TextComponent lumberq1 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q1"));
+                TextComponent lumberq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q2"));
+                TextComponent lumberq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q3"));
+                TextComponent lumberq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q4"));
+                TextComponent lumberq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q5"));
                 player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
                 lumberq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
@@ -253,11 +249,11 @@ public class AQuestCommand implements CommandExecutor {
             }
 
             if (strings[0].equals("miner") && strings.length == 1){
-                TextComponent minerq1 = new TextComponent("Do a magic trick");minerq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q1"));
-                TextComponent minerq2 = new TextComponent("Shit someone in their house");minerq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q2"));
-                TextComponent minerq3 = new TextComponent("Summon the Weathergod");minerq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q3"));
-                TextComponent minerq4 = new TextComponent("Get kicked for Flying");minerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q4"));
-                TextComponent minerq5 = new TextComponent("Get hit by lightning");minerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q5"));
+                TextComponent minerq1 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q1"));
+                TextComponent minerq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q2"));
+                TextComponent minerq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q3"));
+                TextComponent minerq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q4"));
+                TextComponent minerq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q5"));
                 player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
                 minerq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
@@ -297,11 +293,11 @@ public class AQuestCommand implements CommandExecutor {
             }
 
             if (strings[0].equals("monsterhunter") && strings.length == 1){
-                TextComponent monsterhunterq1 = new TextComponent("Do a magic trick");monsterhunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q1"));
-                TextComponent monsterhunterq2 = new TextComponent("Shit someone in their house");monsterhunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q2"));
-                TextComponent monsterhunterq3 = new TextComponent("Summon the Weathergod");monsterhunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q3"));
-                TextComponent monsterhunterq4 = new TextComponent("Get kicked for Flying");monsterhunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q4"));
-                TextComponent monsterhunterq5 = new TextComponent("Get hit by lightning");monsterhunterq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q5"));
+                TextComponent monsterhunterq1 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q1"));
+                TextComponent monsterhunterq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q2"));
+                TextComponent monsterhunterq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q3"));
+                TextComponent monsterhunterq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q4"));
+                TextComponent monsterhunterq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q5"));
                 player.sendMessage(ChatColor.BLUE + "--=========----=========----=========--");
                 monsterhunterq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
