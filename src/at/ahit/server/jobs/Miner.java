@@ -23,7 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
-//TODO: lvl shop, AS AUF BIGMIER,  DAMAGE ITEM ON USE AS, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER
+//TODO: lvl shop, AS AUF BIGMIER, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER, MAGIER BLITZ
 public class Miner implements Listener {
 
     public void checkBlockXp(Player player, Block b) {

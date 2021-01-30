@@ -31,7 +31,7 @@ public class JoinListener implements Listener {
 
     @EventHandler
     public void handlePlayerLeave(PlayerQuitEvent event) {
-        reloadScoreboard();
+        reloadScoreboardOffline();
     }
 
 
@@ -39,6 +39,12 @@ public class JoinListener implements Listener {
         List<Player> pList = (List<Player>) Bukkit.getOnlinePlayers();
         for (Player p : pList) {
             Scoreboards.createScoreboard(Main.getConfigFile(), p);
+        }
+    }
+    public static void reloadScoreboardOffline() {
+        List<Player> pList = (List<Player>) Bukkit.getOnlinePlayers();
+        for (Player p : pList) {
+            Scoreboards.createScoreboardOnLeave(Main.getConfigFile(), p);
         }
     }
 
