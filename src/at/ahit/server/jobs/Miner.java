@@ -5,13 +5,9 @@ import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.MyCustomConfig;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
-import net.minecraft.server.v1_16_R3.DataWatcher;
-import net.minecraft.server.v1_16_R3.ItemSuspiciousStew;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,6 +43,7 @@ public class Miner implements Listener {
                     case REDSTONE_ORE:
                     case NETHER_QUARTZ_ORE:
                     case NETHER_GOLD_ORE:
+                    case LAPIS_ORE:
                         playerXp += 10;
                         Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
                         break;
@@ -79,7 +76,7 @@ public class Miner implements Listener {
             config1.Save(b.getLocation().getWorld().getName(), LocationList);
         }
         if (1000 * level <= playerXp) {
-            player.getPlayer().sendMessage("You are now mining level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
+            Objects.requireNonNull(player.getPlayer()).sendMessage("You are now mining level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
             Main.getConfigFile().set(player.getPlayer().getDisplayName() + "_MinerLevel", level);
             Main.getConfigFile().set(player.getPlayer().getDisplayName() + "_MinerXp", 0);
         } else {
@@ -263,7 +260,6 @@ public class Miner implements Listener {
         }
         if (breakableStuff.contains(event.getBlock().getType())) {
             for (Location l : locationList) {
-                ItemMeta im = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
                 if (breakableStuff.contains(l.getBlock().getType())) {
                     checkBlockXp(event.getPlayer(), event.getBlock());
                     //DAMAGE ITEM
@@ -521,7 +517,7 @@ public class Miner implements Listener {
     public static ArrayList<String> world_nether = new ArrayList<>();
     public static ArrayList<String> world_the_end = new ArrayList<>();
     public static ArrayList<Material> restrictedItems = new ArrayList<Material>(Arrays.asList(Material.GOLD_ORE, Material.IRON_ORE));
-    public static ArrayList<Material> luckMaterial = new ArrayList<Material>(Arrays.asList(Material.DIAMOND_ORE, Material.COAL_ORE, Material.EMERALD_ORE, Material.REDSTONE_ORE, Material.NETHER_QUARTZ_ORE, Material.GLOWSTONE, Material.NETHER_GOLD_ORE));
+    public static ArrayList<Material> luckMaterial = new ArrayList<Material>(Arrays.asList(Material.DIAMOND_ORE, Material.COAL_ORE, Material.EMERALD_ORE, Material.REDSTONE_ORE, Material.NETHER_QUARTZ_ORE, Material.GLOWSTONE, Material.NETHER_GOLD_ORE, Material.LAPIS_ORE));
     public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
         ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
 
@@ -612,6 +608,8 @@ public class Miner implements Listener {
                 return Material.GLOWSTONE_DUST;
             case NETHER_GOLD_ORE:
                 return Material.GOLD_NUGGET;
+            case LAPIS_ORE:
+                return Material.LAPIS_LAZULI;
         }
         return l.getBlock().getType();
     }

@@ -33,9 +33,16 @@ public class Main extends JavaPlugin {
         registerListener();
         registerCommands();
         System.out.println(Color.GREEN + "Plugin load successful" + Color.RESET);
-
+        registerListInit();
         Miner.startRunnable();
     }
+
+    public void registerListInit() {
+        Miner.config1.Save("world", Miner.world);
+        Miner.config1.Save("world_nether", Miner.world_nether);
+        Miner.config1.Save("world_the_end", Miner.world_the_end);
+    }
+
     public void registerListener(){
         PluginManager manager = Bukkit.getPluginManager();
         manager.registerEvents(new JoinListener(), this);
