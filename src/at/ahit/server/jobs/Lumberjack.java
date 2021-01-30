@@ -63,6 +63,9 @@ public class Lumberjack implements Listener {
             }
 
             UptadeMainHand(player, 1);
+            event.getBlock().breakNaturally();
+
+            event.setCancelled(true);
 
             //breakAdjacentBlocks(player, block, m, leafTypes.get(m), ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill3")) ? 0.2 : 0.05);
         }
@@ -179,6 +182,7 @@ public class Lumberjack implements Listener {
     }
 
     // TODO: Adjust Prices
+    // TODO: ColorCodes in Descriptions!
     public static void openLumberjackMenu(Player player){
         Inventory inventory = Bukkit.createInventory(null, 9, "Lumberjack");
 
@@ -186,7 +190,7 @@ public class Lumberjack implements Listener {
         ItemMeta skill1Meta = skill1.getItemMeta();
         skill1Meta.setDisplayName("Luck");
         ArrayList<String> skill1Lore = new ArrayList<String>();
-        skill1Lore.add("4x Sapling and Apple Chance when mining Leaves");
+        skill1Lore.add("Over 4 times sapling & apple chance!");
         skill1Lore.add("Costs: 1000c");
         skill1Meta.setLore(skill1Lore);
         skill1.setItemMeta(skill1Meta);
@@ -195,7 +199,7 @@ public class Lumberjack implements Listener {
         ItemMeta skill2Meta = skill2.getItemMeta();
         skill2Meta.setDisplayName("Haste");
         ArrayList<String> skill2Lore = new ArrayList<String>();
-        skill2Lore.add("Haste while holding an Axe");
+        skill2Lore.add("Haste while holding an axe!");
         skill2Lore.add("Costs: 1000c");
         skill2Meta.setLore(skill2Lore);
         skill2.setItemMeta(skill2Meta);
@@ -204,7 +208,7 @@ public class Lumberjack implements Listener {
         ItemMeta skill3Meta = skill3.getItemMeta();
         skill3Meta.setDisplayName("Treepacitator");
         ArrayList<String> skill3Lore = new ArrayList<String>();
-        skill3Lore.add("Mine whole Trees!");
+        skill3Lore.add("Mine whole trees!");
         skill3Lore.add("Costs: 1000c");
         skill3Meta.setLore(skill3Lore);
         skill3.setItemMeta(skill3Meta);
@@ -230,15 +234,15 @@ public class Lumberjack implements Listener {
             String name = itemStack.getItemMeta().getDisplayName();
 
             switch (name){
-                case "Skill1":
+                case "Luck":
                     player.sendMessage("Obtained new skill: Luck");
                     Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill1", true);
                     break;
-                case "Skill2":
+                case "Haste":
                     player.sendMessage("Obtained new skill: Haste");
                     Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill2", true);
                     break;
-                case "Skill3":
+                case "Treepacitator":
                     player.sendMessage("Obtained new skill: Treepacitator");
                     Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill3", true);
                     break;
