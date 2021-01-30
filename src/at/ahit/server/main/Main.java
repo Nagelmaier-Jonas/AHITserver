@@ -7,6 +7,7 @@ import at.ahit.server.jobs.*;
 import at.ahit.server.listeners.InventoryClickListener;
 import at.ahit.server.listeners.JoinListener;
 import at.ahit.server.overlays.MyCustomConfig;
+import at.ahit.server.usefulstuff.ChristophsTests;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -46,6 +47,8 @@ public class Main extends JavaPlugin {
         manager.registerEvents(new Farmer(),this);
         manager.registerEvents(new MonsterHunter(),this);
         manager.registerEvents(new Wizard(),this);
+
+        manager.registerEvents(new ChristophsTests(),this);
     }
     public void registerCommands(){
         Objects.requireNonNull(getCommand("stats")).setExecutor(new StatsCommand());
