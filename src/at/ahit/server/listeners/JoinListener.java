@@ -12,7 +12,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -22,9 +24,22 @@ public class JoinListener implements Listener {
     public void handlePlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         firstJoin(Main.getConfigFile(),player);
-        Scoreboards.createScoreboard(Main.getConfigFile(),player);
+        reloadScoreboard();
         customjoinmessage(event);
         event.setJoinMessage("");
+    }
+
+    @EventHandler
+    public void handlePlayerLeave(PlayerQuitEvent event) {
+        reloadScoreboard();
+    }
+
+
+    public static void reloadScoreboard() {
+        List<Player> pList = (List<Player>) Bukkit.getOnlinePlayers();
+        for (Player p : pList) {
+            Scoreboards.createScoreboard(Main.getConfigFile(), p);
+        }
     }
 
     public static void firstJoin(FileConfiguration config, Player player){
