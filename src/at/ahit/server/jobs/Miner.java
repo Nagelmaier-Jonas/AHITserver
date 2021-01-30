@@ -2,6 +2,7 @@ package at.ahit.server.jobs;
 
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
+import at.ahit.server.overlays.MyCustomConfig;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.*;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -498,4 +500,13 @@ public class Miner implements Listener {
                 }
             }
     }
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        MyCustomConfig config1 = MyCustomConfig.getConfig();
+        config1.set(event.getBlock().getLocation()+"", event.getBlock().getType());
+        config1.save();
+        //String str = config1.getString(event.getBlock().getLocation()+"");
+    }
+
+
 }
