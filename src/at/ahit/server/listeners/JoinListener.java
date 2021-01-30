@@ -55,7 +55,13 @@ public class JoinListener implements Listener {
     public static void setConfig(String displayName){
         Main.Save(displayName + "_HasPlayedBefore",true);
         Main.Save(displayName + "_Amount",0);
-        Main.Save(displayName + "Overlay",true);
+        Main.Save(displayName + "_Overlay",true);
+        Main.Save(displayName + "_QuestsFarmer",        "0, 0, 0, 0, 0");
+        Main.Save(displayName + "_QuestsHunter",        "0, 0, 0, 0, 0");
+        Main.Save(displayName + "_QuestsLumberjack",    "0, 0, 0, 0, 0");
+        Main.Save(displayName + "_QuestsMiner",         "0, 0, 0, 0, 0");
+        Main.Save(displayName + "_QuestsMonsterHunter", "0, 0, 0, 0, 0");
+        Main.Save(displayName + "_QuestsWizard",        "0, 0, 0, 0, 0");
 
         Main.Save(displayName + "_FarmerXp", 0);
         Main.Save(displayName + "_FarmerLevel", 1);
