@@ -29,7 +29,7 @@ public class Main extends JavaPlugin {
         registerListener();
         registerCommands();
         System.out.println(Color.GREEN + "Plugin load successful" + Color.RESET);
-        registerListInit();
+        //registerListInit(); TODO: FIX RELOAD
         Miner.startRunnable();
     }
 

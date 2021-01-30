@@ -27,6 +27,16 @@ public class SkillMenu {
         player.openInventory(inventory);
         return inventory;
     }
+    public static Inventory createSkillInventory(Player player, String title, HashMap<Integer, ItemStack> items, int size){
+        Inventory inventory = Bukkit.createInventory(null, size, title);
+
+        for (Integer i:items.keySet()) {
+            inventory.setItem(i,items.get(i));
+        }
+
+        player.openInventory(inventory);
+        return inventory;
+    }
 
     public static ItemStack createItem(Player player,Material material, int amount, String displayName, ArrayList<String> lore, String jobType, int skillIndex){
         ItemStack itemStack = new ItemStack(material,amount);
