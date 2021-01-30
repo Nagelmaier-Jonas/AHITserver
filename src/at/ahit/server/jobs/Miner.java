@@ -23,7 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
-//TODO: lvl shop, AS AUF BIGMIER,  DAMAGE ITEM ON USE AS, GOLD / IRON
+//TODO: lvl shop, AS AUF BIGMIER,  DAMAGE ITEM ON USE AS, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER
 public class Miner implements Listener {
 
     public void checkBlockXp(Player player, Block b) {
@@ -272,68 +272,6 @@ public class Miner implements Listener {
 
     // shop
     public static void openMinerMenu(Player player) {
-        /*Inventory inventory = Bukkit.createInventory(null, 9, "Miner");
-
-        ItemStack skill1 = new ItemStack(Material.STONE_PICKAXE, 1);
-        ItemMeta skill1Meta = skill1.getItemMeta();
-        skill1Meta.setDisplayName("Autosmelt");
-        ArrayList<String> skill1Lore = new ArrayList<>();
-        skill1Lore.add("Ores are smelted automatically");
-        skill1Lore.add("Costs: 2500 Coins");
-        if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) {
-            skill1Lore.add(ChatColor.RED + "Skill not acquired");
-        } else {
-            skill1Lore.add(ChatColor.GREEN + "Skill acquired");
-        }
-        if((boolean) Main.Load(player.getDisplayName()+ "_MinerAbility1")) {
-            skill1Meta.removeEnchant(Enchantment.DURABILITY);
-        }
-        else {
-            skill1Meta.addEnchant(Enchantment.DURABILITY, 1, true);
-        }
-        skill1Meta.setLore(skill1Lore);
-        skill1.setItemMeta(skill1Meta);
-
-        ItemStack skill2 = new ItemStack(Material.IRON_PICKAXE, 1);
-        ItemMeta skill2Meta = skill2.getItemMeta();
-        skill2Meta.setDisplayName("Faster...");
-        ArrayList<String> skill2Lore = new ArrayList<>();
-        skill2Lore.add("Blocks break faster with a Pickaxe");
-        skill2Lore.add("Costs: 10000 Coins");
-        if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) {
-            skill2Lore.add(ChatColor.RED + "Skill not acquired");
-        } else {
-            skill2Lore.add(ChatColor.GREEN + "Skill acquired");
-        }
-        skill2Meta.setLore(skill2Lore);
-        skill2.setItemMeta(skill2Meta);
-
-        ItemStack skill3 = new ItemStack(Material.DIAMOND_PICKAXE, 1);
-        ItemMeta skill3Meta = skill3.getItemMeta();
-        skill3Meta.setDisplayName("BigMiner");
-        ArrayList<String> skill3Lore = new ArrayList<>();
-        skill3Lore.add("You can use the /mine big now!");
-        skill3Lore.add("Costs: 25000 Coins");
-        if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) {
-            skill3Lore.add(ChatColor.RED + "Skill not acquired");
-        } else {
-            skill3Lore.add(ChatColor.GREEN + "Skill acquired");
-        }
-        skill3Meta.setLore(skill3Lore);
-        skill3.setItemMeta(skill3Meta);
-
-        ItemStack close = new ItemStack(Material.BARRIER, 1);
-        ItemMeta closeMeta = close.getItemMeta();
-        closeMeta.setDisplayName("Close");
-        close.setItemMeta(closeMeta);
-
-        inventory.setItem(1, skill1);
-        inventory.setItem(3, skill2);
-        inventory.setItem(5, skill3);
-        inventory.setItem(8, close);
-
-        player.openInventory(inventory);*/
-
         ArrayList<ItemStack> items = new ArrayList<>();
 
         items.add(SkillMenu.createItem(player, Material.STONE_PICKAXE, 1, "Autosmelt", new ArrayList<>(Arrays.asList("Ores are smelted automatically", "Costs: 2500 Coins")), "Miner", 1));
@@ -448,7 +386,7 @@ public class Miner implements Listener {
                     break;
                 default:
                     if (block.getType() != Material.AIR) {
-                        block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(block.getType()));
+                        block.breakNaturally();
                         block.setType(Material.AIR);
                     }
                     break;
