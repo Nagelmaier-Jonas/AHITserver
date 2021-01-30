@@ -1,30 +1,28 @@
 package at.ahit.server.overlays;
 
 import at.ahit.server.main.Main;
-import at.ahit.server.enums.Color;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
 public class MyCustomConfig extends YamlConfiguration {
-    private static MyCustomConfig config1;
+    private static MyCustomConfig config;
 
-    public static MyCustomConfig getConfig() {
-        if (config1 == null) {
+    public static MyCustomConfig getConfig(String name) {
+        if (config == null) {
             //System.out.println(Color.RED + "is null" + Color.RESET);
-            config1 = new MyCustomConfig();
+            config = new MyCustomConfig(name);
         }
         //System.out.println(Color.RED + "is not null" + Color.RESET);
-        return config1;
+        return config;
     }
 
     private Main plugin;
     private File configFile;
 
-    public MyCustomConfig() {
+    public MyCustomConfig(String name) {
         plugin = Main.getPlugin(Main.class);
-        configFile = new File(plugin.getDataFolder(), "test.yml");
+        configFile = new File(plugin.getDataFolder(), name+".yml");
         reload();
     }
 
@@ -44,6 +42,11 @@ public class MyCustomConfig extends YamlConfiguration {
         } catch (Exception e) {
             //e.printStackTrace();
         }
+    }
+
+    public void Save(String path, Object obj) {
+        config.set(path, obj);
+        config.save();
     }
 
     // this method works in the same way plugin.saveDefaultConfig() does

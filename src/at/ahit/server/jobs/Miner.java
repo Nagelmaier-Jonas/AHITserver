@@ -32,7 +32,8 @@ public class Miner implements Listener {
     public void checkBlockXp(Player player, Block b) {
         int level = (int) Main.Load(player.getDisplayName() + "_MinerLevel");
         int playerXp = (int) Main.Load(player.getDisplayName() + "_MinerXp");
-        if (!player.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH)) {
+        ArrayList<String> LocationList = (ArrayList<String>)config1.get(""+b.getLocation().getWorld().getName());
+        if (!player.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH) && !LocationList.contains((int)b.getLocation().getX() + " " + (int)b.getLocation().getY() + " " + (int)b.getLocation().getZ())) {
             switch (b.getType()) {
                 case COAL_ORE:
                     playerXp += 5;
@@ -67,7 +68,7 @@ public class Miner implements Listener {
                     break;
             }
         }
-        if (100 * level <= playerXp) {
+        if (1000 * level <= playerXp) {
             player.getPlayer().sendMessage("You are now mining level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
             Main.getConfigFile().set(player.getPlayer().getDisplayName() + "_MinerLevel", level);
             Main.getConfigFile().set(player.getPlayer().getDisplayName() + "_MinerXp", 0);
@@ -457,6 +458,12 @@ public class Miner implements Listener {
         Scoreboards.createScoreboard(Main.getConfigFile(), event.getPlayer()); //TODO: Effizienz
     }
 
+    public static MyCustomConfig config1 = MyCustomConfig.getConfig("placedBlocks");
+    public static ArrayList<String> world = new ArrayList<>();
+    public static ArrayList<String> world_nether = new ArrayList<>();
+    public static ArrayList<String> world_the_end = new ArrayList<>();
+    public static ArrayList<Material> restrictedItems = new ArrayList<Material>(Arrays.asList(Material.GOLD_ORE, Material.IRON_ORE));
+
     public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
         ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
 
@@ -503,15 +510,30 @@ public class Miner implements Listener {
     }
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        MyCustomConfig config1 = MyCustomConfig.getConfig();ArrayList<String> list = new
-        //        (int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ();
-        locList.put(, event.getBlock().getLocation().getWorld().getName()+ "");
-        config1.set("Placed Blocks", locList);
-        config1.save();
-        HashMap<String, String> neu = (HashMap<String, String>) config1.get("Placed Blocks");
+        if(config1.get("world") == null)
+            config1.Save("world", world);
+        if(config1.get("world_nether") == null)
+            config1.Save("world_nether", world_nether);
+        if(config1.get("world_the_end") == null)
+            config1.Save("world_the_end", world_the_end);
 
-        event.getPlayer().sendMessage(neu.get((int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ()));
+        if(restrictedItems.contains(event.getBlock().getType()))
+            switch (event.getBlock().getLocation().getWorld().getName()){
+                case "world":
+                    world = (ArrayList<String>) config1.get("world");
+                    world.add((int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ());
+                    config1.Save("world", world);
+                    break;
+                case "world_nether":
+                    world_nether = (ArrayList<String>) config1.get("world_nether");
+                    world_nether.add((int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ());
+                    config1.Save("world_nether", world_nether);
+                    break;
+                case "world_the_end":
+                    world_the_end = (ArrayList<String>) config1.get("world_the_end");
+                    world_the_end.add((int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ());
+                    config1.Save("world_the_end", world_the_end);
+                    break;
+        }
     }
-
-
 }
