@@ -148,9 +148,8 @@ public class AQuestCommand implements CommandExecutor {
                 TextComponent farmerq1 = new TextComponent(ChatColor.AQUA + "Collect you first Seeds " + ChatColor.GREEN + "(4x Seeds required)");farmerq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q1"));
                 TextComponent farmerq2 = new TextComponent(ChatColor.AQUA + "Craft a Compostor " + ChatColor.GREEN +  "(1x Compostor required)");farmerq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q2"));
                 TextComponent farmerq3 = new TextComponent(ChatColor.AQUA + "Craft a Diamond Hoe " + ChatColor.GREEN + "(1x Diamond Hoe)");farmerq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q3"));
-                TextComponent farmerq4 = new TextComponent(ChatColor.AQUA + "Craft a Netherite Hoe "+ ChatColor.GREEN + "(1x Netherite Hoe)");farmerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q4"));
-                TextComponent farmerq5 = new TextComponent(ChatColor.AQUA + "Build a Big Farm " +
-                        ChatColor.GREEN + "(64x Pumpkin Pies required)");farmerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q5"));
+                TextComponent farmerq4 = new TextComponent(ChatColor.AQUA + "Build a Big Farm " + ChatColor.GREEN + "(64x Pumpkin Pies required)");farmerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q4"));
+                TextComponent farmerq5 = new TextComponent(ChatColor.AQUA + "Get The Best Hoe "+ ChatColor.GREEN + "(1x Netherite Hoe)");farmerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q5"));
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 farmerq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
@@ -170,7 +169,7 @@ public class AQuestCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
 
                 return true;
-            }// DONE
+            }// TODO BALANCE STUFF
 
             if (strings[0].equals("farmer")){
                 switch (strings[1]){
@@ -194,7 +193,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (farmerquest.equals("1, 1, 0, 0, 0")){
-                            getInventoryLocation(Material.DIAMOND_HOE , 1, player, 100, false, true, Material.DIAMOND, 2, "Diamonds");
+                            getInventoryLocation(Material.DIAMOND_HOE , 1, player, 100, false, true, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 0, 0");
                             player.sendMessage(ChatColor.GOLD + "WTF IS WRONG WITH YOU YOU CRAFTET A DIAMOND HOE");
                         }
@@ -204,9 +203,9 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (farmerquest.equals("1, 1, 1, 0, 0")){
-                            getInventoryLocation(Material.NETHERITE_HOE , 1, player, 250, false, true, Material.NETHERITE_INGOT, 1, "Netherite Ingot");
+                            getInventoryLocation(Material.PUMPKIN_PIE , 64, player, 400, true, true, Material.ENCHANTED_GOLDEN_APPLE, 1, "God Apple");
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 0");
-                            player.sendMessage(ChatColor.GOLD + "WTF IS WRONG WITH YOU YOU CRAFTET A NETHERITE HOE");
+
                         }
                         else {
                             player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
@@ -214,8 +213,9 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q5":
                         if (farmerquest.equals("1, 1, 1, 1, 0")){
-                            getInventoryLocation(Material.PUMPKIN_PIE , 64, player, 400, true, true, Material.ENCHANTED_GOLDEN_APPLE, 1, "God Apple");
+                            getInventoryLocation(Material.NETHERITE_HOE , 1, player, 1500, false, true, Material.DIAMOND, 2, "DIAMOND");
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 1");
+                            player.sendMessage(ChatColor.GOLD + "WTF IS WRONG WITH YOU YOU CRAFTET A NETHERITE HOE");
                         }
                         else {
                             player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
@@ -225,15 +225,14 @@ public class AQuestCommand implements CommandExecutor {
                         return true;
                 }
                 return true;
-            }// DONE
+            }// TODO BALANCE STUFF
 
             if (strings[0].equals("hunter") && strings.length == 1){
-                TextComponent hunterq1 = new TextComponent(ChatColor.AQUA + "Get your first food " + ChatColor.GREEN +
-                        "(requires 3x Raw Beef)");hunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q1"));
-                TextComponent hunterq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");hunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q2"));
-                TextComponent hunterq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");hunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q3"));
-                TextComponent hunterq4 = new TextComponent(ChatColor.AQUA + "Get a Saddle " + ChatColor.GREEN + "(1x Saddle required)");hunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q4"));
-                TextComponent hunterq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");hunterq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q5"));
+                TextComponent hunterq1 = new TextComponent(ChatColor.AQUA + "Get your first food " + ChatColor.GREEN + "(3x Raw Beef required)");hunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q1"));
+                TextComponent hunterq2 = new TextComponent(ChatColor.AQUA + "Craft some Arrows " + ChatColor.GREEN + "(64x Arrows required)");hunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q2"));
+                TextComponent hunterq3 = new TextComponent(ChatColor.AQUA + "Get some Pink Wool " + ChatColor.GREEN + "(15x Pink Wool required)");hunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q3"));
+                TextComponent hunterq4 = new TextComponent(ChatColor.AQUA + "Get a Saddle " + ChatColor.GREEN + "(1x Saddle required required)");hunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q4"));
+                TextComponent hunterq5 = new TextComponent(ChatColor.AQUA + "Get some Leather " + ChatColor.GREEN + "(64x Leather required)");hunterq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q5"));
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
 
                 hunterq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -254,7 +253,7 @@ public class AQuestCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
 
                 return true;
-            }// QUESTS ARE MISSING
+            }// TODO BALANCE STUFF
 
             if (strings[0].equals("hunter")){
                 switch (strings[1]){
@@ -269,6 +268,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q2":
                         if (hunterquest.equals("1, 0, 0, 0, 0")){
+                            getInventoryLocation(Material.ARROW , 64,  player, 45, false, false, Material.COOKED_BEEF, 3, "Steaks");
 
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 0, 0, 0");
                         }
@@ -278,7 +278,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (hunterquest.equals("1, 1, 0, 0, 0")){
-
+                            getInventoryLocation(Material.PINK_WOOL , 15,  player, 50, false, false, Material.COOKED_BEEF, 3, "Steaks");
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 0, 0");
                         }
                         else {
@@ -287,7 +287,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (hunterquest.equals("1, 1, 1, 0, 0")){
-                            getInventoryLocation(Material.SADDLE , 1,  player, 12, false, false, Material.ACACIA_BOAT, 0, "none");
+                            getInventoryLocation(Material.SADDLE , 1,  player, 300, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 0");
                         }
                         else {
@@ -296,6 +296,8 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q5":
                         if (hunterquest.equals("1, 1, 1, 1, 0")){
+                            getInventoryLocation(Material.LEATHER , 64,  player, 500, true, true, Material.BOOKSHELF, 16, "Bookshelf");
+
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 1");
                         }
                         else {
@@ -306,14 +308,14 @@ public class AQuestCommand implements CommandExecutor {
                         return true;
                 }
                 return true;
-            }// QUESTS ARE MISSING
+            }// TODO BALANCE STUFF
 
             if (strings[0].equals("lumber") && strings.length == 1){
                 TextComponent lumberq1 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q1"));
                 TextComponent lumberq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q2"));
                 TextComponent lumberq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q3"));
                 TextComponent lumberq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q4"));
-                TextComponent lumberq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q5"));
+                TextComponent lumberq5 = new TextComponent(ChatColor.AQUA + "Get The Best Axe "+ ChatColor.GREEN + "(1x Netherite Axe)");lumberq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q5"));
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 lumberq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
@@ -332,7 +334,7 @@ public class AQuestCommand implements CommandExecutor {
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(lumberq5);
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 return true;
-            }// QUESTS ARE MISSING
+            }// TODO DO THIS
 
             if (strings[0].equals("lumber")){
                 switch (strings[1]){
@@ -370,6 +372,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q5":
                         if (lumberquest.equals("1, 1, 1, 1, 0")){
+                            getInventoryLocation(Material.NETHERITE_AXE , 1,  player, 150, false, true, Material.DIAMOND, 3, "Diamonds");
                             Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 1, 1");
                         }
                         else {
@@ -380,14 +383,14 @@ public class AQuestCommand implements CommandExecutor {
                         return true;
                 }
                 return true;
-            }// QUESTS ARE MISSING
+            }// TODO DO THIS
 
             if (strings[0].equals("miner") && strings.length == 1){
-                TextComponent minerq1 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q1"));
-                TextComponent minerq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q2"));
-                TextComponent minerq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q3"));
-                TextComponent minerq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q4"));
-                TextComponent minerq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q5"));
+                TextComponent minerq1 = new TextComponent(ChatColor.AQUA + "Get some Clean Stone " + ChatColor.GREEN + "(64x CleanStone required)");minerq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q1"));
+                TextComponent minerq2 = new TextComponent(ChatColor.AQUA + "Get some Lapis Lazuli " + ChatColor.GREEN + "(32x Lapis Lazuli required)");minerq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q2"));
+                TextComponent minerq3 = new TextComponent(ChatColor.AQUA + "Get some Emeralds " + ChatColor.GREEN + "(2x Emeralds required)");minerq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q3"));
+                TextComponent minerq4 = new TextComponent(ChatColor.AQUA + "Get some Diamonds " + ChatColor.GREEN + "(16x Diamonds required)");minerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q4"));
+                TextComponent minerq5 = new TextComponent(ChatColor.AQUA + "Get the Best Pickaxe " + ChatColor.GREEN + "(1 Netherite Pickaxe required)");minerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q5"));
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 minerq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
@@ -412,6 +415,7 @@ public class AQuestCommand implements CommandExecutor {
                 switch (strings[1]){
                     case "q1":
                         if (minerquest.equals("0, 0, 0, 0, 0")){
+                            getInventoryLocation(Material.STONE , 64,  player, 50, false, true, Material.TORCH, 32, "Torches");
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 0, 0, 0, 0");
                         }
                         else {
@@ -420,6 +424,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q2":
                         if (minerquest.equals("1, 0, 0, 0, 0")){
+                            getInventoryLocation(Material.LAPIS_LAZULI , 32,  player, 200, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 0, 0, 0");
                         }
                         else {
@@ -428,6 +433,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (minerquest.equals("1, 1, 0, 0, 0")){
+                            getInventoryLocation(Material.EMERALD , 2,  player, 500, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 0, 0");
                         }
                         else {
@@ -436,6 +442,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (minerquest.equals("1, 1, 1, 0, 0")){
+                            getInventoryLocation(Material.DIAMOND , 16,  player, 800, false, true, Material.DIAMOND_PICKAXE, 1, "Diamond Pickaxe");
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 1, 0");
                         }
                         else {
@@ -444,6 +451,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q5":
                         if (minerquest.equals("1, 1, 1, 1, 0")){
+                            getInventoryLocation(Material.NETHERITE_PICKAXE , 1,  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 1, 1");
                         }
                         else {
