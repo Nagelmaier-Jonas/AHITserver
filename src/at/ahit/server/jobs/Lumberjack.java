@@ -181,18 +181,31 @@ public class Lumberjack implements Listener {
     }
 
     public int applyLuck(Player p, int originalCount) {
+        Random random = new Random();
+
         switch (p.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LUCK)) {
-            case 0:
-                break;
             case 1:
+                if (random.nextInt(100) <= 80)
+                    //damageToDeal++;
                 break;
             case 2:
+                if (random.nextInt(100) <= 60)
+                    //damageToDeal++;
                 break;
             case 3:
+                if (random.nextInt(100) <= 50)
+                    //damageToDeal++;
+                break;
+            case 4:
+                if (random.nextInt(100) <= 40)
+                    //damageToDeal++;
                 break;
             default:
+                // Invalid Enchantment Level
                 break;
         }
+
+        return originalCount;
     }
 
 
