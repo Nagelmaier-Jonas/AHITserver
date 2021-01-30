@@ -2,8 +2,7 @@ package at.ahit.server.listeners;
 
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Scoreboards;
-import net.minecraft.server.v1_16_R3.ChatMessage;
-import net.minecraft.server.v1_16_R3.ChatModifier;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,7 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.List;
-import java.util.Objects;
+
 
 
 public class JoinListener implements Listener {
@@ -144,28 +143,57 @@ public class JoinListener implements Listener {
         Player player = event.getPlayer();
 
         if (player.getDisplayName().equals("Symo_TMS")){
-            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Symo " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.BLUE + "Symo " +
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.RESET);
         }
         if (player.getDisplayName().equals("Joni04")){
-            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Joni " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.BLUE + "Joni " +
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.RESET);
         }
         if (player.getDisplayName().equals("Katoka47")){
-            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.YELLOW + "Dome dick, aber Domes dick dünn. Ach ja, " + ChatColor.DARK_BLUE + "Niki " + ChatColor.GRAY + "ist da!" + ChatColor.RESET);
+            Bukkit.broadcastMessage(
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.YELLOW + "Dome dick, aber Domes dick dünn. Ach ja, " +
+                    ChatColor.DARK_BLUE + "Niki " + ChatColor.GRAY + "ist da!" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals("Gaduso11")){
-            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Gaduso " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.BLUE + "Gaduso " +
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.RESET);
         }
         if (player.getDisplayName().equals("guzms")){
-            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.YELLOW + "Versteckts eichre Kinder, da guzms is da!" + ChatColor.RESET);
+            Bukkit.broadcastMessage(
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.YELLOW + "Versteckts eichre Kinder, da guzms is da!" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals("Marcl_Gengsch")){
-            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Marcl " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.BLUE + "Marcl " +
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.RESET);
         }
         if (player.getDisplayName().equals("siegfried55b")){
-            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + ". " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.BLUE + ". " +
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.RESET);
         }
         if (player.getDisplayName().equals("SnoobyTV")){
-            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Snooby " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.BLUE + "Snooby " +
+                    ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
+                    ChatColor.RESET);
         }
 
     }
