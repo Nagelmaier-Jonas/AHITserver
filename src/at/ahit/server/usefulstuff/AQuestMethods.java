@@ -12,7 +12,7 @@ import static at.ahit.server.main.Main.config;
 
 public class AQuestMethods {
 
-    public static void getInventoryLocation(Material material, Integer amount, Player player, Integer reward, Boolean removeitem){
+    public static void getInventoryLocation(Material material, Integer amount, Player player, Integer reward, Boolean removeitem, Boolean addnewitem, Material additem, Integer addamount, String rewarditemname){
 
 
         for (ItemStack i : player.getInventory()) {
@@ -24,8 +24,12 @@ public class AQuestMethods {
                         if (removeitem) {
                             i.setAmount(i.getAmount() - amount);
                         }
+                        if (addnewitem){
+                            player.getLocation().getWorld().dropItemNaturally(player.getLocation(), new ItemStack(additem, addamount));
+                            player.sendMessage(ChatColor.GREEN + "You got " + addamount + " " + ChatColor.AQUA + rewarditemname + " in reward");
+                        }
                         Main.Save(player.getDisplayName() + "_Amount", (Integer) Main.Load(player.getDisplayName() + "_Amount") + reward);
-                        player.sendMessage(ChatColor.GREEN + "You got " + reward + " Coins!");
+                        player.sendMessage(ChatColor.GREEN + "You got " + ChatColor.AQUA + reward + " Coins!");
                         Scoreboards.createScoreboard(config, player);
                         return;
                     }

@@ -176,7 +176,7 @@ public class AQuestCommand implements CommandExecutor {
                 switch (strings[1]){
                     case "q1":
                         if (farmerquest.equals("0, 0, 0, 0, 0")){
-                            getInventoryLocation(Material.WHEAT_SEEDS , 4, player, 12, true);
+                            getInventoryLocation(Material.WHEAT_SEEDS , 4, player, 12, true, true, Material.WHEAT, 6, "Wheat");
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 0, 0, 0, 0");
                         }
                         else {
@@ -185,7 +185,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q2":
                         if (farmerquest.equals("1, 0, 0, 0, 0")){
-                            getInventoryLocation(Material.COMPOSTER , 1, player, 17, false);
+                            getInventoryLocation(Material.COMPOSTER , 1, player, 17, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 0, 0, 0");
                         }
                         else {
@@ -194,8 +194,9 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (farmerquest.equals("1, 1, 0, 0, 0")){
-                            getInventoryLocation(Material.DIAMOND_HOE , 1, player, 100, false);
+                            getInventoryLocation(Material.DIAMOND_HOE , 1, player, 100, false, true, Material.DIAMOND, 2, "Diamonds");
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 0, 0");
+                            player.sendMessage(ChatColor.GOLD + "WTF IS WRONG WITH YOU YOU CRAFTET A DIAMOND HOE");
                         }
                         else {
                             player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
@@ -203,8 +204,9 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (farmerquest.equals("1, 1, 1, 0, 0")){
-                            getInventoryLocation(Material.NETHERITE_HOE , 1, player, 250, false);
+                            getInventoryLocation(Material.NETHERITE_HOE , 1, player, 250, false, true, Material.NETHERITE_INGOT, 1, "Netherite Ingot");
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 0");
+                            player.sendMessage(ChatColor.GOLD + "WTF IS WRONG WITH YOU YOU CRAFTET A NETHERITE HOE");
                         }
                         else {
                             player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
@@ -212,7 +214,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q5":
                         if (farmerquest.equals("1, 1, 1, 1, 0")){
-                            getInventoryLocation(Material.PUMPKIN_PIE , 64, player, 400, true);
+                            getInventoryLocation(Material.PUMPKIN_PIE , 64, player, 400, true, true, Material.ENCHANTED_GOLDEN_APPLE, 1, "God Apple");
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 1");
                         }
                         else {
@@ -258,7 +260,7 @@ public class AQuestCommand implements CommandExecutor {
                 switch (strings[1]){
                     case "q1":
                         if (hunterquest.equals("0, 0, 0, 0, 0")){
-                            getInventoryLocation(Material.BEEF , 3,  player, 12, false);
+                            getInventoryLocation(Material.BEEF , 3,  player, 12, true, true, Material.COOKED_BEEF, 3, "Steaks");
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 0, 0, 0, 0");
                         }
                         else {
@@ -285,7 +287,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (hunterquest.equals("1, 1, 1, 0, 0")){
-                            getInventoryLocation(Material.SADDLE , 1,  player, 12, false);
+                            getInventoryLocation(Material.SADDLE , 1,  player, 12, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 0");
                         }
                         else {

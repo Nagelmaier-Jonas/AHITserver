@@ -206,7 +206,6 @@ public class JoinListener implements Listener {
             case "Symo_TMS":
             case "Joni04":
             case "Gaduso11":
-
             case "Marcl_Gengsch":
             case "siegfried55b":
             case "SnoobyTV":
