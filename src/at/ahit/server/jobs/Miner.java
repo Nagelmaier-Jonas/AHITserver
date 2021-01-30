@@ -24,7 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 
 
 import java.util.*;
-
+//DONE
 //TODO: lvl shop, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER, MAGIER BLITZ
 public class Miner implements Listener {
 

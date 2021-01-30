@@ -4,10 +4,10 @@ import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.CropState;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +16,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.Crops;
+import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,40 +27,54 @@ import java.util.Objects;
 public class Farmer implements Listener {
 
     //@EventHandler TODO: KOMMENTAR WEIL BUGFIX
+    @EventHandler
     public void breakBlock(BlockBreakEvent event) {
         Player player = event.getPlayer();
         int level = (int) Main.Load(player.getDisplayName() + "_FarmerLevel");
         int playerXp = (int) Main.Load(player.getDisplayName() + "_FarmerXp");
 
-        if (event.getBlock().getState().equals(CropState.RIPE)){
-            switch (event.getBlock().getType()) {
-                case CARROTS:
-                    playerXp += 5;
-                    break;
-                case WHEAT_SEEDS:
-                    playerXp += 1;
-                    break;
-                case BEETROOT_SEEDS:
-                    playerXp += 1;
-                    break;
-                case POTATOES:
-                    playerXp += 10;
-                    break;
-                case COCOA_BEANS:
-                    playerXp += 10;
-                    break;
-                case NETHER_WART:
-                    playerXp += 10;
-                    break;
-        }
+        ArrayList<Material> Crops = new ArrayList<>();
+        Crops.add(Material.CARROTS);
+        Crops.add(Material.WHEAT_SEEDS);
+        Crops.add(Material.BEETROOT_SEEDS);
+        Crops.add(Material.COCOA_BEANS);
+        Crops.add(Material.NETHER_WART);
+        Crops.add(Material.POTATOES);
 
+        //TODO:Scoreboard reload besser diese
+
+        if (Crops.contains(event.getBlock().getType())) {
+            if (isFullyGrownOld(event.getBlock())) {
+                switch (event.getBlock().getType()) {
+                    case WHEAT_SEEDS:
+                        playerXp += 1;
+                        Main.Save(player.getDisplayName() + "_LatestJob", "Farmer");
+                        Scoreboards.createScoreboard(Main.getConfigFile(), event.getPlayer());
+                        break;
+                    case CARROTS:
+                    case BEETROOT_SEEDS:
+                    case POTATOES:
+                        playerXp += 5;
+                        Main.Save(player.getDisplayName() + "_LatestJob", "Farmer");
+                        Scoreboards.createScoreboard(Main.getConfigFile(), event.getPlayer());
+                        break;
+                    case COCOA_BEANS:
+                    case NETHER_WART:
+                        playerXp += 10;
+                        Main.Save(player.getDisplayName() + "_LatestJob", "Farmer");
+                        Scoreboards.createScoreboard(Main.getConfigFile(), event.getPlayer());
+                        break;
+                }
+            }
+        }
         if (event.getBlock().getType().equals(Material.MELON) && !event.getPlayer().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)){
             playerXp += 10;
+            Main.Save(player.getDisplayName() + "_LatestJob", "Farmer");
+            Scoreboards.createScoreboard(Main.getConfigFile(), event.getPlayer());
         }
         if (event.getBlock().getType().equals(Material.PUMPKIN)){
             playerXp += 10;
-        }
-
+            Main.Save(player.getDisplayName() + "_LatestJob", "Farmer");
         }
         if (100 * level <= playerXp) {
             event.getPlayer().sendMessage("You are now farming level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
@@ -69,6 +84,21 @@ public class Farmer implements Listener {
             Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_FarmerXp", playerXp);
         }
         Main.getPlugin().saveConfig();
+    }
+
+    public void CropMaster(Player player, Block block){
+        if ((boolean)Main.Load(player.getDisplayName() + "FarmerAbility1")){
+            Material material = block.getType();
+            block.getDrops().add(new ItemStack(material));
+        }
+    }
+
+    public boolean isFullyGrownOld(Block block) {
+        MaterialData md = block.getState().getData();
+        if(md instanceof Crops) {
+            return (((Crops) md).getState() == CropState.RIPE);
+        }
+        else return false;
     }
 
     public static void openFarmerMenu(Player player){
