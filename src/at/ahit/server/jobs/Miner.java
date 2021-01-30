@@ -75,7 +75,7 @@ public class Miner implements Listener {
             LocationList.remove((int) b.getLocation().getX() + " " + (int) b.getLocation().getY() + " " + (int) b.getLocation().getZ());
             config1.Save(b.getLocation().getWorld().getName(), LocationList);
         }
-        if (1000 * level <= playerXp) {
+        if (500 * level <= playerXp) { //TODO: EXPONENTIELL
             Objects.requireNonNull(player.getPlayer()).sendMessage("You are now mining level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
             Main.getConfigFile().set(player.getPlayer().getDisplayName() + "_MinerLevel", level);
             Main.getConfigFile().set(player.getPlayer().getDisplayName() + "_MinerXp", 0);
