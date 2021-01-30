@@ -135,25 +135,25 @@ public class JoinListener implements Listener {
             Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Symo " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals("Joni04")){
-            Bukkit.broadcastMessage(ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Joni " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Joni " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals("Katoka47")){
-            Bukkit.broadcastMessage(ChatColor.MAGIC + "HHH " + ChatColor.YELLOW + "Dome dick, aber Domes dick dünn. Ach ja, " + ChatColor.DARK_BLUE + "Niki " + ChatColor.GRAY + "ist da!" + ChatColor.RESET);
+            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.YELLOW + "Dome dick, aber Domes dick dünn. Ach ja, " + ChatColor.DARK_BLUE + "Niki " + ChatColor.GRAY + "ist da!" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals("Gaduso11")){
-            Bukkit.broadcastMessage(ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Gaduso " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Gaduso " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals("guzms")){
-            Bukkit.broadcastMessage(ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "guzms " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.YELLOW + "Versteckts eichre Kinder, da guzms is da!" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals("Marcl_Gengsch")){
-            Bukkit.broadcastMessage(ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Marcl " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Marcl " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals("siegfried55b")){
-            Bukkit.broadcastMessage(ChatColor.MAGIC + "HHH " + ChatColor.BLUE + ". " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + ". " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
         }
         if (player.getDisplayName().equals("SnoobyTV")){
-            Bukkit.broadcastMessage(ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Snooby " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
+            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " + ChatColor.BLUE + "Snooby " + ChatColor.YELLOW + "appears out off thin air" + ChatColor.RESET);
         }
 
     }
@@ -166,7 +166,7 @@ public class JoinListener implements Listener {
             case "Symo_TMS":
             case "Joni04":
             case "Gaduso11":
-            case "guzms":
+
             case "Marcl_Gengsch":
             case "siegfried55b":
             case "SnoobyTV":
@@ -175,12 +175,15 @@ public class JoinListener implements Listener {
             case "Katoka47":
                 Bukkit.broadcastMessage(ChatColor.BLUE + "Das find ich jetzt echt scheiße von dir!" + ChatColor.RESET);
                 break;
+            case "guzms":
+                Bukkit.broadcastMessage(ChatColor.RED + "guzms just fucking died" + ChatColor.RESET);
+                break;
             default:
                 Bukkit.broadcastMessage(ChatColor.RED + victim.getName() + " hat noch keinen Spezifischen Tod ausgewählt" + ChatColor.RESET);
                 break;
         }
 
-        switch (Objects.requireNonNull(victim.getLastDamageCause()).getCause()) { // CAUSE TODE
+        /*switch (Objects.requireNonNull(victim.getLastDamageCause()).getCause()) { // CAUSE TODE
             case ENTITY_ATTACK:
                 Bukkit.broadcastMessage(ChatColor.RED + victim.getName() + " got fucked in the ass by " + victim.getLastDamageCause().getEntity().getName() + ChatColor.RESET);
                 break;
@@ -199,7 +202,7 @@ public class JoinListener implements Listener {
             case FIRE:
                 Bukkit.broadcastMessage(ChatColor.RED + victim.getName() + " ist jetzt Holzkohle" + ChatColor.RESET);
                 break;
-        }
+        }*/
 
     }
 }
