@@ -30,6 +30,10 @@ public class InventoryClickListener implements Listener {
                 break;
             case "MonsterHunter":
                 MonsterHunter.onMonsterHunterJobsUse(event);
+                break;
+            case "Wizard":
+                Wizard.onWizardJobsUse(event);
+                break;
             case "§4Auction":
                 Auction.onAuctionUse(event);
                 break;

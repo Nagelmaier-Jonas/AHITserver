@@ -300,6 +300,7 @@ public class Miner implements Listener {
         } else {
             skill1Lore.add(ChatColor.GREEN + "Skill acquired");
         }
+
         skill1Meta.setLore(skill1Lore);
         skill1.setItemMeta(skill1Meta);
 
