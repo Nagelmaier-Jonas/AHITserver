@@ -84,6 +84,7 @@ public class Wizard implements Listener {
                 Menu.openMenu(player);
                 break;
         }
+
         event.setCancelled(true);
     }
 }
