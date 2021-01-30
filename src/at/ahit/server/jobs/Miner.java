@@ -23,10 +23,10 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
-//TODO: lvl shop, AS AUF BIGMIER,  DAMAGE ITEM ON USE AS
+//TODO: lvl shop, AS AUF BIGMIER,  DAMAGE ITEM ON USE AS, GOLD / IRON
 public class Miner implements Listener {
 
-    public void breakBlock(Player player, Block b) {
+    public void checkBlockXp(Player player, Block b) {
         int level = (int) Main.Load(player.getDisplayName() + "_MinerLevel");
         int playerXp = (int) Main.Load(player.getDisplayName() + "_MinerXp");
         if (!player.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH)) {
@@ -74,52 +74,53 @@ public class Miner implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    // TODO: MAGIER KÖNNTE ENCHANTLVL ERHÖHEN, as telekinesis
+    // TODO: MAGIER KÖNNTE ENCHANTLVL ERHÖHEN, as telekinesis, schlfasack, veinminer, pro lvl verschiedene sachen bei 3x3
 
     public void BreakThreeByThree(BlockBreakEvent event) {
+        Location location = event.getBlock().getLocation();
+        List<Location> locationList = new ArrayList<>();
+        switch ((String) Main.Load(event.getPlayer().getDisplayName() + "_BlockHitDirection")) {
+            case "NORTH":
+            case "SOUTH":
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() + 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() - 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() - 1, location.getZ()));
+                break;
+            case "UP":
+            case "DOWN":
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ() - 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() - 1));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ() - 1));
 
-        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
-            Location location = event.getBlock().getLocation();
-            List<Location> locationList = new ArrayList<>();
-            switch ((String) Main.Load(event.getPlayer().getDisplayName() + "_BlockHitDirection")) {
-                case "NORTH":
-                case "SOUTH":
-                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
-                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() + 1, location.getZ()));
-                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ()));
-                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ()));
-                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() - 1, location.getZ()));
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
-                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() - 1, location.getZ()));
-                    break;
-                case "UP":
-                case "DOWN":
-                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ() + 1));
-                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ()));
-                    locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ() - 1));
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() + 1));
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() - 1));
-                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ() + 1));
-                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ()));
-                    locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ() - 1));
-                    break;
-                case "WEST":
-                case "EAST":
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ() + 1));
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ() - 1));
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() + 1));
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() - 1));
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ() + 1));
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
-                    locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ() - 1));
-                    break;
-            }
+                break;
+            case "WEST":
+            case "EAST":
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ() - 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() - 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ() - 1));
+                break;
+        }
 
-            ArrayList<Material> breakableStuff = new ArrayList<>();
-            //ADDITEMS
+        ArrayList<Material> breakableStuff = new ArrayList<>();
+        //ADDITEMS
+        {
             breakableStuff.add(Material.STONE);
+            breakableStuff.add(Material.AIR);
             breakableStuff.add(Material.ANDESITE);
             breakableStuff.add(Material.BLACKSTONE);
             breakableStuff.add(Material.GILDED_BLACKSTONE);
@@ -245,48 +246,25 @@ public class Miner implements Listener {
             breakableStuff.add(Material.BLACK_CONCRETE);
             breakableStuff.add(Material.REDSTONE_ORE);
             breakableStuff.add(Material.REDSTONE_BLOCK);
-
-
-            if (breakableStuff.contains(event.getBlock().getType())) {
-                for (Location l : locationList) {
-                    ItemMeta im = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
-                    if (breakableStuff.contains(l.getBlock().getType())) {
-                        breakBlock(event.getPlayer(), event.getBlock());
-                        if (im instanceof Damageable) {
-                            Damageable dmg = (Damageable) im;
-                            Random r = new Random();
-                            switch (event.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY)) {
-                                case 0:
-                                    dmg.setDamage(dmg.getDamage() + 1);
-                                    break;
-                                case 1:
-                                    if (r.nextInt(100) <= 80)
-                                        dmg.setDamage(dmg.getDamage() + 1);
-                                    break;
-                                case 2:
-                                    if (r.nextInt(100) <= 60)
-                                        dmg.setDamage(dmg.getDamage() + 1);
-                                    break;
-                                case 3:
-                                    if (r.nextInt(100) <= 50)
-                                        dmg.setDamage(dmg.getDamage() + 1);
-                                    break;
-                                case 4:
-                                    if (r.nextInt(100) <= 40)
-                                        dmg.setDamage(dmg.getDamage() + 1);
-                                    break;
-                            }
-                            event.getPlayer().getInventory().getItemInMainHand().setItemMeta(im);
-                        }
-                        if((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1"))
-                            autoSmeltOre(event.getPlayer(), event.getBlock());
-                        else
-                            l.getBlock().breakNaturally();
+        }
+        if (breakableStuff.contains(event.getBlock().getType())) {
+            for (Location l : locationList) {
+                ItemMeta im = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
+                if (breakableStuff.contains(l.getBlock().getType())) {
+                    checkBlockXp(event.getPlayer(), event.getBlock());
+                    //DAMAGE ITEM
+                    UpdateMainHand(event.getPlayer(), 1);
+                    //AUTOSMELT OR NOT
+                    if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1")) {
+                        autoSmeltOre(event.getPlayer(), l.getBlock());
+                    } else {
+                        l.getBlock().breakNaturally();
                     }
                 }
             }
         }
     }
+
     @EventHandler
     public void GetBlockLookingDirection(PlayerInteractEvent event) {
         Main.Save(event.getPlayer().getDisplayName() + "_BlockHitDirection", event.getBlockFace().toString());
@@ -358,14 +336,19 @@ public class Miner implements Listener {
 
         ArrayList<ItemStack> items = new ArrayList<>();
 
-        items.add(SkillMenu.createItem(player,Material.STONE_PICKAXE,1,"Autosmelt",new ArrayList<>(Arrays.asList("Ores are smelted automatically","Costs: 2500 Coins")),"Miner",1));
+        items.add(SkillMenu.createItem(player, Material.STONE_PICKAXE, 1, "Autosmelt", new ArrayList<>(Arrays.asList("Ores are smelted automatically", "Costs: 2500 Coins")), "Miner", 1));
 
 
-        items.add(SkillMenu.createItem(player,Material.IRON_PICKAXE,1,"Faster...",new ArrayList<>(Arrays.asList("Blocks break faster with a Pickaxe","Costs: 10000 Coins")),"Miner",2));
-        items.add(SkillMenu.createItem(player,Material.DIAMOND_PICKAXE,1,"BigMiner",new ArrayList<>(Arrays.asList("You can use the /mine big now!","Costs: 25000 Coins")),"Miner",3));
-        items.add(SkillMenu.createItem(Material.BARRIER,1,"Close"));
+        items.add(SkillMenu.createItem(player, Material.IRON_PICKAXE, 1, "Faster...", new ArrayList<>(Arrays.asList("Blocks break faster with a Pickaxe", "Costs: 10000 Coins")), "Miner", 2));
+        items.add(SkillMenu.createItem(player, Material.DIAMOND_PICKAXE, 1, "BigMiner", new ArrayList<>(Arrays.asList("You can use the /mine big now!", "Costs: 25000 Coins")), "Miner", 3));
+        items.add(SkillMenu.createItem(Material.BARRIER, 1, "Close"));
 
-        Inventory inventory = SkillMenu.createSkillInventory(player,"Miner",new HashMap<Integer,ItemStack>(){{put(1,items.get(0));put(3,items.get(1));put(5,items.get(2));put(8,items.get(3));}});
+        Inventory inventory = SkillMenu.createSkillInventory(player, "Miner", new HashMap<Integer, ItemStack>() {{
+            put(1, items.get(0));
+            put(3, items.get(1));
+            put(5, items.get(2));
+            put(8, items.get(3));
+        }});
         player.openInventory(inventory);
     }
 
@@ -387,10 +370,10 @@ public class Miner implements Listener {
                         Miner.openMinerMenu(player);
                         player.sendMessage("You can't buy that you little motherfucker");
                     }
-                    if((boolean) Main.Load(player.getDisplayName()+ "_MinerAbility1"))
-                        Main.Save(player.getDisplayName()+ "_MinerAbility1", false);
+                    if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1"))
+                        Main.Save(player.getDisplayName() + "_MinerAbility1", false);
                     else
-                        Main.Save(player.getDisplayName()+ "_MinerAbility1", true);
+                        Main.Save(player.getDisplayName() + "_MinerAbility1", true);
                     break;
                 case "Faster...":
                     if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill2"))) {
@@ -424,48 +407,50 @@ public class Miner implements Listener {
     }
 
     public void autoSmeltOre(BlockBreakEvent event) {
-        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
-            switch (event.getBlock().getType()) {
-                case IRON_ORE:
-                    event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.IRON_INGOT));
-                    event.setCancelled(true);
-                    breakBlock(event.getPlayer(), event.getBlock());
-                    event.getBlock().setType(Material.AIR);
-                    break;
-                case GOLD_ORE:
-                    event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.GOLD_INGOT));
-                    event.setCancelled(true);
-                    breakBlock(event.getPlayer(), event.getBlock());
-                    event.getBlock().setType(Material.AIR);
-                    break;
-                case STONE:
-                    event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.STONE));
-                    event.setCancelled(true);
-                    breakBlock(event.getPlayer(), event.getBlock());
-                    event.getBlock().setType(Material.AIR);
-                    break;
-            }
+
+        switch (event.getBlock().getType()) {
+            case IRON_ORE:
+                event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.IRON_INGOT));
+                event.setCancelled(true);
+                checkBlockXp(event.getPlayer(), event.getBlock());
+                event.getBlock().setType(Material.AIR);
+                break;
+            case GOLD_ORE:
+                event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.GOLD_INGOT));
+                event.setCancelled(true);
+                checkBlockXp(event.getPlayer(), event.getBlock());
+                event.getBlock().setType(Material.AIR);
+                break;
+            case STONE:
+                event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.STONE));
+                event.setCancelled(true);
+                checkBlockXp(event.getPlayer(), event.getBlock());
+                event.getBlock().setType(Material.AIR);
+                break;
         }
+        UpdateMainHand(event.getPlayer(), 1);
     }
 
     public void autoSmeltOre(Player player, Block block) {
-        player.sendMessage("hallo");
         if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1") && createArray().contains(player.getInventory().getItemInMainHand().getType())) {
             switch (block.getType()) {
                 case IRON_ORE:
                     block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.IRON_INGOT));
-                    breakBlock(player, block);
                     block.setType(Material.AIR);
                     break;
                 case GOLD_ORE:
                     block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.GOLD_INGOT));
-                    breakBlock(player, block);
                     block.setType(Material.AIR);
                     break;
                 case STONE:
                     block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.STONE));
-                    breakBlock(player, block);
                     block.setType(Material.AIR);
+                    break;
+                default:
+                    if (block.getType() != Material.AIR) {
+                        block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(block.getType()));
+                        block.setType(Material.AIR);
+                    }
                     break;
             }
         }
@@ -476,7 +461,7 @@ public class Miner implements Listener {
         if (createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_MinerSkill2")) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 40, 0));
         }
-        if (Arrays.asList(new Material[] { Material.DIAMOND_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.WOODEN_AXE, Material.STONE_AXE, Material.NETHERITE_AXE }).contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_LumberjackSkill2")) {
+        if (Arrays.asList(new Material[]{Material.DIAMOND_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.WOODEN_AXE, Material.STONE_AXE, Material.NETHERITE_AXE}).contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_LumberjackSkill2")) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 40, 0));
         }
     }
@@ -503,9 +488,56 @@ public class Miner implements Listener {
 
     @EventHandler //TODO: AUSLAGERN
     public void triggerEvents(BlockBreakEvent event) {
-        autoSmeltOre(event);
-        BreakThreeByThree(event);
-        breakBlock(event.getPlayer(), event.getBlock());
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType()))
+            autoSmeltOre(event);
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType()))
+            BreakThreeByThree(event);
+        checkBlockXp(event.getPlayer(), event.getBlock());
         Scoreboards.createScoreboard(Main.getConfigFile(), event.getPlayer()); //TODO: Effizienz
+    }
+
+    public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
+        ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+
+        if (p.getInventory().getItemInMainHand().getType().getMaxDurability() > 1)
+            if (im instanceof Damageable) {
+                Damageable dmg = (Damageable) im;
+                Random r = new Random();
+
+                int damageToDeal = 0;
+
+                for (int i = 0; i < blocksBroken; i++)
+                    switch (p.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY)) {
+                        case 0:
+                            damageToDeal++;
+                            break;
+                        case 1:
+                            if (r.nextInt(100) <= 80)
+                                damageToDeal++;
+                            break;
+                        case 2:
+                            if (r.nextInt(100) <= 60)
+                                damageToDeal++;
+                            break;
+                        case 3:
+                            if (r.nextInt(100) <= 50)
+                                damageToDeal++;
+                            break;
+                        case 4:
+                            if (r.nextInt(100) <= 40)
+                                damageToDeal++;
+                            break;
+                        default:
+                            // Invalid Enchantment Level
+                            break;
+                    }
+
+                dmg.setDamage(dmg.getDamage() + damageToDeal);
+                p.getInventory().getItemInMainHand().setItemMeta(im);
+
+                if (p.getInventory().getItemInMainHand().getType().getMaxDurability() < dmg.getDamage()) {
+                    p.getInventory().remove(p.getInventory().getItemInMainHand());
+                }
+            }
     }
 }

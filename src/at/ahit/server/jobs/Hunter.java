@@ -20,7 +20,7 @@ import java.util.List;
 
 public class Hunter implements Listener {
 
-    @EventHandler
+    //@EventHandler TODO: KOMMENTAR WEIL BUGFIX
     public void killAnimal(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player) {
             Player player = (Player) event.getDamager();

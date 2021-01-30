@@ -23,7 +23,7 @@ import java.util.HashMap;
 
 public class Farmer implements Listener {
 
-    @EventHandler
+    //@EventHandler TODO: KOMMENTAR WEIL BUGFIX
     public void breakBlock(BlockBreakEvent event) {
         Player player = event.getPlayer();
         int level = (int) Main.Load(player.getDisplayName() + "_FarmerLevel");
