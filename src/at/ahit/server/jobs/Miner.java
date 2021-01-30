@@ -2,15 +2,18 @@ package at.ahit.server.jobs;
 
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
+import at.ahit.server.overlays.MyCustomConfig;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -23,13 +26,14 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
-//TODO: lvl shop, AS AUF BIGMIER,  DAMAGE ITEM ON USE AS, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER
+//TODO: lvl shop, AS AUF BIGMIER, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER, MAGIER BLITZ
 public class Miner implements Listener {
 
     public void checkBlockXp(Player player, Block b) {
         int level = (int) Main.Load(player.getDisplayName() + "_MinerLevel");
         int playerXp = (int) Main.Load(player.getDisplayName() + "_MinerXp");
-        if (!player.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH)) {
+        ArrayList<String> LocationList = (ArrayList<String>)config1.get(""+b.getLocation().getWorld().getName());
+        if (!player.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH) && !LocationList.contains((int)b.getLocation().getX() + " " + (int)b.getLocation().getY() + " " + (int)b.getLocation().getZ())) {
             switch (b.getType()) {
                 case COAL_ORE:
                     playerXp += 5;
@@ -64,7 +68,7 @@ public class Miner implements Listener {
                     break;
             }
         }
-        if (100 * level <= playerXp) {
+        if (1000 * level <= playerXp) {
             player.getPlayer().sendMessage("You are now mining level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
             Main.getConfigFile().set(player.getPlayer().getDisplayName() + "_MinerLevel", level);
             Main.getConfigFile().set(player.getPlayer().getDisplayName() + "_MinerXp", 0);
@@ -454,6 +458,12 @@ public class Miner implements Listener {
         Scoreboards.createScoreboard(Main.getConfigFile(), event.getPlayer()); //TODO: Effizienz
     }
 
+    public static MyCustomConfig config1 = MyCustomConfig.getConfig("placedBlocks");
+    public static ArrayList<String> world = new ArrayList<>();
+    public static ArrayList<String> world_nether = new ArrayList<>();
+    public static ArrayList<String> world_the_end = new ArrayList<>();
+    public static ArrayList<Material> restrictedItems = new ArrayList<Material>(Arrays.asList(Material.GOLD_ORE, Material.IRON_ORE));
+
     public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
         ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
 
@@ -497,5 +507,33 @@ public class Miner implements Listener {
                     p.getInventory().remove(p.getInventory().getItemInMainHand());
                 }
             }
+    }
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        if(config1.get("world") == null)
+            config1.Save("world", world);
+        if(config1.get("world_nether") == null)
+            config1.Save("world_nether", world_nether);
+        if(config1.get("world_the_end") == null)
+            config1.Save("world_the_end", world_the_end);
+
+        if(restrictedItems.contains(event.getBlock().getType()))
+            switch (event.getBlock().getLocation().getWorld().getName()){
+                case "world":
+                    world = (ArrayList<String>) config1.get("world");
+                    world.add((int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ());
+                    config1.Save("world", world);
+                    break;
+                case "world_nether":
+                    world_nether = (ArrayList<String>) config1.get("world_nether");
+                    world_nether.add((int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ());
+                    config1.Save("world_nether", world_nether);
+                    break;
+                case "world_the_end":
+                    world_the_end = (ArrayList<String>) config1.get("world_the_end");
+                    world_the_end.add((int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ());
+                    config1.Save("world_the_end", world_the_end);
+                    break;
+        }
     }
 }
