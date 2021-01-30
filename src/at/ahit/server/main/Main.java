@@ -4,7 +4,6 @@ import at.ahit.server.abilities.MinerAbilities;
 import at.ahit.server.commands.*;
 import at.ahit.server.enums.Color;
 import at.ahit.server.jobs.*;
-import at.ahit.server.listeners.CustomKillListener;
 import at.ahit.server.listeners.InventoryClickListener;
 import at.ahit.server.listeners.JoinListener;
 import org.bukkit.Bukkit;
