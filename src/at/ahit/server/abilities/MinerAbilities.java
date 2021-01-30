@@ -30,7 +30,7 @@ public class MinerAbilities implements CommandExecutor {
                 }
             }
             if (strings.length == 0) {
-                commandSender.sendMessage("AutoSmelter is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility1") + ChatColor.RESET + " Haste is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerSkill2") + ChatColor.RESET + " and BigMine is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility3") + ChatColor.RESET);
+                commandSender.sendMessage("AutoSmelter is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility1") + ChatColor.RESET + " Haste is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility2") + ChatColor.RESET + " and BigMine is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility3") + ChatColor.RESET);
                 Miner.giveEffects((Player) commandSender);
             }
         }

@@ -280,7 +280,19 @@ public class Miner implements Listener {
         items.add(SkillMenu.createItem(player, Material.IRON_PICKAXE, 1, "Faster...", new ArrayList<>(Arrays.asList("Blocks break faster with a Pickaxe", "Costs: 10000 Coins")), "Miner", 2));
         items.add(SkillMenu.createItem(player, Material.DIAMOND_PICKAXE, 1, "BigMiner", new ArrayList<>(Arrays.asList("You can use the /mine big now!", "Costs: 25000 Coins")), "Miner", 3));
         items.add(SkillMenu.createItem(Material.BARRIER, 1, "Close"));
-
+        //Enchants
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill1"))
+            items.get(0).addEnchantment(Enchantment.DURABILITY, 1);
+        else
+            items.get(0).removeEnchantment(Enchantment.DURABILITY);
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility2") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill2"))
+            items.get(1).addEnchantment(Enchantment.DURABILITY, 1);
+        else
+            items.get(1).removeEnchantment(Enchantment.DURABILITY);
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility3") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill3"))
+            items.get(2).addEnchantment(Enchantment.DURABILITY, 1);
+        else
+            items.get(2).removeEnchantment(Enchantment.DURABILITY);
         Inventory inventory = SkillMenu.createSkillInventory(player, "Miner", new HashMap<Integer, ItemStack>() {{
             put(1, items.get(0));
             put(3, items.get(1));
@@ -299,47 +311,55 @@ public class Miner implements Listener {
 
             switch (name) {
                 case "Autosmelt":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill1"))) {
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) && 3 <= (Integer)Main.Load(player.getDisplayName() + "_MinerLevel")) {
                         Main.Save(player.getDisplayName() + "_MinerSkill1", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                        Miner.openMinerMenu(player);
-                    } else {
-                        Miner.openMinerMenu(player);
-                        player.sendMessage("You can't buy that you little motherfucker");
+                    } else if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) {
+                        player.sendMessage("You need "+ ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 3" + ChatColor.RESET);
                     }
-                    if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1"))
-                        Main.Save(player.getDisplayName() + "_MinerAbility1", false);
-                    else
-                        Main.Save(player.getDisplayName() + "_MinerAbility1", true);
+                    if ((boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) {
+                        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1"))
+                            Main.Save(player.getDisplayName() + "_MinerAbility1", false);
+                        else
+                            Main.Save(player.getDisplayName() + "_MinerAbility1", true);
+                    }
                     break;
                 case "Faster...":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill2"))) {
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) && 5 <= (Integer)Main.Load(player.getDisplayName() + "_MinerLevel")) {
                         Main.Save(player.getDisplayName() + "_MinerSkill2", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                        Miner.openMinerMenu(player);
-                    } else {
-                        Miner.openMinerMenu(player);
-                        player.sendMessage("You can't buy that you little motherfucker");
+                    } else if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) {
+                        player.sendMessage("You need "+ ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 5" + ChatColor.RESET);
+                    }
+                    if ((boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) {
+                        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility2"))
+                            Main.Save(player.getDisplayName() + "_MinerAbility2", false);
+                        else
+                            Main.Save(player.getDisplayName() + "_MinerAbility2", true);
                     }
                     break;
                 case "BigMiner":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill3"))) {
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) && 9 <= (Integer)Main.Load(player.getDisplayName() + "_MinerLevel")) {
                         Main.Save(player.getDisplayName() + "_MinerSkill3", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                        Miner.openMinerMenu(player);
-                    } else {
-                        Miner.openMinerMenu(player);
-                        player.sendMessage("You can't buy that you little motherfucker");
+                    } else if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) {
+                        player.sendMessage("You need "+ ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 9" + ChatColor.RESET);
+                    }
+                    if ((boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) {
+                        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility3"))
+                            Main.Save(player.getDisplayName() + "_MinerAbility3", false);
+                        else
+                            Main.Save(player.getDisplayName() + "_MinerAbility3", true);
                     }
                     break;
                 case "Close":
                     Menu.openMenu(player);
                     break;
             }
-
+            Miner.openMinerMenu(player);
             event.setCancelled(true);
         }
     }
@@ -396,7 +416,7 @@ public class Miner implements Listener {
 
 
     public static void giveEffects(Player p) {
-        if (createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_MinerSkill2")) {
+        if (createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_MinerAbility2")) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 40, 0));
         }
         if (Arrays.asList(new Material[]{Material.DIAMOND_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.WOODEN_AXE, Material.STONE_AXE, Material.NETHERITE_AXE}).contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_LumberjackSkill2")) {
