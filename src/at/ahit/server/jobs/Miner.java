@@ -5,13 +5,9 @@ import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.MyCustomConfig;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
-import net.minecraft.server.v1_16_R3.DataWatcher;
-import net.minecraft.server.v1_16_R3.ItemSuspiciousStew;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,8 +24,8 @@ import org.bukkit.potion.PotionEffectType;
 
 
 import java.util.*;
-
-//TODO: lvl shop, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER, MAGIER BLITZ
+//DONE
+//TODO: lvl shop, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER, MAGIER BLITZ, OBTAINED MESSAGE
 public class Miner implements Listener {
 
     public void checkBlockXp(Player player, Block b) {
@@ -47,6 +43,7 @@ public class Miner implements Listener {
                     case REDSTONE_ORE:
                     case NETHER_QUARTZ_ORE:
                     case NETHER_GOLD_ORE:
+                    case LAPIS_ORE:
                         playerXp += 10;
                         Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
                         break;
@@ -78,8 +75,8 @@ public class Miner implements Listener {
             LocationList.remove((int) b.getLocation().getX() + " " + (int) b.getLocation().getY() + " " + (int) b.getLocation().getZ());
             config1.Save(b.getLocation().getWorld().getName(), LocationList);
         }
-        if (1000 * level <= playerXp) {
-            player.getPlayer().sendMessage("You are now mining level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
+        if (500 * level <= playerXp) { //TODO: EXPONENTIELL
+            Objects.requireNonNull(player.getPlayer()).sendMessage("You are now mining level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
             Main.getConfigFile().set(player.getPlayer().getDisplayName() + "_MinerLevel", level);
             Main.getConfigFile().set(player.getPlayer().getDisplayName() + "_MinerXp", 0);
         } else {
@@ -263,7 +260,6 @@ public class Miner implements Listener {
         }
         if (breakableStuff.contains(event.getBlock().getType())) {
             for (Location l : locationList) {
-                ItemMeta im = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
                 if (breakableStuff.contains(l.getBlock().getType())) {
                     checkBlockXp(event.getPlayer(), event.getBlock());
                     //DAMAGE ITEM
@@ -343,16 +339,22 @@ public class Miner implements Listener {
         items.add(SkillMenu.createItem(player, Material.DIAMOND_PICKAXE, 1, "BigMiner", new ArrayList<>(Arrays.asList("You can use the /mine big now!", "Costs: 25000 Coins")), "Miner", 3));
         items.add(SkillMenu.createItem(Material.BARRIER, 1, "Close"));
         //Enchants
-        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill1"))
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) {
             items.get(0).addEnchantment(Enchantment.DURABILITY, 1);
+            Lumberjack.RemoveEnchantmentLore(items.get(0));
+        }
         else
             items.get(0).removeEnchantment(Enchantment.DURABILITY);
-        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility2") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill2"))
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility2") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) {
             items.get(1).addEnchantment(Enchantment.DURABILITY, 1);
+            Lumberjack.RemoveEnchantmentLore(items.get(1));
+        }
         else
             items.get(1).removeEnchantment(Enchantment.DURABILITY);
-        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility3") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill3"))
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility3") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) {
             items.get(2).addEnchantment(Enchantment.DURABILITY, 1);
+            Lumberjack.RemoveEnchantmentLore(items.get(2));
+        }
         else
             items.get(2).removeEnchantment(Enchantment.DURABILITY);
         Inventory inventory = SkillMenu.createSkillInventory(player, "Miner", new HashMap<Integer, ItemStack>() {{
@@ -481,7 +483,7 @@ public class Miner implements Listener {
         if (createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_MinerAbility2")) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 40, 0));
         }
-        if (Arrays.asList(new Material[]{Material.DIAMOND_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.WOODEN_AXE, Material.STONE_AXE, Material.NETHERITE_AXE}).contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_LumberjackSkill2")) {
+        if (Arrays.asList(new Material[]{Material.DIAMOND_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.WOODEN_AXE, Material.STONE_AXE, Material.NETHERITE_AXE}).contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_LumberjackAbility2")) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 40, 0));
         }
     }
@@ -521,7 +523,7 @@ public class Miner implements Listener {
     public static ArrayList<String> world_nether = new ArrayList<>();
     public static ArrayList<String> world_the_end = new ArrayList<>();
     public static ArrayList<Material> restrictedItems = new ArrayList<Material>(Arrays.asList(Material.GOLD_ORE, Material.IRON_ORE));
-    public static ArrayList<Material> luckMaterial = new ArrayList<Material>(Arrays.asList(Material.DIAMOND_ORE, Material.COAL_ORE, Material.EMERALD_ORE, Material.REDSTONE_ORE, Material.NETHER_QUARTZ_ORE, Material.GLOWSTONE, Material.NETHER_GOLD_ORE));
+    public static ArrayList<Material> luckMaterial = new ArrayList<Material>(Arrays.asList(Material.DIAMOND_ORE, Material.COAL_ORE, Material.EMERALD_ORE, Material.REDSTONE_ORE, Material.NETHER_QUARTZ_ORE, Material.GLOWSTONE, Material.NETHER_GOLD_ORE, Material.LAPIS_ORE));
     public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
         ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
 
@@ -612,7 +614,11 @@ public class Miner implements Listener {
                 return Material.GLOWSTONE_DUST;
             case NETHER_GOLD_ORE:
                 return Material.GOLD_NUGGET;
+            case LAPIS_ORE:
+                return Material.LAPIS_LAZULI;
         }
         return l.getBlock().getType();
     }
+
+
 }

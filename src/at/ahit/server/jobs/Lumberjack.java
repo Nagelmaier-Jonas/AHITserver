@@ -180,50 +180,38 @@ public class Lumberjack implements Listener {
         return ++count;
     }
 
+    public int applyLuck(Player p, int originalCount) {
+        Random random = new Random();
+
+        switch (p.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LUCK)) {
+            case 1:
+                if (random.nextInt(100) <= 80)
+                    //damageToDeal++;
+                break;
+            case 2:
+                if (random.nextInt(100) <= 60)
+                    //damageToDeal++;
+                break;
+            case 3:
+                if (random.nextInt(100) <= 50)
+                    //damageToDeal++;
+                break;
+            case 4:
+                if (random.nextInt(100) <= 40)
+                    //damageToDeal++;
+                break;
+            default:
+                // Invalid Enchantment Level
+                break;
+        }
+
+        return originalCount;
+    }
+
+
     // TODO: Adjust Prices
     // TODO: ColorCodes in Descriptions!
     public static void openLumberjackMenu(Player player){
-        /*Inventory inventory = Bukkit.createInventory(null, 9, "Lumberjack");
-
-        ItemStack skill1 = new ItemStack(Material.STONE_AXE,1);
-        ItemMeta skill1Meta = skill1.getItemMeta();
-        skill1Meta.setDisplayName("Luck");
-        ArrayList<String> skill1Lore = new ArrayList<String>();
-        skill1Lore.add("Over 4 times sapling & apple chance!");
-        skill1Lore.add("Costs: 1000c");
-        skill1Meta.setLore(skill1Lore);
-        skill1.setItemMeta(skill1Meta);
-
-        ItemStack skill2 = new ItemStack(Material.IRON_AXE,1);
-        ItemMeta skill2Meta = skill2.getItemMeta();
-        skill2Meta.setDisplayName("Haste");
-        ArrayList<String> skill2Lore = new ArrayList<String>();
-        skill2Lore.add("Haste while holding an axe!");
-        skill2Lore.add("Costs: 1000c");
-        skill2Meta.setLore(skill2Lore);
-        skill2.setItemMeta(skill2Meta);
-
-        ItemStack skill3 = new ItemStack(Material.DIAMOND_AXE,1);
-        ItemMeta skill3Meta = skill3.getItemMeta();
-        skill3Meta.setDisplayName("Treepacitator");
-        ArrayList<String> skill3Lore = new ArrayList<String>();
-        skill3Lore.add("Mine whole trees!");
-        skill3Lore.add("Costs: 1000c");
-        skill3Meta.setLore(skill3Lore);
-        skill3.setItemMeta(skill3Meta);
-
-        ItemStack close = new ItemStack(Material.BARRIER,1);
-        ItemMeta closeMeta = close.getItemMeta();
-        closeMeta.setDisplayName("Close");
-        close.setItemMeta(closeMeta);
-
-        inventory.setItem(1,skill1);
-        inventory.setItem(3,skill2);
-        inventory.setItem(5,skill3);
-        inventory.setItem(8,close);
-
-        player.openInventory(inventory);*/
-
         ArrayList<ItemStack> items = new ArrayList<>();
 
         items.add(SkillMenu.createItem(player, Material.STONE_AXE, 1, "Luck", new ArrayList<>(Arrays.asList("Over 4 times sapling & apple chance when breaking leaves", "Costs: 2500 Coins")), "Lumberjack", 1));
