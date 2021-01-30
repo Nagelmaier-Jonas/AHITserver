@@ -2,6 +2,7 @@ package at.ahit.server.abilities;
 
 import at.ahit.server.jobs.Miner;
 import at.ahit.server.main.Main;
+import at.ahit.server.overlays.Scoreboards;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,9 +31,21 @@ public class MinerAbilities implements CommandExecutor {
             }
             if (strings.length == 0) {
                 commandSender.sendMessage("AutoSmelter is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility1") + ChatColor.RESET + " Haste is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerSkill2") + ChatColor.RESET + " and BigMine is " + ChatColor.AQUA + Main.Load(commandSender.getName() + "_MinerAbility3") + ChatColor.RESET);
-                Miner.giveHaste((Player) commandSender);
+                Miner.giveEffects((Player) commandSender);
             }
         }
+        if (strings.length == 2) {
+            if (strings[0].equals("set")) {
+                try{
+                Main.Save(commandSender.getName() + "_MinerLevel", Integer.parseInt(strings[1]));
+                commandSender.sendMessage("MinerLevel set to " + Main.Load(commandSender.getName() + "_MinerLevel"));
+                Scoreboards.createScoreboard(Main.getConfigFile(), (Player)commandSender);}
+                catch (Exception e){
+                    commandSender.sendMessage("Bist du behindert?");
+                }
+            }
+        }
+
         return false;
     }
 }

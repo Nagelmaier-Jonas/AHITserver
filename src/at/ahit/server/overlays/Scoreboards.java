@@ -26,7 +26,7 @@ public class Scoreboards {
         score3.setScore(3);
         Score score4 = objective.getScore(ChatColor.BLUE + "Coins: " + ChatColor.AQUA + config.get(player.getDisplayName() + "_Amount"));
         score4.setScore(2);
-        Score score5 = objective.getScore(ChatColor.BLUE + "Latest Job: " + Main.Load(player.getDisplayName() +"_LatestJob") + ":" + Main.Load(player.getDisplayName() + "_" + Main.Load(player.getDisplayName()) + "_LatestJob") + "Level");
+        Score score5 = objective.getScore(ChatColor.BLUE + "Latest Job: " + Main.Load(player.getDisplayName() +"_LatestJob") + ": " + Main.Load(player.getDisplayName() + "_" + Main.Load(player.getDisplayName() + "_LatestJob") + "Level"));
         score5.setScore(2);
         Score score6 = objective.getScore(ChatColor.RED + "");
         score6.setScore(1);

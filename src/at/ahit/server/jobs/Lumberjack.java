@@ -17,6 +17,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
@@ -44,23 +46,31 @@ public class Lumberjack implements Listener {
         leafTypes.put(Material.JUNGLE_LEAVES, Material.JUNGLE_SAPLING);
         leafTypes.put(Material.SPRUCE_LEAVES, Material.SPRUCE_SAPLING);
         leafTypes.put(Material.ACACIA_LEAVES, Material.ACACIA_SAPLING);
-        // leafTypes.add(Material.OAK_LEAVES); // Nether Wart Block | Shroomlight // TODO Nether Wart Leaves & Shroom Lights
-        // leafTypes.add(Material.OAK_LEAVES); // Warped Block | ShroomLight // TODO Warped Leaves & Shroom Lights
+        // leafTypes.add(Material.OAK_LEAVES); // Nether Wart Block | Shroomlight // TODO Nether Wart Leaves & Shroom Lights // Ignore?
+        // leafTypes.add(Material.OAK_LEAVES); // Warped Block | ShroomLight // TODO Warped Leaves & Shroom Lights // Ignore?
 
 
         if (leafTypes.containsKey(m)) {
             Random random = new Random();
 
-            if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill2")) ? 0.2 : 0.05))
+            if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill1")) ? 0.2 : 0.05))
                 player.getWorld().dropItem(block.getLocation(), new ItemStack(leafTypes.get(m)));
+
+            if (m == Material.OAK_LEAVES || m == Material.DARK_OAK_LEAVES) {
+                if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill1")) ? 0.02 : 0.005)) {
+                    player.getWorld().dropItem(block.getLocation(), new ItemStack(Material.APPLE));
+                }
+            }
+
+            UptadeMainHand(player, 1);
+            event.getBlock().breakNaturally();
+
+            event.setCancelled(true);
 
             //breakAdjacentBlocks(player, block, m, leafTypes.get(m), ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill3")) ? 0.2 : 0.05);
         }
 
-        // TODO: Auf "new BlockBreakEvent" umsteigen | https://bukkit.org/threads/simulating-block-destruction-by-player.27574/
-
-        // TODO Auf skill level 1
-        // TODO Hast auf skill level 2
+        // Auf "new BlockBreakEvent" umsteigen?? Don't think so! | https://bukkit.org/threads/simulating-block-destruction-by-player.27574/
 
         woodTypes.put(Material.OAK_LOG, 5);
         woodTypes.put(Material.DARK_OAK_LOG, 7);
@@ -74,68 +84,16 @@ public class Lumberjack implements Listener {
         List<Material> axes = Arrays.asList((new Material[] { Material.DIAMOND_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.WOODEN_AXE, Material.STONE_AXE, Material.NETHERITE_AXE }).clone());
 
         if (woodTypes.containsKey(m) && axes.contains(player.getInventory().getItemInMainHand().getType())) {
-
             int blocksBroken = breakAdjacentBlocks(player, block, m);
             playerXp += blocksBroken * woodTypes.get(m);
 
+            UptadeMainHand(player, blocksBroken);
+
             // ItemStack i = player.getInventory().getItemInMainHand();
-            // i.setDurability((short) (i.getDurability() - (blocksBroken))); /// (i.getEnchantmentLevel(Enchantment.DURABILITY) + 1)))); // TODO: FIX UNBREAKING ENCHANTMENT!
-
-            // TODO Fix Axe Durablity
-
-            ItemMeta im = player.getInventory().getItemInMainHand().getItemMeta();
-
-            if (im instanceof Damageable) {
-                Damageable dmg = (Damageable) im;
-                Random r = new Random();
-
-                int damageToDeal = 0;
-
-                for (int i = 0; i < blocksBroken; i++)
-                    switch (event.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY))
-                    {
-                        case 0:
-                            damageToDeal++;
-                            break;
-                        case 1:
-                            if(r.nextInt(100) <= 80)
-                                damageToDeal++;
-                            break;
-                        case 2:
-                            if(r.nextInt(100) <= 60)
-                                damageToDeal++;
-                            break;
-                        case 3:
-                            if(r.nextInt(100) <= 50)
-                                damageToDeal++;
-                            break;
-                        case 4:
-                            if(r.nextInt(100) <= 40)
-                                damageToDeal++;
-                            break;
-                        default:
-                            // Invalid Enchantment Level
-                            break;
-                    }
-
-                // player.sendMessage(damageToDeal + " " + blocksBroken);
-
-                dmg.setDamage(dmg.getDamage() + damageToDeal);
-                event.getPlayer().getInventory().getItemInMainHand().setItemMeta(im);
-
-
-                if (player.getInventory().getItemInMainHand().getType().getMaxDurability() < dmg.getDamage()) {
-                    player.getInventory().remove(player.getInventory().getItemInMainHand());
-                }
-            }
-
-
-            // Damageable meta = (Damageable) i.getItemMeta();
-
-            // meta.setDamage(meta.getDamage() + blocksBroken / i.getEnchantmentLevel(Enchantment.DURABILITY) + 1);
-            // meta.setDamage(100);
+            // i.setDurability((short) (i.getDurability() - (blocksBroken))); /// (i.getEnchantmentLevel(Enchantment.DURABILITY) + 1)))); // Old Code!
         }
 
+        // TODO: Possible Levelling Improvements (Non-Linear, don't set XP to 0)
         if(100 * level <= playerXp) {
             player.sendMessage("You are now lumberjack level " + ChatColor.AQUA +  ++level + ChatColor.RESET + "!");
             Main.Save(player.getDisplayName() + "_LumberjackLevel", level);
@@ -149,46 +107,46 @@ public class Lumberjack implements Listener {
     public static void UptadeMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
         ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
 
-        if (im instanceof Damageable) {
-            Damageable dmg = (Damageable) im;
-            Random r = new Random();
+        if (p.getInventory().getItemInMainHand().getType().getMaxDurability() > 1)
+            if (im instanceof Damageable) {
+                Damageable dmg = (Damageable) im;
+                Random r = new Random();
 
-            int damageToDeal = 0;
+                int damageToDeal = 0;
 
-            for (int i = 0; i < blocksBroken; i++)
-                switch (p.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY)) {
-                    case 0:
-                        damageToDeal++;
-                        break;
-                    case 1:
-                        if (r.nextInt(100) <= 80)
+                for (int i = 0; i < blocksBroken; i++)
+                    switch (p.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY)) {
+                        case 0:
                             damageToDeal++;
-                        break;
-                    case 2:
-                        if (r.nextInt(100) <= 60)
-                            damageToDeal++;
-                        break;
-                    case 3:
-                        if (r.nextInt(100) <= 50)
-                            damageToDeal++;
-                        break;
-                    case 4:
-                        if (r.nextInt(100) <= 40)
-                            damageToDeal++;
-                        break;
-                    default:
-                        // Invalid Enchantment Level
-                        break;
+                            break;
+                        case 1:
+                            if (r.nextInt(100) <= 80)
+                                damageToDeal++;
+                            break;
+                        case 2:
+                            if (r.nextInt(100) <= 60)
+                                damageToDeal++;
+                            break;
+                        case 3:
+                            if (r.nextInt(100) <= 50)
+                                damageToDeal++;
+                            break;
+                        case 4:
+                            if (r.nextInt(100) <= 40)
+                                damageToDeal++;
+                            break;
+                        default:
+                            // Invalid Enchantment Level
+                            break;
+                    }
+
+                dmg.setDamage(dmg.getDamage() + damageToDeal);
+                p.getInventory().getItemInMainHand().setItemMeta(im);
+
+                if (p.getInventory().getItemInMainHand().getType().getMaxDurability() < dmg.getDamage()) {
+                    p.getInventory().remove(p.getInventory().getItemInMainHand());
                 }
-
-            dmg.setDamage(dmg.getDamage() + damageToDeal);
-            p.getInventory().getItemInMainHand().setItemMeta(im);
-
-
-            if (p.getInventory().getItemInMainHand().getType().getMaxDurability() < dmg.getDamage()) {
-                p.getInventory().remove(p.getInventory().getItemInMainHand());
             }
-        }
     }
 
     public static int breakAdjacentBlocks(Player p, Block b, Material m) {
@@ -223,32 +181,34 @@ public class Lumberjack implements Listener {
         return ++count;
     }
 
+    // TODO: Adjust Prices
+    // TODO: ColorCodes in Descriptions!
     public static void openLumberjackMenu(Player player){
         Inventory inventory = Bukkit.createInventory(null, 9, "Lumberjack");
 
         ItemStack skill1 = new ItemStack(Material.STONE_AXE,1);
         ItemMeta skill1Meta = skill1.getItemMeta();
-        skill1Meta.setDisplayName("Skill1");
+        skill1Meta.setDisplayName("Luck");
         ArrayList<String> skill1Lore = new ArrayList<String>();
-        skill1Lore.add("Skill1");
+        skill1Lore.add("Over 4 times sapling & apple chance!");
         skill1Lore.add("Costs: 1000c");
         skill1Meta.setLore(skill1Lore);
         skill1.setItemMeta(skill1Meta);
 
         ItemStack skill2 = new ItemStack(Material.IRON_AXE,1);
         ItemMeta skill2Meta = skill2.getItemMeta();
-        skill2Meta.setDisplayName("Skill2");
+        skill2Meta.setDisplayName("Haste");
         ArrayList<String> skill2Lore = new ArrayList<String>();
-        skill2Lore.add("Skill2");
+        skill2Lore.add("Haste while holding an axe!");
         skill2Lore.add("Costs: 1000c");
         skill2Meta.setLore(skill2Lore);
         skill2.setItemMeta(skill2Meta);
 
         ItemStack skill3 = new ItemStack(Material.DIAMOND_AXE,1);
         ItemMeta skill3Meta = skill3.getItemMeta();
-        skill3Meta.setDisplayName("Skill3");
+        skill3Meta.setDisplayName("Treepacitator");
         ArrayList<String> skill3Lore = new ArrayList<String>();
-        skill3Lore.add("Skill3");
+        skill3Lore.add("Mine whole trees!");
         skill3Lore.add("Costs: 1000c");
         skill3Meta.setLore(skill3Lore);
         skill3.setItemMeta(skill3Meta);
@@ -274,15 +234,16 @@ public class Lumberjack implements Listener {
             String name = itemStack.getItemMeta().getDisplayName();
 
             switch (name){
-                case "Skill1":
-                    player.sendMessage("obtained skill1");
+                case "Luck":
+                    player.sendMessage("Obtained new skill: Luck");
+                    Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill1", true);
                     break;
-                case "Skill2":
-                    player.sendMessage("MUCH higher sapling chance!"); // TODO
+                case "Haste":
+                    player.sendMessage("Obtained new skill: Haste");
                     Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill2", true);
                     break;
-                case "Skill3":
-                    player.sendMessage("Obtained tree-insta-break!"); // TODO
+                case "Treepacitator":
+                    player.sendMessage("Obtained new skill: Treepacitator");
                     Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill3", true);
                     break;
                 case "Close":

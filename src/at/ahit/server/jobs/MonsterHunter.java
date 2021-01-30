@@ -6,6 +6,7 @@ import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +16,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class MonsterHunter {
+public class MonsterHunter implements Listener {
 
     public static void openMonsterHunterMenu(Player player){
         ArrayList<ItemStack> items = new ArrayList<>();
@@ -43,7 +44,6 @@ public class MonsterHunter {
                         Main.Save(player.getDisplayName() + "_MonsterHunterSkill1", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                        player.closeInventory();
                         MonsterHunter.openMonsterHunterMenu(player);
                     } else {
                         MonsterHunter.openMonsterHunterMenu(player);
@@ -55,7 +55,6 @@ public class MonsterHunter {
                         Main.Save(player.getDisplayName() + "_MonsterHunterSkill2", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                        player.closeInventory();
                         MonsterHunter.openMonsterHunterMenu(player);
                     } else {
                         MonsterHunter.openMonsterHunterMenu(player);
@@ -67,7 +66,6 @@ public class MonsterHunter {
                         Main.Save(player.getDisplayName() + "_MonsterHunterSkill3", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                        player.closeInventory();
                         MonsterHunter.openMonsterHunterMenu(player);
                     } else {
                         MonsterHunter.openMonsterHunterMenu(player);
