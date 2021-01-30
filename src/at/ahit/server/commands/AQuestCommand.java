@@ -1,5 +1,6 @@
 package at.ahit.server.commands;
 
+import at.ahit.server.main.Main;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -20,15 +21,24 @@ public class AQuestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] strings) {
         if (commandSender instanceof Player){
+
             Player player = (Player) commandSender;
+
+            String wizardquest = (String) Main.Load(player.getDisplayName() + "_QuestsWizard");
+            String farmerquest = (String) Main.Load(player.getDisplayName() + "_QuestsFarmer");
+            String hunterquest = (String) Main.Load(player.getDisplayName() + "_QuestsHunter");
+            String lumberquest = (String) Main.Load(player.getDisplayName() + "_QuestsLumberjack");
+            String minerquest = (String) Main.Load(player.getDisplayName() + "_QuestsMiner");
+            String monsterhunterquest = (String) Main.Load(player.getDisplayName() + "_QuestsMonsterHunter");
+
             if (strings.length == 0){
 
-                TextComponent wizard = new TextComponent("Do you want to view your Wizard quests?");                wizard.setColor(ChatColor.GOLD);wizard.setBold(true);
-                TextComponent farmer = new TextComponent("Do you want to view your Farmer quests?");                farmer.setColor(ChatColor.GOLD);farmer.setBold(true);
-                TextComponent hunter = new TextComponent("Do you want to view your Hunter quests?");                hunter.setColor(ChatColor.GOLD);hunter.setBold(true);
-                TextComponent lumber = new TextComponent("Do you want to view your Lumber quests?");                lumber.setColor(ChatColor.GOLD);lumber.setBold(true);
-                TextComponent miner = new TextComponent("Do you want to view your Miner quests?");                  miner.setColor(ChatColor.GOLD);miner.setBold(true);
-                TextComponent monsterhunter = new TextComponent("Do you want to view your Monsterhunter quests?");  monsterhunter.setColor(ChatColor.GOLD);monsterhunter.setBold(true);
+                TextComponent wizard = new TextComponent("Do you want to view your Wizard quests?");                wizard.setColor(ChatColor.YELLOW);
+                TextComponent farmer = new TextComponent("Do you want to view your Farmer quests?");                farmer.setColor(ChatColor.YELLOW);
+                TextComponent hunter = new TextComponent("Do you want to view your Hunter quests?");                hunter.setColor(ChatColor.YELLOW);
+                TextComponent lumber = new TextComponent("Do you want to view your Lumber quests?");                lumber.setColor(ChatColor.YELLOW);
+                TextComponent miner = new TextComponent("Do you want to view your Miner quests?");                  miner.setColor(ChatColor.YELLOW);
+                TextComponent monsterhunter = new TextComponent("Do you want to view your Monsterhunter quests?");  monsterhunter.setColor(ChatColor.YELLOW);
 
                 wizard.setClickEvent(       new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest wizard"));
                 farmer.setClickEvent(       new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer"));
@@ -84,33 +94,62 @@ public class AQuestCommand implements CommandExecutor {
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(wizardq5);
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 return true;
-            }
-
+            }// QUESTS ARE MISSING
 
             if (strings[0].equals("wizard")){
                 switch (strings[1]){
                     case "q1":
+                        if (wizardquest.equals("0, 0, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 0, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q2":
+                        if (wizardquest.equals("1, 0, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q3":
+                        if (wizardquest.equals("1, 1, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 1, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q4":
+                        if (wizardquest.equals("1, 1, 1, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 1, 1, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q5":
+                        if (wizardquest.equals("1, 1, 1, 1, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 1, 1, 1");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     default:
                         return true;
                 }
                 return true;
-            }
+            }// QUESTS ARE MISSING
 
             if (strings[0].equals("farmer") && strings.length == 1){
                 TextComponent farmerq1 = new TextComponent(ChatColor.AQUA + "Collect you first Seeds " + ChatColor.GREEN + "(4x Seeds required)");farmerq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q1"));
                 TextComponent farmerq2 = new TextComponent(ChatColor.AQUA + "Craft a Compostor " + ChatColor.GREEN +  "(1x Compostor required)");farmerq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q2"));
                 TextComponent farmerq3 = new TextComponent(ChatColor.AQUA + "Craft a Diamond Hoe " + ChatColor.GREEN + "(1x Diamond Hoe)");farmerq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q3"));
                 TextComponent farmerq4 = new TextComponent(ChatColor.AQUA + "Craft a Netherite Hoe "+ ChatColor.GREEN + "(1x Netherite Hoe)");farmerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q4"));
-                TextComponent farmerq5 = new TextComponent(ChatColor.AQUA + "Build a Big Farm \n" +
+                TextComponent farmerq5 = new TextComponent(ChatColor.AQUA + "Build a Big Farm " +
                         ChatColor.GREEN + "(64x Pumpkin Pies required)");farmerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q5"));
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 farmerq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -131,30 +170,60 @@ public class AQuestCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
 
                 return true;
-            }
+            }// DONE
 
             if (strings[0].equals("farmer")){
                 switch (strings[1]){
                     case "q1":
-                        getInventoryLocation(Material.WHEAT_SEEDS , 4, player, 12, true);
+                        if (farmerquest.equals("0, 0, 0, 0, 0")){
+                            getInventoryLocation(Material.WHEAT_SEEDS , 4, player, 12, true);
+                            Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 0, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q2":
-                        getInventoryLocation(Material.COMPOSTER , 1, player, 17, false);
+                        if (farmerquest.equals("1, 0, 0, 0, 0")){
+                            getInventoryLocation(Material.COMPOSTER , 1, player, 17, false);
+                            Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q3":
-                        getInventoryLocation(Material.DIAMOND_HOE , 1, player, 100, false);
+                        if (farmerquest.equals("1, 1, 0, 0, 0")){
+                            getInventoryLocation(Material.DIAMOND_HOE , 1, player, 100, false);
+                            Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q4":
-                        getInventoryLocation(Material.NETHERITE_HOE , 1, player, 250, false);
+                        if (farmerquest.equals("1, 1, 1, 0, 0")){
+                            getInventoryLocation(Material.NETHERITE_HOE , 1, player, 250, false);
+                            Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q5":
-                        getInventoryLocation(Material.PUMPKIN_PIE , 64, player, 400, true);
+                        if (farmerquest.equals("1, 1, 1, 1, 0")){
+                            getInventoryLocation(Material.PUMPKIN_PIE , 64, player, 400, true);
+                            Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 1");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     default:
                         return true;
                 }
                 return true;
-            }
+            }// DONE
 
             if (strings[0].equals("hunter") && strings.length == 1){
                 TextComponent hunterq1 = new TextComponent(ChatColor.AQUA + "Get your first food " + ChatColor.GREEN +
@@ -183,30 +252,59 @@ public class AQuestCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
 
                 return true;
-            }
+            }// QUESTS ARE MISSING
 
             if (strings[0].equals("hunter")){
                 switch (strings[1]){
                     case "q1":
-                        getInventoryLocation(Material.BEEF , 3,  player, 12, false);
+                        if (hunterquest.equals("0, 0, 0, 0, 0")){
+                            getInventoryLocation(Material.BEEF , 3,  player, 12, false);
+                            Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 0, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q2":
+                        if (hunterquest.equals("1, 0, 0, 0, 0")){
 
+                            Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q3":
+                        if (hunterquest.equals("1, 1, 0, 0, 0")){
 
+                            Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q4":
-                        getInventoryLocation(Material.SADDLE , 1,  player, 12, false);
+                        if (hunterquest.equals("1, 1, 1, 0, 0")){
+                            getInventoryLocation(Material.SADDLE , 1,  player, 12, false);
+                            Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q5":
-
+                        if (hunterquest.equals("1, 1, 1, 1, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 1");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     default:
                         return true;
                 }
                 return true;
-            }
+            }// QUESTS ARE MISSING
 
             if (strings[0].equals("lumber") && strings.length == 1){
                 TextComponent lumberq1 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q1"));
@@ -232,25 +330,55 @@ public class AQuestCommand implements CommandExecutor {
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(lumberq5);
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 return true;
-            }
+            }// QUESTS ARE MISSING
 
             if (strings[0].equals("lumber")){
                 switch (strings[1]){
                     case "q1":
+                        if (lumberquest.equals("0, 0, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 0, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q2":
+                        if (lumberquest.equals("1, 0, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q3":
+                        if (lumberquest.equals("1, 1, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q4":
+                        if (lumberquest.equals("1, 1, 1, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 1, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q5":
+                        if (lumberquest.equals("1, 1, 1, 1, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 1, 1");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     default:
                         return true;
                 }
                 return true;
-            }
+            }// QUESTS ARE MISSING
 
             if (strings[0].equals("miner") && strings.length == 1){
                 TextComponent minerq1 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");minerq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q1"));
@@ -281,14 +409,44 @@ public class AQuestCommand implements CommandExecutor {
             if (strings[0].equals("miner")){
                 switch (strings[1]){
                     case "q1":
+                        if (minerquest.equals("0, 0, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 0, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q2":
+                        if (minerquest.equals("1, 0, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q3":
+                        if (minerquest.equals("1, 1, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q4":
+                        if (minerquest.equals("1, 1, 1, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 1, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q5":
+                        if (minerquest.equals("1, 1, 1, 1, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 1, 1");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     default:
                         return true;
@@ -325,14 +483,44 @@ public class AQuestCommand implements CommandExecutor {
             if (strings[0].equals("monsterhunter")){
                 switch (strings[1]){
                     case "q1":
+                        if (monsterhunterquest.equals("0, 0, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 0, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q2":
+                        if (monsterhunterquest.equals("1, 0, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 0, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q3":
+                        if (monsterhunterquest.equals("1, 1, 0, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 0, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q4":
+                        if (monsterhunterquest.equals("1, 1, 1, 0, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 1, 0");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     case "q5":
+                        if (monsterhunterquest.equals("1, 1, 1, 1, 0")){
+                            Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 1, 1");
+                        }
+                        else {
+                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                        }
                         break;
                     default:
                         return true;

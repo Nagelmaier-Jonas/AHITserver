@@ -31,9 +31,9 @@ public class AQuestMethods {
                     }
 
                 }
-                player.sendMessage(ChatColor.RED + "You don´t have the Quest Item in your Inventory!");
             }
         }
+        player.sendMessage(ChatColor.RED + "You don´t have the Quest Item in your Inventory!");
 
     }
 }

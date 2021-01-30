@@ -2,23 +2,21 @@ package at.ahit.server.jobs;
 
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
-import net.minecraft.server.v1_16_R3.EnchantmentProtection;
+import at.ahit.server.overlays.Scoreboards;
+import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
@@ -53,16 +51,16 @@ public class Lumberjack implements Listener {
         if (leafTypes.containsKey(m)) {
             Random random = new Random();
 
-            if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill1")) ? 0.2 : 0.05))
+            if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")) ? 0.2 : 0.05))
                 player.getWorld().dropItem(block.getLocation(), new ItemStack(leafTypes.get(m)));
 
             if (m == Material.OAK_LEAVES || m == Material.DARK_OAK_LEAVES) {
-                if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill1")) ? 0.02 : 0.005)) {
+                if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")) ? 0.02 : 0.005)) {
                     player.getWorld().dropItem(block.getLocation(), new ItemStack(Material.APPLE));
                 }
             }
 
-            UptadeMainHand(player, 1);
+            UpdateMainHand(player, 1);
             event.getBlock().breakNaturally();
 
             event.setCancelled(true);
@@ -87,7 +85,7 @@ public class Lumberjack implements Listener {
             int blocksBroken = breakAdjacentBlocks(player, block, m);
             playerXp += blocksBroken * woodTypes.get(m);
 
-            UptadeMainHand(player, blocksBroken);
+            UpdateMainHand(player, blocksBroken);
 
             // ItemStack i = player.getInventory().getItemInMainHand();
             // i.setDurability((short) (i.getDurability() - (blocksBroken))); /// (i.getEnchantmentLevel(Enchantment.DURABILITY) + 1)))); // Old Code!
@@ -104,7 +102,7 @@ public class Lumberjack implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    public static void UptadeMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
+    public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
         ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
 
         if (p.getInventory().getItemInMainHand().getType().getMaxDurability() > 1)
@@ -150,9 +148,10 @@ public class Lumberjack implements Listener {
     }
 
     public static int breakAdjacentBlocks(Player p, Block b, Material m) {
-        if ((boolean) Main.Load(p.getDisplayName() + "_LumberjackSkill3"))
+        if ((boolean) Main.Load(p.getDisplayName() + "_LumberjackAbility3"))
             return breakAdjacentBlocks(p, b, m, 0, 1000);
-        return 1;
+        else
+            return breakAdjacentBlocks(p, b, m, 0, 1);
     }
 
     private static int breakAdjacentBlocks(Player p, Block b, Material m, int count, int maxCount) {
@@ -184,7 +183,7 @@ public class Lumberjack implements Listener {
     // TODO: Adjust Prices
     // TODO: ColorCodes in Descriptions!
     public static void openLumberjackMenu(Player player){
-        Inventory inventory = Bukkit.createInventory(null, 9, "Lumberjack");
+        /*Inventory inventory = Bukkit.createInventory(null, 9, "Lumberjack");
 
         ItemStack skill1 = new ItemStack(Material.STONE_AXE,1);
         ItemMeta skill1Meta = skill1.getItemMeta();
@@ -223,35 +222,129 @@ public class Lumberjack implements Listener {
         inventory.setItem(5,skill3);
         inventory.setItem(8,close);
 
+        player.openInventory(inventory);*/
+
+        ArrayList<ItemStack> items = new ArrayList<>();
+
+        items.add(SkillMenu.createItem(player, Material.STONE_AXE, 1, "Luck", new ArrayList<>(Arrays.asList("Over 4 times sapling & apple chance when breaking leaves", "Costs: 2500 Coins")), "Lumberjack", 1));
+        items.add(SkillMenu.createItem(player, Material.IRON_AXE, 1, "Haste", new ArrayList<>(Arrays.asList("Blocks break faster with an axe", "Costs: 10000 Coins")), "Lumberjack", 2));
+        items.add(SkillMenu.createItem(player, Material.DIAMOND_AXE, 1, "Treepacitator", new ArrayList<>(Arrays.asList("Mine whole trees at a time", "Costs: 25000 Coins")), "Lumberjack", 3));
+        items.add(SkillMenu.createItem(Material.BARRIER, 1, "Close"));
+
+        if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill1")) {
+            if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")) {
+                items.get(0).addEnchantment(Enchantment.LOOT_BONUS_BLOCKS, 1); // TODO Ask the guy who called it "Loot_Bonus_Blocks" if he is stupid
+                RemoveEnchantmentLore(items.get(0));
+            }
+        }
+
+        if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill2")) {
+            if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility2")) {
+                items.get(1).addEnchantment(Enchantment.DIG_SPEED, 1);
+                RemoveEnchantmentLore(items.get(1));
+            }
+        }
+
+        if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill3")) {
+            if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility3")) {
+                items.get(2).addEnchantment(Enchantment.DURABILITY, 1);
+                RemoveEnchantmentLore(items.get(2));
+
+                // items.get(2).getItemMeta().getLore().add(ChatColor.GREEN + "Ability enabled");
+            }
+        }
+
+        Inventory inventory = SkillMenu.createSkillInventory(player, "Lumberjack", new HashMap<Integer, ItemStack>() {{
+            put(1, items.get(0));
+            put(3, items.get(1));
+            put(5, items.get(2));
+            put(8, items.get(3));
+        }});
         player.openInventory(inventory);
+    }
+
+    public static void AddLoreLine(ItemStack i, String line) {
+        ItemMeta meta = i.getItemMeta();
+        List<String> lore =  meta.getLore();
+        lore.add(line);
+        meta.setLore(lore);
+        i.setItemMeta(meta);
+    }
+
+    public static void RemoveEnchantmentLore(ItemStack i) {
+        ItemMeta meta = i.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        i.setItemMeta(meta);
     }
 
     public static void onLumberjackJobsUse(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
 
-        if (itemStack.getType() != Material.AIR){
-            String name = itemStack.getItemMeta().getDisplayName();
+        int playerCoins = (int) Main.Load(player.getDisplayName() + "_Amount");
 
-            switch (name){
-                case "Luck":
-                    player.sendMessage("Obtained new skill: Luck");
-                    Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill1", true);
-                    break;
-                case "Haste":
-                    player.sendMessage("Obtained new skill: Haste");
-                    Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill2", true);
-                    break;
-                case "Treepacitator":
-                    player.sendMessage("Obtained new skill: Treepacitator");
-                    Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill3", true);
-                    break;
-                case "Close":
-                    Menu.openMenu(player);
-                    break;
+        if (event.getView().getTitle() == "Lumberjack")
+            if (itemStack.getType() != Material.AIR){
+                String name = itemStack.getItemMeta().getDisplayName();
+
+                switch (name){
+                    case "Luck":
+                        if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill1")) {
+                            Main.Save(player.getDisplayName() + "_LumberjackAbility1", !((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")));
+                            Lumberjack.openLumberjackMenu(player);
+                        }
+                        else if (playerCoins >= 2500) {
+                            player.sendMessage("Obtained new skill: Luck");
+
+                            Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill1", true);
+                            Main.Save(player.getDisplayName() + "_Amount", playerCoins - 2500);
+
+                            Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                            Lumberjack.openLumberjackMenu(player);
+                        }
+                        else
+                            player.sendMessage("YOU SHALL NOT! >:0");
+                        break;
+                    case "Haste":
+                        if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill2")) {
+                            Main.Save(player.getDisplayName() + "_LumberjackAbility2", !((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility2")));
+                            Lumberjack.openLumberjackMenu(player);
+                        }
+                        else if (playerCoins >= 2500) {
+                            player.sendMessage("Obtained new skill: Haste");
+
+                            Main.Save(player.getDisplayName() + "_LumberjackSkill2", true);
+                            Main.Save(player.getDisplayName() + "_Amount", playerCoins - 10000);
+
+                            Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                            Lumberjack.openLumberjackMenu(player);
+                        }
+                        else
+                            player.sendMessage("YOU SHALL NOT! >:0");
+                        break;
+                    case "Treepacitator":
+                        if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill3")) {
+                            Main.Save(player.getDisplayName() + "_LumberjackAbility3", !((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility3")));
+                            Lumberjack.openLumberjackMenu(player);
+                        }
+                        else if (playerCoins >= 2500) {
+                            player.sendMessage("Obtained new skill: Treepacitator");
+
+                            Main.Save(player.getDisplayName() + "_LumberjackSkill3", true);
+                            Main.Save(player.getDisplayName() + "_Amount", playerCoins - 25000);
+
+                            Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                            Lumberjack.openLumberjackMenu(player);
+                        }
+                        else
+                            player.sendMessage("YOU SHALL NOT! >:0");
+                        break;
+                    case "Close":
+                        Menu.openMenu(player);
+                        break;
+                }
+
+                event.setCancelled(true);
             }
-
-            event.setCancelled(true);
-        }
     }
 }
