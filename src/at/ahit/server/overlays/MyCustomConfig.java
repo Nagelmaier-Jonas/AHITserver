@@ -1,18 +1,22 @@
 package at.ahit.server.overlays;
 
 import at.ahit.server.main.Main;
+import at.ahit.server.enums.Color;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
 public class MyCustomConfig extends YamlConfiguration {
-    private static MyCustomConfig config;
+    private static MyCustomConfig config1;
 
     public static MyCustomConfig getConfig() {
-        if (config == null) {
-            config = new MyCustomConfig();
+        if (config1 == null) {
+            //System.out.println(Color.RED + "is null" + Color.RESET);
+            config1 = new MyCustomConfig();
         }
-        return config;
+        //System.out.println(Color.RED + "is not null" + Color.RESET);
+        return config1;
     }
 
     private Main plugin;
@@ -20,8 +24,7 @@ public class MyCustomConfig extends YamlConfiguration {
 
     public MyCustomConfig() {
         plugin = Main.getPlugin(Main.class);
-        configFile = new File(plugin.getDataFolder(), "custom.yml");
-        saveDefault();
+        configFile = new File(plugin.getDataFolder(), "test.yml");
         reload();
     }
 
@@ -30,7 +33,7 @@ public class MyCustomConfig extends YamlConfiguration {
         try {
             super.load(configFile);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -39,12 +42,12 @@ public class MyCustomConfig extends YamlConfiguration {
         try {
             super.save(configFile);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
     // this method works in the same way plugin.saveDefaultConfig() does
-    public void saveDefault() {
-        plugin.saveResource("custom.yml", false);
-    }
+    //public void saveDefault() {
+        //plugin.saveResource("test.yml", true);
+    //}
 }

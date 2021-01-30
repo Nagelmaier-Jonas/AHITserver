@@ -7,6 +7,7 @@ import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -502,10 +503,14 @@ public class Miner implements Listener {
     }
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        MyCustomConfig config1 = MyCustomConfig.getConfig();
-        config1.set(event.getBlock().getLocation()+"", event.getBlock().getType());
+        MyCustomConfig config1 = MyCustomConfig.getConfig();ArrayList<String> list = new
+        //        (int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ();
+        locList.put(, event.getBlock().getLocation().getWorld().getName()+ "");
+        config1.set("Placed Blocks", locList);
         config1.save();
-        //String str = config1.getString(event.getBlock().getLocation()+"");
+        HashMap<String, String> neu = (HashMap<String, String>) config1.get("Placed Blocks");
+
+        event.getPlayer().sendMessage(neu.get((int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ()));
     }
 
 
