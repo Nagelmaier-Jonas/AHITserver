@@ -3,6 +3,7 @@ package at.ahit.server.jobs;
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
+import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -20,12 +21,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-//TODO: lvl shop, as auf bigmier, xp bei bigminer
+//TODO: lvl shop, AS AUF BIGMIER, DAMAGE ITEM ON USE AS
 public class Miner implements Listener {
 
     public void breakBlock(Player player, Block b) {
@@ -120,6 +118,7 @@ public class Miner implements Listener {
             }
 
             ArrayList<Material> breakableStuff = new ArrayList<>();
+            //ADDITEMS
             breakableStuff.add(Material.STONE);
             breakableStuff.add(Material.ANDESITE);
             breakableStuff.add(Material.BLACKSTONE);
@@ -279,7 +278,10 @@ public class Miner implements Listener {
                             }
                             event.getPlayer().getInventory().getItemInMainHand().setItemMeta(im);
                         }
-                        l.getBlock().breakNaturally();
+                        if((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1"))
+                            autoSmeltOre(event.getPlayer(), event.getBlock());
+                        else
+                            l.getBlock().breakNaturally();
                     }
                 }
             }
@@ -292,7 +294,7 @@ public class Miner implements Listener {
 
     // shop
     public static void openMinerMenu(Player player) {
-        Inventory inventory = Bukkit.createInventory(null, 9, "Miner");
+        /*Inventory inventory = Bukkit.createInventory(null, 9, "Miner");
 
         ItemStack skill1 = new ItemStack(Material.STONE_PICKAXE, 1);
         ItemMeta skill1Meta = skill1.getItemMeta();
@@ -307,11 +309,9 @@ public class Miner implements Listener {
         }
         if((boolean) Main.Load(player.getDisplayName()+ "_MinerAbility1")) {
             skill1Meta.removeEnchant(Enchantment.DURABILITY);
-            Main.Save(player.getDisplayName()+ "_MinerAbility1", false);
         }
         else {
             skill1Meta.addEnchant(Enchantment.DURABILITY, 1, true);
-            Main.Save(player.getDisplayName()+ "_MinerAbility1", true);
         }
         skill1Meta.setLore(skill1Lore);
         skill1.setItemMeta(skill1Meta);
@@ -354,6 +354,18 @@ public class Miner implements Listener {
         inventory.setItem(5, skill3);
         inventory.setItem(8, close);
 
+        player.openInventory(inventory);*/
+
+        ArrayList<ItemStack> items = new ArrayList<>();
+
+        items.add(SkillMenu.createItem(player,Material.STONE_PICKAXE,1,"Autosmelt",new ArrayList<>(Arrays.asList("Ores are smelted automatically","Costs: 2500 Coins")),"Miner",1));
+
+
+        items.add(SkillMenu.createItem(player,Material.IRON_PICKAXE,1,"Faster...",new ArrayList<>(Arrays.asList("Blocks break faster with a Pickaxe","Costs: 10000 Coins")),"Miner",2));
+        items.add(SkillMenu.createItem(player,Material.DIAMOND_PICKAXE,1,"BigMiner",new ArrayList<>(Arrays.asList("You can use the /mine big now!","Costs: 25000 Coins")),"Miner",3));
+        items.add(SkillMenu.createItem(Material.BARRIER,1,"Close"));
+
+        Inventory inventory = SkillMenu.createSkillInventory(player,"Miner",new HashMap<Integer,ItemStack>(){{put(1,items.get(0));put(3,items.get(1));put(5,items.get(2));put(8,items.get(3));}});
         player.openInventory(inventory);
     }
 
@@ -375,6 +387,10 @@ public class Miner implements Listener {
                         Miner.openMinerMenu(player);
                         player.sendMessage("You can't buy that you little motherfucker");
                     }
+                    if((boolean) Main.Load(player.getDisplayName()+ "_MinerAbility1"))
+                        Main.Save(player.getDisplayName()+ "_MinerAbility1", false);
+                    else
+                        Main.Save(player.getDisplayName()+ "_MinerAbility1", true);
                     break;
                 case "Faster...":
                     if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill2"))) {
@@ -408,26 +424,53 @@ public class Miner implements Listener {
     }
 
     public void autoSmeltOre(BlockBreakEvent event) {
-        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1")) {
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
             switch (event.getBlock().getType()) {
                 case IRON_ORE:
                     event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.IRON_INGOT));
                     event.setCancelled(true);
+                    breakBlock(event.getPlayer(), event.getBlock());
                     event.getBlock().setType(Material.AIR);
                     break;
                 case GOLD_ORE:
                     event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.GOLD_INGOT));
                     event.setCancelled(true);
+                    breakBlock(event.getPlayer(), event.getBlock());
                     event.getBlock().setType(Material.AIR);
                     break;
                 case STONE:
                     event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.STONE));
                     event.setCancelled(true);
+                    breakBlock(event.getPlayer(), event.getBlock());
                     event.getBlock().setType(Material.AIR);
                     break;
             }
         }
     }
+
+    public void autoSmeltOre(Player player, Block block) {
+        player.sendMessage("hallo");
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1") && createArray().contains(player.getInventory().getItemInMainHand().getType())) {
+            switch (block.getType()) {
+                case IRON_ORE:
+                    block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.IRON_INGOT));
+                    breakBlock(player, block);
+                    block.setType(Material.AIR);
+                    break;
+                case GOLD_ORE:
+                    block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.GOLD_INGOT));
+                    breakBlock(player, block);
+                    block.setType(Material.AIR);
+                    break;
+                case STONE:
+                    block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.STONE));
+                    breakBlock(player, block);
+                    block.setType(Material.AIR);
+                    break;
+            }
+        }
+    }
+
 
     public static void giveEffects(Player p) {
         if (createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_MinerSkill2")) {
