@@ -33,7 +33,7 @@ public class SetCoinsCommand implements CommandExecutor {
                                     player.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard());
                                 }
                                 //Save Server
-                                target.sendMessage("§aDir wurden§6 " + strings[1] + " §aCoins hinzugefügt! Dein Guthaben beträgt:§6 " + config.get(player.getDisplayName() + "_Amount"));
+                                target.sendMessage("§aDir wurden§6 " + strings[1] + " §aCoins hinzugefügt! Dein Guthaben beträgt:§6 " + config.get(target.getDisplayName() + "_Amount"));
                             }else{
                                 target.sendMessage("§4Du hast zu wenig Geld!");
                             }

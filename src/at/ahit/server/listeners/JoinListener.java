@@ -45,41 +45,87 @@ public class JoinListener implements Listener {
     public static void firstJoin(FileConfiguration config, Player player){
         String displayName = player.getDisplayName();
         if (config.get(displayName + "_HasPlayedBefore") == null) {
-            config.set(displayName + "_HasPlayedBefore", true);
-            config.set(displayName + "_Amount", 0);
-            config.set(displayName + "_Overlay", true);
-            config.set(displayName + "_MinerXp", 0);
-            config.set(displayName + "_MinerLevel", 1);
-            config.set(displayName + "_LumberjackXp", 0);
-            config.set(displayName + "_LumberjackLevel", 1);
-
-            Main.Save(displayName + "_MinerSkill1", false);
-            Main.Save(displayName + "_MinerSkill2", false);
-            Main.Save(displayName + "_MinerSkill3", false);
-
-            Main.Save(displayName + "_FarmerSkill1", false);
-            Main.Save(displayName + "_FarmerSkill2", false);
-            Main.Save(displayName + "_FarmerSkill3", false);
-
-            Main.Save(displayName + "_HunterSkill1", false);
-            Main.Save(displayName + "_HunterSkill2", false);
-            Main.Save(displayName + "_HunterSkill3", false);
-
-            Main.Save(displayName + "_LumberjackSkill1", false);
-            Main.Save(displayName + "_LumberjackSkill2", false);
-            Main.Save(displayName + "_LumberjackSkill3", false);
-
-            Main.Save(displayName + "_MonsterHunterSkill1", false);
-            Main.Save(displayName + "_MonsterHunterSkill2", false);
-            Main.Save(displayName + "_MonsterHunterSkill3", false);
-
+            setConfig(displayName);
+            setSkills(displayName);
         }
-
-        Main.Save(displayName + "_MinerAbility1",false);
-        Main.Save(displayName + "_MinerAbility2",false);
-        Main.Save(displayName + "_MinerAbility3",false);
-
+        setAbilities(displayName);
         Main.getPlugin().saveConfig();
+    }
+    
+    public static void setConfig(String displayName){
+        Main.Save(displayName + "_HasPlayedBefore",true);
+        Main.Save(displayName + "_Amount",0);
+        Main.Save(displayName + "Overlay",true);
+
+        Main.Save(displayName + "_FarmerXp", 0);
+        Main.Save(displayName + "_FarmerLevel", 1);
+
+        Main.Save(displayName + "_HunterXp", 0);
+        Main.Save(displayName + "_HunterLevel", 1);
+
+        Main.Save(displayName + "_LumberjackXp", 0);
+        Main.Save(displayName + "_LumberjackLevel", 1);
+
+        Main.Save(displayName + "_MinerXp", 0);
+        Main.Save(displayName + "_MinerLevel", 1);
+
+        Main.Save(displayName + "_MonsterHunterXp", 0);
+        Main.Save(displayName + "_MonsterHunterLevel", 1);
+
+        Main.Save(displayName + "_WizardXp", 0);
+        Main.Save(displayName + "_WizardLevel", 1);
+    }
+    
+    public static void setSkills(String displayName){
+        Main.Save(displayName + "_MinerSkill1", false);
+        Main.Save(displayName + "_MinerSkill2", false);
+        Main.Save(displayName + "_MinerSkill3", false);
+
+        Main.Save(displayName + "_FarmerSkill1", false);
+        Main.Save(displayName + "_FarmerSkill2", false);
+        Main.Save(displayName + "_FarmerSkill3", false);
+
+        Main.Save(displayName + "_HunterSkill1", false);
+        Main.Save(displayName + "_HunterSkill2", false);
+        Main.Save(displayName + "_HunterSkill3", false);
+
+        Main.Save(displayName + "_LumberjackSkill1", false);
+        Main.Save(displayName + "_LumberjackSkill2", false);
+        Main.Save(displayName + "_LumberjackSkill3", false);
+
+        Main.Save(displayName + "_MonsterHunterSkill1", false);
+        Main.Save(displayName + "_MonsterHunterSkill2", false);
+        Main.Save(displayName + "_MonsterHunterSkill3", false);
+
+        Main.Save(displayName + "_WizardSkill1", false);
+        Main.Save(displayName + "_WizardSkill2", false);
+        Main.Save(displayName + "_WizardSkill3", false);
+    }
+    
+    public static void setAbilities(String displayName){
+        Main.Save(displayName + "_MinerAbility1", false);
+        Main.Save(displayName + "_MinerAbility2", false);
+        Main.Save(displayName + "_MinerAbility3", false);
+
+        Main.Save(displayName + "_FarmerAbility1", false);
+        Main.Save(displayName + "_FarmerAbility2", false);
+        Main.Save(displayName + "_FarmerAbility3", false);
+
+        Main.Save(displayName + "_HunterAbility1", false);
+        Main.Save(displayName + "_HunterAbility2", false);
+        Main.Save(displayName + "_HunterAbility3", false);
+
+        Main.Save(displayName + "_LumberjackAbility1", false);
+        Main.Save(displayName + "_LumberjackAbility2", false);
+        Main.Save(displayName + "_LumberjackAbility3", false);
+
+        Main.Save(displayName + "_MonsterHunterAbility1", false);
+        Main.Save(displayName + "_MonsterHunterAbility2", false);
+        Main.Save(displayName + "_MonsterHunterAbility3", false);
+
+        Main.Save(displayName + "_WizardAbility1", false);
+        Main.Save(displayName + "_WizardAbility2", false);
+        Main.Save(displayName + "_WizardAbility3", false);
     }
 
     public void customjoinmessage(PlayerJoinEvent event){

@@ -2,6 +2,7 @@ package at.ahit.server.jobs;
 
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
+import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Farmer implements Listener {
 
@@ -73,12 +75,12 @@ public class Farmer implements Listener {
 
         ArrayList<ItemStack> items = new ArrayList<>();
 
-        items.add(SkillMenu.createItem(player, Material.STONE_HOE, 1, "Skill1+", new ArrayList<>(
-                Arrays.asList("Your dealt damage is increased", "Costs: 5000c")), "Farmer", 1));
-        items.add(SkillMenu.createItem(player, Material.IRON_HOE, 1, "Skill2+", new ArrayList<>(Arrays.asList(
-                "Your damage taken will be reduced", "Costs: 10000c")), "Farmer", 2));
-        items.add(SkillMenu.createItem(player, Material.DIAMOND_HOE, 1, "Replenish", new ArrayList<>(Arrays.asList(
-                "Monster heads drop more often", "Costs: 25000c")), "Farmer", 3));
+        items.add(SkillMenu.createItem(player, Material.STONE_HOE, 1, "CropMaster", new ArrayList<>(
+                Arrays.asList("You will get more crops", "Costs: 5000c")), "Farmer", 1));
+        items.add(SkillMenu.createItem(player, Material.IRON_HOE, 1, "FarmerWife", new ArrayList<>(Arrays.asList(
+                "You have a chance to cook your crops instantly", "Costs: 10000c")), "Farmer", 2));
+        items.add(SkillMenu.createItem(player, Material.DIAMOND_HOE, 1, "Recycler", new ArrayList<>(Arrays.asList(
+                "Place crops in 3x3 Fields", "Costs: 25000c")), "Farmer", 3));
         items.add(SkillMenu.createItem(Material.BARRIER, 1, "Close"));
 
         Inventory inventory = SkillMenu.createSkillInventory(player, "Farmer", new HashMap<Integer, ItemStack>() {{
@@ -88,75 +90,54 @@ public class Farmer implements Listener {
             put(8, items.get(3));
         }});
         player.openInventory(inventory);
-
-        //--
-
-        /*
-        Inventory inventory = Bukkit.createInventory(null, 9, "Farmer");
-
-        ItemStack skill1 = new ItemStack(Material.STONE_HOE,1);
-        ItemMeta skill1Meta = skill1.getItemMeta();
-        skill1Meta.setDisplayName("Skill1");
-        ArrayList<String> skill1Lore = new ArrayList<String>();
-        skill1Lore.add("Skill1");
-        skill1Lore.add("Costs: 1000c");
-        skill1Meta.setLore(skill1Lore);
-        skill1.setItemMeta(skill1Meta);
-
-        ItemStack skill2 = new ItemStack(Material.IRON_HOE,1);
-        ItemMeta skill2Meta = skill2.getItemMeta();
-        skill2Meta.setDisplayName("Skill2");
-        ArrayList<String> skill2Lore = new ArrayList<String>();
-        skill2Lore.add("Skill2");
-        skill2Lore.add("Costs: 1000c");
-        skill2Meta.setLore(skill2Lore);
-        skill2.setItemMeta(skill2Meta);
-
-        ItemStack skill3 = new ItemStack(Material.DIAMOND_HOE,1);
-        ItemMeta skill3Meta = skill3.getItemMeta();
-        skill3Meta.setDisplayName("Skill3");
-        ArrayList<String> skill3Lore = new ArrayList<String>();
-        skill3Lore.add("Skill3");
-        skill3Lore.add("Costs: 1000c");
-        skill3Meta.setLore(skill3Lore);
-        skill3.setItemMeta(skill3Meta);
-
-        ItemStack close = new ItemStack(Material.BARRIER,1);
-        ItemMeta closeMeta = close.getItemMeta();
-        closeMeta.setDisplayName("Close");
-        close.setItemMeta(closeMeta);
-
-        inventory.setItem(1,skill1);
-        inventory.setItem(3,skill2);
-        inventory.setItem(5,skill3);
-        inventory.setItem(8,close);
-
-        player.openInventory(inventory);*/
     }
 
     public static void onFarmerJobsUse(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
 
-        if (itemStack.getType() != Material.AIR){
-            String name = itemStack.getItemMeta().getDisplayName();
+        assert itemStack != null;
+        String name = Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
 
-            switch (name){
-                case "Skill1":
-                    player.sendMessage("obtained skill1");
-                    break;
-                case "Skill2":
-                    player.sendMessage("obtained skill2");
-                    break;
-                case "Skill3":
-                    player.sendMessage("obtained skill3");
-                    break;
-                case "Close":
-                    Menu.openMenu(player);
-                    break;
-            }
 
-            event.setCancelled(true);
+        switch (name) {
+            case "CropMaster":
+                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_FarmerSkill1"))) {
+                    Main.Save(player.getDisplayName() + "_FarmerSkill1", true);
+                    Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
+                    Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                    Farmer.openFarmerMenu(player);
+                } else {
+                    Farmer.openFarmerMenu(player);
+                    player.sendMessage("You can't buy that you little motherfucker");
+                }
+                break;
+            case "FarmerWife":
+                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_FarmerSkill2"))) {
+                    Main.Save(player.getDisplayName() + "_FarmerSkill2", true);
+                    Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
+                    Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                    Farmer.openFarmerMenu(player);
+                } else {
+                    Farmer.openFarmerMenu(player);
+                    player.sendMessage("You can't buy that you little motherfucker");
+                }
+                break;
+            case "Recycler":
+                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_FarmerSkill3"))) {
+                    Main.Save(player.getDisplayName() + "_FarmerSkill3", true);
+                    Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
+                    Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                    Farmer.openFarmerMenu(player);
+                } else {
+                    Farmer.openFarmerMenu(player);
+                    player.sendMessage("You can't buy that you little motherfucker");
+                }
+                break;
+            case "Close":
+                Menu.openMenu(player);
+                break;
         }
+        event.setCancelled(true);
     }
 }

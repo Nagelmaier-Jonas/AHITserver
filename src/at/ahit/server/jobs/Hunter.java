@@ -2,6 +2,8 @@ package at.ahit.server.jobs;
 
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
+import at.ahit.server.overlays.Scoreboards;
+import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,7 +18,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class Hunter implements Listener {
 
@@ -97,7 +101,7 @@ public class Hunter implements Listener {
     }
 
     public static void openHunterMenu(Player player){
-        Inventory inventory = Bukkit.createInventory(null, 9, "Hunter");
+/*        Inventory inventory = Bukkit.createInventory(null, 9, "Hunter");
 
         ItemStack skill1 = new ItemStack(Material.CHICKEN,1);
         ItemMeta skill1Meta = skill1.getItemMeta();
@@ -136,32 +140,69 @@ public class Hunter implements Listener {
         inventory.setItem(5,skill3);
         inventory.setItem(8,close);
 
+        player.openInventory(inventory);*/
+
+        ArrayList<ItemStack> items = new ArrayList<>();
+
+        items.add(SkillMenu.createItem(player, Material.CHICKEN, 1, "AnimalKiller", new ArrayList<>(
+                Arrays.asList("Your dealt damage is increased", "Costs: 5000c")), "Hunter", 1));
+        items.add(SkillMenu.createItem(player, Material.PORKCHOP, 1, "Butcher", new ArrayList<>(Arrays.asList(
+                "Animals drop more items", "Costs: 10000c")), "Hunter", 2));
+        items.add(SkillMenu.createItem(player, Material.BEEF, 1, "HunterWife", new ArrayList<>(Arrays.asList(
+                "Animals have the chance to drop cooked food", "Costs: 25000c")), "Hunter", 3));
+        items.add(SkillMenu.createItem(Material.BARRIER, 1, "Close"));
+
+        Inventory inventory = SkillMenu.createSkillInventory(player, "Hunter", new HashMap<Integer, ItemStack>() {{
+            put(1, items.get(0));
+            put(3, items.get(1));
+            put(5, items.get(2));
+            put(8, items.get(3));
+        }});
         player.openInventory(inventory);
+
     }
 
     public static void onHunterJobsUse(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
 
-        if (itemStack.getType() != Material.AIR){
-            String name = itemStack.getItemMeta().getDisplayName();
+        assert itemStack != null;
+        String name = Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
 
-            switch (name){
-                case "Skill1":
-                    player.sendMessage("obtained skill1");
-                    break;
-                case "Skill2":
-                    player.sendMessage("obtained skill2");
-                    break;
-                case "Skill3":
-                    player.sendMessage("obtained skill3");
-                    break;
-                case "Close":
-                    Menu.openMenu(player);
-                    break;
-            }
 
-            event.setCancelled(true);
+        switch (name) {
+            case "AnimalKiller":
+                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_HunterSkill1"))) {
+                    Main.Save(player.getDisplayName() + "_HunterSkill1", true);
+                    Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
+                    Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                } else {
+                    player.sendMessage("You can't buy that you little motherfucker");
+                }
+                break;
+            case "Butcher":
+                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_HunterSkill2"))) {
+                    Main.Save(player.getDisplayName() + "_HunterSkill2", true);
+                    Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
+                    Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                } else {
+                    player.sendMessage("You can't buy that you little motherfucker");
+                }
+                break;
+            case "HunterWife":
+                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_HunterSkill3"))) {
+                    Main.Save(player.getDisplayName() + "_HunterSkill3", true);
+                    Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
+                    Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                } else {
+                    player.sendMessage("You can't buy that you little motherfucker");
+                }
+                break;
+            case "Close":
+                Menu.openMenu(player);
+                break;
         }
+        Hunter.openHunterMenu(player);
+        event.setCancelled(true);
     }
 }
