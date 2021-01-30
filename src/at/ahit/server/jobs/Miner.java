@@ -25,7 +25,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 //DONE
-//TODO: lvl shop, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER, MAGIER BLITZ
+//TODO: lvl shop, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER, MAGIER BLITZ, OBTAINED MESSAGE
 public class Miner implements Listener {
 
     public void checkBlockXp(Player player, Block b) {
@@ -339,16 +339,22 @@ public class Miner implements Listener {
         items.add(SkillMenu.createItem(player, Material.DIAMOND_PICKAXE, 1, "BigMiner", new ArrayList<>(Arrays.asList("You can use the /mine big now!", "Costs: 25000 Coins")), "Miner", 3));
         items.add(SkillMenu.createItem(Material.BARRIER, 1, "Close"));
         //Enchants
-        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill1"))
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) {
             items.get(0).addEnchantment(Enchantment.DURABILITY, 1);
+            Lumberjack.RemoveEnchantmentLore(items.get(0));
+        }
         else
             items.get(0).removeEnchantment(Enchantment.DURABILITY);
-        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility2") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill2"))
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility2") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) {
             items.get(1).addEnchantment(Enchantment.DURABILITY, 1);
+            Lumberjack.RemoveEnchantmentLore(items.get(1));
+        }
         else
             items.get(1).removeEnchantment(Enchantment.DURABILITY);
-        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility3") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill3"))
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility3") && (boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) {
             items.get(2).addEnchantment(Enchantment.DURABILITY, 1);
+            Lumberjack.RemoveEnchantmentLore(items.get(2));
+        }
         else
             items.get(2).removeEnchantment(Enchantment.DURABILITY);
         Inventory inventory = SkillMenu.createSkillInventory(player, "Miner", new HashMap<Integer, ItemStack>() {{
@@ -613,4 +619,6 @@ public class Miner implements Listener {
         }
         return l.getBlock().getType();
     }
+
+
 }
