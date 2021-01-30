@@ -5,10 +5,13 @@ import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.MyCustomConfig;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
+import net.minecraft.server.v1_16_R3.DataWatcher;
+import net.minecraft.server.v1_16_R3.ItemSuspiciousStew;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,47 +29,54 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
-//TODO: lvl shop, AS AUF BIGMIER, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER, MAGIER BLITZ
+//TODO: lvl shop, GOLD / IRON , SHOVEL SAND, GRAVEL, DIRT, GRASS, CONCRETEPOWDER, MAGIER BLITZ
 public class Miner implements Listener {
 
     public void checkBlockXp(Player player, Block b) {
         int level = (int) Main.Load(player.getDisplayName() + "_MinerLevel");
         int playerXp = (int) Main.Load(player.getDisplayName() + "_MinerXp");
-        ArrayList<String> LocationList = (ArrayList<String>)config1.get(""+b.getLocation().getWorld().getName());
-        if (!player.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH) && !LocationList.contains((int)b.getLocation().getX() + " " + (int)b.getLocation().getY() + " " + (int)b.getLocation().getZ())) {
-            switch (b.getType()) {
-                case COAL_ORE:
-                    playerXp += 5;
-                    Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
-                    break;
-                case IRON_ORE:
-                case REDSTONE_ORE:
-                case NETHER_QUARTZ_ORE:
-                case NETHER_GOLD_ORE:
-                    playerXp += 10;
-                    Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
-                    break;
-                case GOLD_ORE:
-                    playerXp += 20;
-                    Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
-                    break;
-                case DIAMOND_ORE:
-                    playerXp += 30;
-                    Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
-                    break;
-                case EMERALD_ORE:
-                    playerXp += 100;
-                    Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
-                    break;
-                case COBBLESTONE:
-                case NETHERRACK:
-                case STONE:
-                    playerXp += 1;
-                    Main.Save(player.getPlayer().getDisplayName() + "_LatestJob", "Miner");
-                    break;
-                default:
-                    break;
+        ArrayList<String> LocationList = (ArrayList<String>) config1.get("" + b.getLocation().getWorld().getName());
+        if (!LocationList.contains((int) b.getLocation().getX() + " " + (int) b.getLocation().getY() + " " + (int) b.getLocation().getZ())) {
+            if (!player.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH)) {
+                switch (b.getType()) {
+                    case COAL_ORE:
+                        playerXp += 5;
+                        Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
+                        break;
+                    case IRON_ORE:
+                    case REDSTONE_ORE:
+                    case NETHER_QUARTZ_ORE:
+                    case NETHER_GOLD_ORE:
+                        playerXp += 10;
+                        Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
+                        break;
+                    case GOLD_ORE:
+                        playerXp += 20;
+                        Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
+                        break;
+                    case DIAMOND_ORE:
+                        playerXp += 30;
+                        Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
+                        break;
+                    case EMERALD_ORE:
+                        playerXp += 100;
+                        Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
+                        break;
+                    case COBBLESTONE:
+                    case NETHERRACK:
+                    case STONE:
+                        playerXp += 1;
+                        Main.Save(player.getPlayer().getDisplayName() + "_LatestJob", "Miner");
+                        break;
+                    default:
+                        break;
+                }
             }
+        }
+        else
+        {
+            LocationList.remove((int) b.getLocation().getX() + " " + (int) b.getLocation().getY() + " " + (int) b.getLocation().getZ());
+            config1.Save(b.getLocation().getWorld().getName(), LocationList);
         }
         if (1000 * level <= playerXp) {
             player.getPlayer().sendMessage("You are now mining level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
@@ -261,9 +271,57 @@ public class Miner implements Listener {
                     //AUTOSMELT OR NOT
                     if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1")) {
                         autoSmeltOre(event.getPlayer(), l.getBlock());
-                    } else {
-                        l.getBlock().breakNaturally();
+                    } else if(event.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH) && l.getBlock().getType() != Material.AIR) {
+                        l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(l.getBlock().getType()));
+                        l.getBlock().setType(Material.AIR);
                     }
+                    else if(event.getPlayer().getInventory().getItemInMainHand().containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS) && l.getBlock().getType() != Material.AIR && luckMaterial.contains(l.getBlock().getType())) {
+                        Random r = new Random();
+                        int i;
+                        switch (event.getPlayer().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS)){
+                            case 1:
+                                if(r.nextInt(100) <= 33)
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l), 2));
+                                else
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l)));
+                                break;
+                            case 2:
+                                i = r.nextInt(100);
+                                if(i <= 25)
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l), 2));
+                                else if(i <= 50)
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l), 3));
+                                else
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l)));
+                                break;
+                            case 3:
+                                i = r.nextInt(100);
+                                if(i <= 20)
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l), 2));
+                                else if(i <= 40)
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l), 3));
+                                else if(i <= 60)
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l), 4));
+                                else
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l)));
+                                break;
+                            case 4:
+                                i = r.nextInt(100);
+                                if(i <= 25)
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l), 2));
+                                else if(i <= 50)
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l), 3));
+                                else if(i <= 75)
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l), 4));
+                                else
+                                    l.getBlock().getWorld().dropItemNaturally(l, new ItemStack(convertBreak(l)));
+
+                                break;
+                        }
+                        l.getBlock().setType(Material.AIR);
+                    }
+                    else
+                        l.getBlock().breakNaturally();
                 }
             }
         }
@@ -315,12 +373,12 @@ public class Miner implements Listener {
 
             switch (name) {
                 case "Autosmelt":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) && 3 <= (Integer)Main.Load(player.getDisplayName() + "_MinerLevel")) {
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) && 3 <= (Integer) Main.Load(player.getDisplayName() + "_MinerLevel")) {
                         Main.Save(player.getDisplayName() + "_MinerSkill1", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
                     } else if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) {
-                        player.sendMessage("You need "+ ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 3" + ChatColor.RESET);
+                        player.sendMessage("You need " + ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 3" + ChatColor.RESET);
                     }
                     if ((boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) {
                         if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1"))
@@ -330,12 +388,12 @@ public class Miner implements Listener {
                     }
                     break;
                 case "Faster...":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) && 5 <= (Integer)Main.Load(player.getDisplayName() + "_MinerLevel")) {
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) && 5 <= (Integer) Main.Load(player.getDisplayName() + "_MinerLevel")) {
                         Main.Save(player.getDisplayName() + "_MinerSkill2", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
                     } else if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) {
-                        player.sendMessage("You need "+ ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 5" + ChatColor.RESET);
+                        player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 5" + ChatColor.RESET);
                     }
                     if ((boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) {
                         if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility2"))
@@ -345,12 +403,12 @@ public class Miner implements Listener {
                     }
                     break;
                 case "BigMiner":
-                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) && 9 <= (Integer)Main.Load(player.getDisplayName() + "_MinerLevel")) {
+                    if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) && 9 <= (Integer) Main.Load(player.getDisplayName() + "_MinerLevel")) {
                         Main.Save(player.getDisplayName() + "_MinerSkill3", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
                     } else if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) {
-                        player.sendMessage("You need "+ ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 9" + ChatColor.RESET);
+                        player.sendMessage("You need " + ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 9" + ChatColor.RESET);
                     }
                     if ((boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) {
                         if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility3"))
@@ -363,7 +421,8 @@ public class Miner implements Listener {
                     Menu.openMenu(player);
                     break;
             }
-            Miner.openMinerMenu(player);
+            if(!name.equals("Close"))
+                Miner.openMinerMenu(player);
             event.setCancelled(true);
         }
     }
@@ -418,7 +477,6 @@ public class Miner implements Listener {
         }
     }
 
-
     public static void giveEffects(Player p) {
         if (createArray().contains(p.getInventory().getItemInMainHand().getType()) && (boolean) Main.Load(p.getDisplayName() + "_MinerAbility2")) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 40, 0));
@@ -463,7 +521,7 @@ public class Miner implements Listener {
     public static ArrayList<String> world_nether = new ArrayList<>();
     public static ArrayList<String> world_the_end = new ArrayList<>();
     public static ArrayList<Material> restrictedItems = new ArrayList<Material>(Arrays.asList(Material.GOLD_ORE, Material.IRON_ORE));
-
+    public static ArrayList<Material> luckMaterial = new ArrayList<Material>(Arrays.asList(Material.DIAMOND_ORE, Material.COAL_ORE, Material.EMERALD_ORE, Material.REDSTONE_ORE, Material.NETHER_QUARTZ_ORE, Material.GLOWSTONE, Material.NETHER_GOLD_ORE));
     public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
         ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
 
@@ -508,32 +566,53 @@ public class Miner implements Listener {
                 }
             }
     }
+
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if(config1.get("world") == null)
+        if (config1.get("world") == null)
             config1.Save("world", world);
-        if(config1.get("world_nether") == null)
+        if (config1.get("world_nether") == null)
             config1.Save("world_nether", world_nether);
-        if(config1.get("world_the_end") == null)
+        if (config1.get("world_the_end") == null)
             config1.Save("world_the_end", world_the_end);
 
-        if(restrictedItems.contains(event.getBlock().getType()))
-            switch (event.getBlock().getLocation().getWorld().getName()){
+        if (restrictedItems.contains(event.getBlock().getType()))
+            switch (event.getBlock().getLocation().getWorld().getName()) {
                 case "world":
                     world = (ArrayList<String>) config1.get("world");
-                    world.add((int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ());
+                    world.add((int) event.getBlock().getLocation().getX() + " " + (int) event.getBlock().getLocation().getY() + " " + (int) event.getBlock().getLocation().getZ());
                     config1.Save("world", world);
                     break;
                 case "world_nether":
                     world_nether = (ArrayList<String>) config1.get("world_nether");
-                    world_nether.add((int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ());
+                    world_nether.add((int) event.getBlock().getLocation().getX() + " " + (int) event.getBlock().getLocation().getY() + " " + (int) event.getBlock().getLocation().getZ());
                     config1.Save("world_nether", world_nether);
                     break;
                 case "world_the_end":
                     world_the_end = (ArrayList<String>) config1.get("world_the_end");
-                    world_the_end.add((int)event.getBlock().getLocation().getX() + " " + (int)event.getBlock().getLocation().getY() + " " + (int)event.getBlock().getLocation().getZ());
+                    world_the_end.add((int) event.getBlock().getLocation().getX() + " " + (int) event.getBlock().getLocation().getY() + " " + (int) event.getBlock().getLocation().getZ());
                     config1.Save("world_the_end", world_the_end);
                     break;
+            }
+    }
+
+    public Material convertBreak(Location l) {
+        switch (l.getBlock().getType()){
+            case DIAMOND_ORE:
+                return Material.DIAMOND;
+            case COAL_ORE:
+                return Material.COAL;
+            case EMERALD_ORE:
+                return Material.EMERALD;
+            case REDSTONE_ORE:
+                return Material.REDSTONE;
+            case NETHER_QUARTZ_ORE:
+                return Material.QUARTZ;
+            case GLOWSTONE:
+                return Material.GLOWSTONE_DUST;
+            case NETHER_GOLD_ORE:
+                return Material.GOLD_NUGGET;
         }
+        return l.getBlock().getType();
     }
 }
