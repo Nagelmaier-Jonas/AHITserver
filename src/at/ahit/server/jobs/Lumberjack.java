@@ -180,6 +180,22 @@ public class Lumberjack implements Listener {
         return ++count;
     }
 
+    public int applyLuck(Player p, int originalCount) {
+        switch (p.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LUCK)) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
+    }
+
+
     // TODO: Adjust Prices
     // TODO: ColorCodes in Descriptions!
     public static void openLumberjackMenu(Player player){
