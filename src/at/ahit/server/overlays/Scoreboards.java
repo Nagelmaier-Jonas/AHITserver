@@ -36,7 +36,7 @@ public class Scoreboards {
         score6.setScore(1);
         player.setScoreboard(scoreboard);
     }
-
+    //TODO: EFFIZIENZ
     public static void createScoreboardOnLeave(FileConfiguration config, Player player){
         Scoreboard scoreboard = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
         Objective objective = scoreboard.registerNewObjective("Scoreboard","dummy","§6§l>>Info<<");
@@ -45,12 +45,16 @@ public class Scoreboards {
         score1.setScore(5);
         Score score2 = objective.getScore(ChatColor.BLUE + "Player Name: " + ChatColor.AQUA + player.getDisplayName());
         score2.setScore(4);
-        Integer Players = (Integer)Bukkit.getOnlinePlayers().size() - 1;
+        Integer Players = Bukkit.getOnlinePlayers().size() - 1;
         Score score3 = objective.getScore(ChatColor.BLUE + "Online Players: " + ChatColor.AQUA + Players);
         score3.setScore(3);
         Score score4 = objective.getScore(ChatColor.BLUE + "Coins: " + ChatColor.AQUA + config.get(player.getDisplayName() + "_Amount"));
         score4.setScore(2);
-        Score score5 = objective.getScore(ChatColor.BLUE + "Latest Job: " + Main.Load(player.getDisplayName() +"_LatestJob") + ": " + Main.Load(player.getDisplayName() + "_" + Main.Load(player.getDisplayName() + "_LatestJob") + "Level"));
+        Score score5;
+        if(Main.Load(player.getDisplayName() + "_LatestJob") == "?")
+            score5 = objective.getScore(ChatColor.BLUE + "Latest Job: " + Main.Load(player.getDisplayName() +"_LatestJob"));
+        else
+            score5 = objective.getScore(ChatColor.BLUE + "Latest Job: " + Main.Load(player.getDisplayName() +"_LatestJob") + ": " + Main.Load(player.getDisplayName() + "_" + Main.Load(player.getDisplayName() + "_LatestJob") + "Level"));
         score5.setScore(2);
         Score score6 = objective.getScore(ChatColor.RED + "");
         score6.setScore(1);
