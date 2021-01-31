@@ -6,6 +6,7 @@ import at.ahit.server.enums.Color;
 import at.ahit.server.jobs.*;
 import at.ahit.server.listeners.InventoryClickListener;
 import at.ahit.server.listeners.JoinListener;
+import at.ahit.server.overlays.Auction;
 import at.ahit.server.usefulstuff.ChristophsTests;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -53,6 +54,7 @@ public class Main extends JavaPlugin {
         manager.registerEvents(new Farmer(),this);
         manager.registerEvents(new MonsterHunter(),this);
         manager.registerEvents(new Wizard(),this);
+        manager.registerEvents(new Auction(),this);
 
         manager.registerEvents(new ChristophsTests(),this);
     }
