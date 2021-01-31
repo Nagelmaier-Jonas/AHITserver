@@ -379,8 +379,9 @@ public class Miner implements Listener {
                         Main.Save(player.getDisplayName() + "_MinerSkill1", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                        event.getWhoClicked().sendMessage("You obtained a new skill: " + ChatColor.GRAY + "AutoSmelt"+ ChatColor.RESET);
                     } else if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) {
-                        player.sendMessage("You need " + ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 3" + ChatColor.RESET);
+                        player.sendMessage("You need " + ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.GRAY + "Miner Level 3" + ChatColor.RESET);
                     }
                     if ((boolean) Main.Load(player.getDisplayName() + "_MinerSkill1")) {
                         if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1"))
@@ -394,8 +395,9 @@ public class Miner implements Listener {
                         Main.Save(player.getDisplayName() + "_MinerSkill2", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                        event.getWhoClicked().sendMessage("You obtained a new skill: " + ChatColor.GRAY + "FastBreak "+ ChatColor.RESET);
                     } else if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) {
-                        player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 5" + ChatColor.RESET);
+                        player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.GRAY + "Miner Level 5" + ChatColor.RESET);
                     }
                     if ((boolean) Main.Load(player.getDisplayName() + "_MinerSkill2")) {
                         if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility2"))
@@ -408,9 +410,10 @@ public class Miner implements Listener {
                     if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) && 9 <= (Integer) Main.Load(player.getDisplayName() + "_MinerLevel")) {
                         Main.Save(player.getDisplayName() + "_MinerSkill3", true);
                         Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
+                        event.getWhoClicked().sendMessage("You obtained a new skill: " + ChatColor.GRAY + "BigMiner"+ ChatColor.RESET);
                         Scoreboards.createScoreboard(Main.getConfigFile(), player);
                     } else if (!(boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) {
-                        player.sendMessage("You need " + ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Miner Level 9" + ChatColor.RESET);
+                        player.sendMessage("You need " + ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.GRAY + "Miner Level 9" + ChatColor.RESET);
                     }
                     if ((boolean) Main.Load(player.getDisplayName() + "_MinerSkill3")) {
                         if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility3"))
@@ -619,6 +622,4 @@ public class Miner implements Listener {
         }
         return l.getBlock().getType();
     }
-
-
 }

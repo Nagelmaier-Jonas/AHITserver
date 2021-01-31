@@ -5,12 +5,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
-public class MyCustomConfig extends YamlConfiguration {
-    private static MyCustomConfig config;
+public class AuctionConfig extends YamlConfiguration {
+    private static AuctionConfig config;
 
-    public static MyCustomConfig getConfig(String name) {
+    public static AuctionConfig getConfig(String name) {
         if (config == null) {
-            config = new MyCustomConfig(name);
+            config = new AuctionConfig(name);
         }
         return config;
     }
@@ -18,27 +18,23 @@ public class MyCustomConfig extends YamlConfiguration {
     private Main plugin;
     private File configFile;
 
-    public MyCustomConfig(String name) {
+    public AuctionConfig(String name) {
         plugin = Main.getPlugin(Main.class);
         configFile = new File(plugin.getDataFolder(), name+".yml");
         reload();
     }
 
-    // this method is alternative to the super method to avoid having to place try/catches in your code.
     public void reload() {
         try {
             super.load(configFile);
         } catch (Exception e) {
-            //e.printStackTrace();
         }
     }
 
-    // this method is alternative to the super method to avoid having to place try/catches in your code.
     public void save() {
         try {
             super.save(configFile);
         } catch (Exception e) {
-            //e.printStackTrace();
         }
     }
 
@@ -46,9 +42,4 @@ public class MyCustomConfig extends YamlConfiguration {
         config.set(path, obj);
         config.save();
     }
-
-    // this method works in the same way plugin.saveDefaultConfig() does
-    //public void saveDefault() {
-        //plugin.saveResource("test.yml", true);
-    //}
 }

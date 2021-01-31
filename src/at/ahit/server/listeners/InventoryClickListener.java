@@ -34,12 +34,12 @@ public class InventoryClickListener implements Listener {
             case "Wizard":
                 Wizard.onWizardJobsUse(event);
                 break;
-            case "§4Auction":
+            /*case "§4Auction":
                 Auction.onAuctionUse(event);
                 break;
             case "§4Select_Price":
                 Auction.sellItem(event);
-                break;
+                break;*/
         }
     }
 }

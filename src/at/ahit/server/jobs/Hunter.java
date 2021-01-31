@@ -4,28 +4,22 @@ import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.loot.LootContext;
-import org.bukkit.loot.Lootable;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-import java.sql.Array;
 import java.util.*;
+
+import static at.ahit.server.jobs.Lumberjack.RemoveEnchantmentLore;
 
 public class Hunter implements Listener {
 
@@ -128,7 +122,7 @@ public class Hunter implements Listener {
         Entity ent = event.getEntity();
 
         if((boolean) Main.Load(player.getDisplayName() + "_HunterAbility1") && Animals().contains(event.getEntityType())){
-            if(ent instanceof LivingEntity) ((LivingEntity) ent).damage(2);
+            event.setDamage(event.getDamage() * 1.5);
         }
     }
 
@@ -136,8 +130,10 @@ public class Hunter implements Listener {
     public void ExtraDrops(EntityDeathEvent event){
         if(!(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent)) return;
         Entity ent = event.getEntity();
-        Entity damager =((EntityDamageByEntityEvent) event.getEntity().getLastDamageCause()).getDamager();
-        Player player = (Player) damager;
+        Entity killer = event.getEntity().getKiller();
+        if(killer == null) return;
+        Player player = (Player) killer;
+        Random random = new Random();
         if(Animals().contains(ent.getType()) && (boolean) Main.Load(player.getDisplayName() + "_HunterAbility2")){
             for (ItemStack is : event.getDrops()) {
                 is.setAmount(is.getAmount() + 1);
@@ -145,31 +141,44 @@ public class Hunter implements Listener {
         }
         if(Animals().contains(ent.getType()) && (boolean) Main.Load(player.getDisplayName() + "_HunterAbility3")){
             for (ItemStack is : event.getDrops()) {
-                switch (is.getType()){
-                    case PORKCHOP:
-                        is.setType(Material.COOKED_PORKCHOP);
-                        break;
-                    case CHICKEN:
-                        is.setType(Material.COOKED_CHICKEN);
-                        break;
-                    case BEEF:
-                        is.setType(Material.COOKED_BEEF);
-                        break;
-                    case MUTTON:
-                        is.setType(Material.COOKED_MUTTON);
-                        break;
-                    case COD:
-                        is.setType(Material.COOKED_COD);
-                        break;
-                    case SALMON:
-                        is.setType(Material.COOKED_SALMON);
-                        break;
-                    case RABBIT:
-                        is.setType(Material.COOKED_RABBIT);
-                        break;
-                    default:
-                        break;
+                for (int i = 0; i < is.getAmount(); i++) {
+                    if(random.nextInt(6) > 3){
+                        switch (is.getType()){
+                            case PORKCHOP:
+                                event.getDrops().add(new ItemStack(Material.COOKED_PORKCHOP, 1, (short) 0,null));
+                                is.setAmount(is.getAmount() - 1);
+                                break;
+                            case CHICKEN:
+                                event.getDrops().add(new ItemStack(Material.COOKED_CHICKEN, 1, (short) 0,null));
+                                is.setAmount(is.getAmount() - 1);
+                                break;
+                            case BEEF:
+                                event.getDrops().add(new ItemStack(Material.COOKED_BEEF, 1, (short) 0,null));
+                                is.setAmount(is.getAmount() - 1);
+                                break;
+                            case MUTTON:
+                                event.getDrops().add(new ItemStack(Material.COOKED_MUTTON, 1, (short) 0,null));
+                                is.setAmount(is.getAmount() - 1);
+                                break;
+                            case COD:
+                                event.getDrops().add(new ItemStack(Material.COOKED_COD, 1, (short) 0,null));
+                                is.setAmount(is.getAmount() - 1);
+                                break;
+                            case SALMON:
+                                event.getDrops().add(new ItemStack(Material.COOKED_SALMON, 1, (short) 0,null));
+                                is.setAmount(is.getAmount() - 1);
+                                break;
+                            case RABBIT:
+                                event.getDrops().add(new ItemStack(Material.COOKED_RABBIT, 1, (short) 0,null));
+                                is.setAmount(is.getAmount() - 1);
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }
                 }
+
             }
         }
     }
@@ -177,9 +186,9 @@ public class Hunter implements Listener {
     public static void openHunterMenu(Player player){
         ArrayList<ItemStack> items = new ArrayList<>();
 
-        items.add(SkillMenu.createItem(player, Material.CHICKEN, 1, "AnimalKiller", new ArrayList<>(Arrays.asList("Your dealt damage is increased", "Costs: 5000c")), "Hunter", 1));
-        items.add(SkillMenu.createItem(player, Material.PORKCHOP, 1, "Butcher", new ArrayList<>(Arrays.asList("Animals drop more items", "Costs: 10000c")), "Hunter", 2));
-        items.add(SkillMenu.createItem(player, Material.BEEF, 1, "Waifu", new ArrayList<>(Arrays.asList("Animals have the chance to drop cooked food", "Costs: 25000c")), "Hunter", 3));
+        items.add(SkillMenu.createItem(player, Material.CHICKEN, 1, "AnimalKiller", new ArrayList<>(Arrays.asList("Your dealt damage is increased", "Cost: 2500 Coins")), "Hunter", 1));
+        items.add(SkillMenu.createItem(player, Material.PORKCHOP, 1, "Butcher", new ArrayList<>(Arrays.asList("Animals drop more items", "Cost: 10000 Coins")), "Hunter", 2));
+        items.add(SkillMenu.createItem(player, Material.BEEF, 1, "Waifu", new ArrayList<>(Arrays.asList("Animals have the chance to drop cooked food", "Cost: 25000 Coins")), "Hunter", 3));
         items.add(SkillMenu.createItem(Material.BARRIER, 1, "Close"));
 
         ItemMeta meta = items.get(0).getItemMeta();
@@ -189,18 +198,21 @@ public class Hunter implements Listener {
         if ((boolean) Main.Load(player.getDisplayName() + "_HunterAbility1")) {
             meta.addEnchant(Enchantment.DURABILITY, 1, true);
             items.get(0).setItemMeta(meta);
+            RemoveEnchantmentLore(items.get(0));
         }
         else items.get(0).setItemMeta(meta);
 
         if ((boolean) Main.Load(player.getDisplayName() + "_HunterAbility2")) {
             meta1.addEnchant(Enchantment.DURABILITY, 1, true);
             items.get(1).setItemMeta(meta1);
+            RemoveEnchantmentLore(items.get(1));
         }
         else items.get(1).setItemMeta(meta1);
 
         if ((boolean) Main.Load(player.getDisplayName() + "_HunterAbility3")) {
             meta2.addEnchant(Enchantment.DURABILITY, 1, true);
             items.get(2).setItemMeta(meta2);
+            RemoveEnchantmentLore(items.get(2));
         }
         else items.get(2).setItemMeta(meta2);
 
@@ -225,12 +237,14 @@ public class Hunter implements Listener {
                 if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_HunterSkill1")) && (int) Main.Load(player.getDisplayName() + "_HunterLevel") <= 3) {
                     Main.Save(player.getDisplayName() + "_HunterSkill1", true);
                     Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
+                    Main.Save(player.getDisplayName() + "_HunterAbility1", !(boolean) Main.Load(player.getDisplayName() + "_HunterAbility1"));
+                    player.sendMessage("You obtained a new Skill:" + ChatColor.RED + " " + name + ChatColor.RESET);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 } else if ((boolean) Main.Load(player.getDisplayName() + "_HunterSkill1")) {
                     Main.Save(player.getDisplayName() + "_HunterAbility1", !(boolean) Main.Load(player.getDisplayName() + "_HunterAbility1"));
                 }
                 else{
-                    player.sendMessage("You need " + ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Hunter Level 3" + ChatColor.RESET);
+                    player.sendMessage("You need " + ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.RED + "Hunter Level 3" + ChatColor.RESET);
                 }
                 Hunter.openHunterMenu(player);
                 break;
@@ -238,12 +252,14 @@ public class Hunter implements Listener {
                 if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_HunterSkill2")) && (int) Main.Load(player.getDisplayName() + "_HunterLevel") <= 5) {
                     Main.Save(player.getDisplayName() + "_HunterSkill2", true);
                     Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 10000);
+                    Main.Save(player.getDisplayName() + "_HunterAbility2", !(boolean) Main.Load(player.getDisplayName() + "_HunterAbility2"));
+                    player.sendMessage("You obtained a new Skill:" + ChatColor.RED + " " + name + ChatColor.RESET);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 } else if ((boolean) Main.Load(player.getDisplayName() + "_HunterSkill2")) {
                     Main.Save(player.getDisplayName() + "_HunterAbility2", !(boolean) Main.Load(player.getDisplayName() + "_HunterAbility2"));
                 }
                 else{
-                    player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Hunter Level 5" + ChatColor.RESET);
+                    player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.RED + "Hunter Level 5" + ChatColor.RESET);
                 }
                 Hunter.openHunterMenu(player);
                 break;
@@ -251,12 +267,14 @@ public class Hunter implements Listener {
                 if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_HunterSkill3")) && (int) Main.Load(player.getDisplayName() + "_HunterLevel") <= 9) {
                     Main.Save(player.getDisplayName() + "_HunterSkill3", true);
                     Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
+                    Main.Save(player.getDisplayName() + "_HunterAbility3", !(boolean) Main.Load(player.getDisplayName() + "_HunterAbility3"));
+                    player.sendMessage("You obtained a new Skill:" + ChatColor.RED + " " + name + ChatColor.RESET);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 } else if ((boolean) Main.Load(player.getDisplayName() + "_HunterSkill3")) {
                     Main.Save(player.getDisplayName() + "_HunterAbility3", !(boolean) Main.Load(player.getDisplayName() + "_HunterAbility3"));
                 }
                 else{
-                    player.sendMessage("You need " + ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Hunter Level 9" + ChatColor.RESET);
+                    player.sendMessage("You need " + ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.RED + "Hunter Level 9" + ChatColor.RESET);
                 }
                 Hunter.openHunterMenu(player);
                 break;
