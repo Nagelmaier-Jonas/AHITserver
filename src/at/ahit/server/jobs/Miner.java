@@ -85,7 +85,7 @@ public class Miner implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    // TODO: MAGIER KÖNNTE ENCHANTLVL ERHÖHEN, as telekinesis, schlfasack, veinminer, pro lvl verschiedene sachen bei 3x3
+    // TODO: MAGIER KÖNNTE ENCHANTLVL ERHÖHEN, as telekinesis, schlfasack, veinminer, exponentielles Wachstum, lvl überschuss anrechnen
 
     public void BreakThreeByThree(BlockBreakEvent event) {
         Location location = event.getBlock().getLocation();
@@ -332,7 +332,7 @@ public class Miner implements Listener {
     public static void openMinerMenu(Player player) {
         ArrayList<ItemStack> items = new ArrayList<>();
 
-        items.add(SkillMenu.createItem(player, Material.STONE_PICKAXE, 1, "Autosmelt", new ArrayList<>(Arrays.asList("Ores are smelted automatically", "Costs: 2500 Coins")), "Miner", 1));
+        items.add(SkillMenu.createItem(player, Material.STONE_PICKAXE, 1, "Autosmelt", new ArrayList<>(Arrays.asList("Ores are smelted automatically WARNING: Fortune is off!", "Costs: 2500 Coins")), "Miner", 1));
 
 
         items.add(SkillMenu.createItem(player, Material.IRON_PICKAXE, 1, "Faster...", new ArrayList<>(Arrays.asList("Blocks break faster with a Pickaxe", "Costs: 10000 Coins")), "Miner", 2));
@@ -453,12 +453,20 @@ public class Miner implements Listener {
                 checkBlockXp(event.getPlayer(), event.getBlock());
                 event.getBlock().setType(Material.AIR);
                 break;
+            case SAND:
+            case RED_SAND:
+                event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.GLASS));
+                event.setCancelled(true);
+                checkBlockXp(event.getPlayer(), event.getBlock());
+                event.getBlock().setType(Material.AIR);
+                break;
+
         }
         UpdateMainHand(event.getPlayer(), 1);
     }
 
     public void autoSmeltOre(Player player, Block block) {
-        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1") && createArray().contains(player.getInventory().getItemInMainHand().getType())) {
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1") && createSandArray().contains(player.getInventory().getItemInMainHand().getType())) {
             switch (block.getType()) {
                 case IRON_ORE:
                     block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.IRON_INGOT));
@@ -470,6 +478,11 @@ public class Miner implements Listener {
                     break;
                 case STONE:
                     block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.STONE));
+                    block.setType(Material.AIR);
+                    break;
+                case SAND:
+                case RED_SAND:
+                    block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.GLASS));
                     block.setType(Material.AIR);
                     break;
                 default:
@@ -501,6 +514,17 @@ public class Miner implements Listener {
         pickAxeList.add(Material.NETHERITE_PICKAXE);
         return pickAxeList;
     }
+    public static ArrayList<Material> createSandArray() {
+        ArrayList<Material> shovelList = new ArrayList<>();
+        shovelList.add(Material.WOODEN_SHOVEL);
+        shovelList.add(Material.STONE_SHOVEL);
+        shovelList.add(Material.IRON_SHOVEL);
+        shovelList.add(Material.GOLDEN_SHOVEL);
+        shovelList.add(Material.DIAMOND_SHOVEL);
+        shovelList.add(Material.NETHERITE_SHOVEL);
+        return shovelList;
+    }
+
 
     public static void startRunnable() {
         List<Player> pList = (List<Player>) Bukkit.getOnlinePlayers();
@@ -517,9 +541,104 @@ public class Miner implements Listener {
             autoSmeltOre(event);
         if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType()))
             BreakThreeByThree(event);
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && createSandArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType()))
+            breakSandThreeByThree(event);
         checkBlockXp(event.getPlayer(), event.getBlock());
         Scoreboards.createScoreboard(Main.getConfigFile(), event.getPlayer()); //TODO: Effizienz
     }
+
+    public void breakSandThreeByThree(BlockBreakEvent event) {
+        Location location = event.getBlock().getLocation();
+        List<Location> locationList = new ArrayList<>();
+        event.setCancelled(true);
+        locationList.add(location);
+        switch ((String) Main.Load(event.getPlayer().getDisplayName() + "_BlockHitDirection")) {
+            case "NORTH":
+            case "SOUTH":
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() + 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() + 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY() - 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY() - 1, location.getZ()));
+                break;
+            case "UP":
+            case "DOWN":
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() + 1, location.getY(), location.getZ() - 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() - 1));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX() - 1, location.getY(), location.getZ() - 1));
+
+                break;
+            case "WEST":
+            case "EAST":
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() + 1, location.getZ() - 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY(), location.getZ() - 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ() + 1));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
+                locationList.add(new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ() - 1));
+                break;
+        }
+
+        ArrayList<Material> sandTypes = new ArrayList<>();
+        //ADDITEMS
+        {
+            sandTypes.add(Material.AIR);
+            sandTypes.add(Material.ICE);
+            sandTypes.add(Material.DIRT);
+            sandTypes.add(Material.SAND);
+            sandTypes.add(Material.GRASS_BLOCK);
+            sandTypes.add(Material.PODZOL);
+            sandTypes.add(Material.GRAVEL);
+            sandTypes.add(Material.GLASS);
+            sandTypes.add(Material.SNOW_BLOCK);
+            sandTypes.add(Material.CLAY);
+            sandTypes.add(Material.SOUL_SAND);
+            sandTypes.add(Material.SOUL_SOIL);
+            sandTypes.add(Material.PACKED_ICE);
+            sandTypes.add(Material.WHITE_CONCRETE_POWDER);
+            sandTypes.add(Material.ORANGE_CONCRETE_POWDER);
+            sandTypes.add(Material.MAGENTA_CONCRETE_POWDER);
+            sandTypes.add(Material.LIGHT_BLUE_CONCRETE_POWDER);
+            sandTypes.add(Material.YELLOW_CONCRETE_POWDER);
+            sandTypes.add(Material.LIME_CONCRETE_POWDER);
+            sandTypes.add(Material.PINK_CONCRETE_POWDER);
+            sandTypes.add(Material.GRAY_CONCRETE_POWDER);
+            sandTypes.add(Material.LIGHT_GRAY_CONCRETE_POWDER);
+            sandTypes.add(Material.CYAN_CONCRETE_POWDER);
+            sandTypes.add(Material.PURPLE_CONCRETE_POWDER);
+            sandTypes.add(Material.BLUE_CONCRETE_POWDER);
+            sandTypes.add(Material.BROWN_CONCRETE_POWDER);
+            sandTypes.add(Material.GREEN_CONCRETE_POWDER);
+            sandTypes.add(Material.RED_CONCRETE_POWDER);
+            sandTypes.add(Material.BLACK_CONCRETE_POWDER);
+            sandTypes.add(Material.BLACK_CONCRETE_POWDER);
+        }
+        if (sandTypes.contains(event.getBlock().getType())) {
+            for (Location l : locationList) {
+                if (sandTypes.contains(l.getBlock().getType())) {
+                    //DAMAGE ITEM
+                    UpdateMainHand(event.getPlayer(), 1);
+                    //AUTOSMELT OR NOT
+                    if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1")) {
+                        autoSmeltOre(event.getPlayer(), l.getBlock());
+                    }
+                    else
+                        l.getBlock().breakNaturally();
+                }
+            }
+        }
+    }
+
 
     public static MyCustomConfig config1 = MyCustomConfig.getConfig("placedBlocks");
     public static ArrayList<String> world = new ArrayList<>();

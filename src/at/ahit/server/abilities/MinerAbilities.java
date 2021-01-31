@@ -9,11 +9,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
 public class MinerAbilities implements CommandExecutor {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender,@NotNull Command command,@NotNull String s,@NotNull String[] strings) {
-        if(commandSender instanceof Player) {
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        if (commandSender instanceof Player) {
             if (strings.length == 1) {
                 if (strings[0].equals("autosmelt") || strings[0].equals("autosmelter") || strings[0].equals("as")) {
                     if ((boolean) Main.Load(commandSender.getName() + "_MinerSkill1")) {
@@ -36,24 +37,24 @@ public class MinerAbilities implements CommandExecutor {
         }
         if (strings.length == 2) {
             if (strings[0].equals("set")) {
-                try{
-                Main.Save(commandSender.getName() + "_MinerLevel", Integer.parseInt(strings[1]));
-                commandSender.sendMessage("MinerLevel set to " + Main.Load(commandSender.getName() + "_MinerLevel"));
-                Scoreboards.createScoreboard(Main.getConfigFile(), (Player)commandSender);}
-                catch (Exception e){
+                try {
+                    Main.Save(commandSender.getName() + "_MinerLevel", Integer.parseInt(strings[1]));
+                    commandSender.sendMessage("MinerLevel set to " + Main.Load(commandSender.getName() + "_MinerLevel"));
+                    Scoreboards.createScoreboard(Main.getConfigFile(), (Player) commandSender);
+                } catch (Exception e) {
                     commandSender.sendMessage("Bist du behindert?");
                 }
             }
         }
-        if(strings[0].equals("reset"))
-        {
-            Main.Save(commandSender.getName() + "_MinerSkill1", false);
-            Main.Save(commandSender.getName() + "_MinerSkill2", false);
-            Main.Save(commandSender.getName() + "_MinerSkill3", false);
-            Main.Save(commandSender.getName() + "_MinerAbility1", false);
-            Main.Save(commandSender.getName() + "_MinerAbility2", false);
-            Main.Save(commandSender.getName() + "_MinerAbility3", false);
-        }
+        if (strings.length != 0)
+            if (strings[0].equals("reset")) {
+                Main.Save(commandSender.getName() + "_MinerSkill1", false);
+                Main.Save(commandSender.getName() + "_MinerSkill2", false);
+                Main.Save(commandSender.getName() + "_MinerSkill3", false);
+                Main.Save(commandSender.getName() + "_MinerAbility1", false);
+                Main.Save(commandSender.getName() + "_MinerAbility2", false);
+                Main.Save(commandSender.getName() + "_MinerAbility3", false);
+            }
         return false;
     }
 }
