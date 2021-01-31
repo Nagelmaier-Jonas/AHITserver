@@ -7,18 +7,21 @@ import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
+
+import static at.ahit.server.jobs.Lumberjack.RemoveEnchantmentLore;
 
 public class MonsterHunter implements Listener {
 
@@ -70,18 +73,21 @@ public class MonsterHunter implements Listener {
         if ((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility1")) {
             meta.addEnchant(Enchantment.DURABILITY, 1, true);
             items.get(0).setItemMeta(meta);
+            RemoveEnchantmentLore(items.get(0));
         }
         else items.get(0).setItemMeta(meta);
 
         if ((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility2")) {
             meta1.addEnchant(Enchantment.DURABILITY, 1, true);
             items.get(1).setItemMeta(meta1);
+            RemoveEnchantmentLore(items.get(1));
         }
         else items.get(1).setItemMeta(meta1);
 
         if ((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility3")) {
             meta2.addEnchant(Enchantment.DURABILITY, 1, true);
             items.get(2).setItemMeta(meta2);
+            RemoveEnchantmentLore(items.get(2));
         }
         else items.get(2).setItemMeta(meta2);
 
@@ -97,49 +103,97 @@ public class MonsterHunter implements Listener {
         String name = Objects.requireNonNull(itemStack.getItemMeta().getDisplayName());
 
         switch (name) {
-            case "AnimalKiller":
-                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_HunterSkill1")) && (int) Main.Load(player.getDisplayName() + "_HunterLevel") <= 3) {
-                    Main.Save(player.getDisplayName() + "_HunterSkill1", true);
+            case "Damage+":
+                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill1")) && (int) Main.Load(player.getDisplayName() + "_MonsterHunterLevel") <= 3) {
+                    Main.Save(player.getDisplayName() + "_MonsterHunterSkill1", true);
                     Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                } else if ((boolean) Main.Load(player.getDisplayName() + "_HunterSkill1")) {
-                    Main.Save(player.getDisplayName() + "_HunterAbility1", !(boolean) Main.Load(player.getDisplayName() + "_HunterAbility1"));
+                } else if ((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill1")) {
+                    Main.Save(player.getDisplayName() + "_MonsterHunterAbility1", !(boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility1"));
                 }
                 else{
                     player.sendMessage("You need " + ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Hunter Level 3" + ChatColor.RESET);
                 }
-                Hunter.openHunterMenu(player);
+                MonsterHunter.openMonsterHunterMenu(player);
                 break;
-            case "Butcher":
-                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_HunterSkill2")) && (int) Main.Load(player.getDisplayName() + "_HunterLevel") <= 5) {
-                    Main.Save(player.getDisplayName() + "_HunterSkill2", true);
+            case "Defense+":
+                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill2")) && (int) Main.Load(player.getDisplayName() + "_MonsterHunterLevel") <= 5) {
+                    Main.Save(player.getDisplayName() + "_MonsterHunterSkill2", true);
                     Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 10000);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                } else if ((boolean) Main.Load(player.getDisplayName() + "_HunterSkill2")) {
-                    Main.Save(player.getDisplayName() + "_HunterAbility2", !(boolean) Main.Load(player.getDisplayName() + "_HunterAbility2"));
+                } else if ((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill2")) {
+                    Main.Save(player.getDisplayName() + "_MonsterHunterAbility2", !(boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility2"));
                 }
                 else{
-                    player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Hunter Level 5" + ChatColor.RESET);
+                    player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "MonsterHunter Level 5" + ChatColor.RESET);
                 }
-                Hunter.openHunterMenu(player);
+                MonsterHunter.openMonsterHunterMenu(player);
                 break;
-            case "Waifu":
-                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_HunterSkill3")) && (int) Main.Load(player.getDisplayName() + "_HunterLevel") <= 9) {
-                    Main.Save(player.getDisplayName() + "_HunterSkill3", true);
+            case "HeadHunter":
+                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill3")) && (int) Main.Load(player.getDisplayName() + "_MonsterHunterLevel") <= 9) {
+                    Main.Save(player.getDisplayName() + "_MonsterHunterSkill3", true);
                     Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                } else if ((boolean) Main.Load(player.getDisplayName() + "_HunterSkill3")) {
-                    Main.Save(player.getDisplayName() + "_HunterAbility3", !(boolean) Main.Load(player.getDisplayName() + "_HunterAbility3"));
+                } else if ((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill3")) {
+                    Main.Save(player.getDisplayName() + "_MonsterHunterAbility3", !(boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility3"));
                 }
                 else{
-                    player.sendMessage("You need " + ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Hunter Level 9" + ChatColor.RESET);
+                    player.sendMessage("You need " + ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "MonsterHunter Level 9" + ChatColor.RESET);
                 }
-                Hunter.openHunterMenu(player);
+                MonsterHunter.openMonsterHunterMenu(player);
                 break;
             case "Close":
                 Menu.openMenu(player);
                 break;
         }
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void DamageModifications(EntityDamageByEntityEvent event){
+        if(event.getDamager() instanceof Player) {
+            Entity ent = event.getEntity();
+            Player player = (Player) event.getDamager();
+            if (!(NonMonsters().contains(ent)) && (boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility1")) {
+                event.setDamage(event.getDamage() * 1.5);
+            }
+        }
+        if(event.getEntity() instanceof Player) {
+            Entity ent = event.getDamager();
+            Player player = (Player) event.getEntity();
+            if (!(NonMonsters().contains(ent)) && (boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility2")) {
+                event.setDamage(event.getDamage() * 0.8);
+            }
+        }
+    }
+
+    @EventHandler
+    public void HeadDropChance(EntityDeathEvent event){
+        if(!(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent)) return;
+        if(event.getEntity().getKiller() == null) return;
+        Entity ent = event.getEntity();
+        Player player = event.getEntity().getKiller();
+        Random random = new Random();
+
+        if(!(NonMonsters().contains(ent)) && (boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility3")){
+            if(random.nextInt(100) < 3){
+                switch (ent.getType()){
+                    case ZOMBIE:
+                        event.getDrops().add(new ItemStack(Material.ZOMBIE_HEAD, 1,(short) 0,null));
+                        break;
+                    case SKELETON:
+                        event.getDrops().add(new ItemStack(Material.SKELETON_SKULL, 1,(short) 0,null));
+                        break;
+                    case CREEPER:
+                        event.getDrops().add(new ItemStack(Material.CREEPER_HEAD, 1,(short) 0,null));
+                        break;
+                    case WITHER_SKELETON:
+                        event.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL, 1,(short) 0,null));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 }
