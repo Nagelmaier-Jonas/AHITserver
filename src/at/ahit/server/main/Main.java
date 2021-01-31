@@ -29,14 +29,17 @@ public class Main extends JavaPlugin {
         registerListener();
         registerCommands();
         System.out.println(Color.GREEN + "Plugin load successful" + Color.RESET);
-        //registerListInit(); TODO: FIX RELOAD
+        registerListInit();
         Miner.startRunnable();
     }
 
     public void registerListInit() {
-        Miner.config1.Save("world", Miner.world);
-        Miner.config1.Save("world_nether", Miner.world_nether);
-        Miner.config1.Save("world_the_end", Miner.world_the_end);
+        if(Miner.config1.get("world") == null)
+            Miner.config1.Save("world", Miner.world);
+        if(Miner.config1.get("world_nether") == null)
+            Miner.config1.Save("world_nether", Miner.world_nether);
+        if(Miner.config1.get("world_the_end") == null)
+            Miner.config1.Save("world_the_end", Miner.world_the_end);
     }
 
     public void registerListener(){

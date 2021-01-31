@@ -619,6 +619,4 @@ public class Miner implements Listener {
         }
         return l.getBlock().getType();
     }
-
-
 }
