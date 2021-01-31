@@ -29,16 +29,12 @@ public class Lumberjack implements Listener {
     public void breakBlock(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-
-        int level = (int) Main.Load(player.getDisplayName() + "_LumberjackLevel");
-        int playerXp = (int) Main.Load(player.getDisplayName() + "_LumberjackXp");
-
-        Material m = event.getBlock().getType();
+        Material m = block.getType();
 
         HashMap<Material, Integer> woodTypes = new HashMap<Material, Integer>();
         HashMap<Material, Material> leafTypes = new HashMap<Material, Material>();
 
-        // TODO Leave Drop Chance
+        // TODO Leaf Drop Chances
         leafTypes.put(Material.OAK_LEAVES, Material.OAK_SAPLING);
         leafTypes.put(Material.DARK_OAK_LEAVES, Material.DARK_OAK_SAPLING);
         leafTypes.put(Material.BIRCH_LEAVES, Material.BIRCH_SAPLING);
@@ -47,29 +43,6 @@ public class Lumberjack implements Listener {
         leafTypes.put(Material.ACACIA_LEAVES, Material.ACACIA_SAPLING);
         // leafTypes.add(Material.OAK_LEAVES); // Nether Wart Block | Shroomlight // TODO Nether Wart Leaves & Shroom Lights // Ignore?
         // leafTypes.add(Material.OAK_LEAVES); // Warped Block | ShroomLight // TODO Warped Leaves & Shroom Lights // Ignore?
-
-
-        if (leafTypes.containsKey(m)) {
-            Random random = new Random();
-
-            if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")) ? 0.2 : 0.05))
-                player.getWorld().dropItem(block.getLocation(), new ItemStack(leafTypes.get(m)));
-
-            if (m == Material.OAK_LEAVES || m == Material.DARK_OAK_LEAVES) {
-                if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")) ? 0.02 : 0.005)) {
-                    player.getWorld().dropItem(block.getLocation(), new ItemStack(Material.APPLE));
-                }
-            }
-
-            UpdateMainHand(player, 1);
-            event.getBlock().breakNaturally();
-
-            event.setCancelled(true);
-
-            //breakAdjacentBlocks(player, block, m, leafTypes.get(m), ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill3")) ? 0.2 : 0.05);
-        }
-
-        // Auf "new BlockBreakEvent" umsteigen?? Don't think so! | https://bukkit.org/threads/simulating-block-destruction-by-player.27574/
 
         woodTypes.put(Material.OAK_LOG, 5);
         woodTypes.put(Material.DARK_OAK_LOG, 7);
@@ -80,27 +53,57 @@ public class Lumberjack implements Listener {
         woodTypes.put(Material.CRIMSON_STEM, 10);
         woodTypes.put(Material.WARPED_STEM, 10);
 
-        List<Material> axes = Arrays.asList((new Material[] { Material.DIAMOND_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.WOODEN_AXE, Material.STONE_AXE, Material.NETHERITE_AXE }).clone());
 
-        if (woodTypes.containsKey(m) && axes.contains(player.getInventory().getItemInMainHand().getType())) {
-            int blocksBroken = breakAdjacentBlocks(player, block, m);
-            playerXp += blocksBroken * woodTypes.get(m);
+        if (woodTypes.containsKey(m) || leafTypes.containsKey(m)) {
+            int level = (int) Main.Load(player.getDisplayName() + "_LumberjackLevel");
+            int playerXp = (int) Main.Load(player.getDisplayName() + "_LumberjackXp");
 
-            UpdateMainHand(player, blocksBroken);
+            // Blätter:
+            if (leafTypes.containsKey(m)) {
+                Random random = new Random();
 
-            // ItemStack i = player.getInventory().getItemInMainHand();
-            // i.setDurability((short) (i.getDurability() - (blocksBroken))); /// (i.getEnchantmentLevel(Enchantment.DURABILITY) + 1)))); // Old Code!
+                if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")) ? 0.2 : 0.05))
+                    player.getWorld().dropItem(block.getLocation(), new ItemStack(leafTypes.get(m)));
+
+                if (m == Material.OAK_LEAVES || m == Material.DARK_OAK_LEAVES) {
+                    if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")) ? 0.02 : 0.005)) {
+                        player.getWorld().dropItem(block.getLocation(), new ItemStack(Material.APPLE));
+                    }
+                }
+
+                event.getBlock().breakNaturally(player.getInventory().getItemInMainHand());
+                UpdateMainHand(player, 1);
+
+                event.setCancelled(true);
+
+                //breakAdjacentBlocks(player, block, m, leafTypes.get(m), ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill3")) ? 0.2 : 0.05);
+                // Auf "new BlockBreakEvent" umsteigen?? Don't think so! | https://bukkit.org/threads/simulating-block-destruction-by-player.27574/
+            }
+
+            // Holzstämme:
+            if (woodTypes.containsKey(m)) {
+                int blocksBroken = breakAdjacentBlocks(player, block, m);
+                playerXp += blocksBroken * woodTypes.get(m);
+
+                UpdateMainHand(player, blocksBroken);
+
+                // ItemStack i = player.getInventory().getItemInMainHand();
+                // i.setDurability((short) (i.getDurability() - (blocksBroken))); /// (i.getEnchantmentLevel(Enchantment.DURABILITY) + 1)))); // Old Code!
+            }
+
+            // TODO: Possible Levelling Improvements (Non-Linear, don't set XP to 0)
+            if (100 * level <= playerXp) {
+                player.sendMessage("You are now lumberjack level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
+                Main.Save(player.getDisplayName() + "_LumberjackLevel", level);
+                Main.Save(player.getDisplayName() + "_LumberjackXp", 0);
+            }
+            else {
+                Main.Save(player.getDisplayName() + "_LumberjackXp", playerXp);
+            }
+
+            Main.Save(player.getDisplayName() + "_LatestJob", "Lumberjack");
+            Scoreboards.createScoreboard(Main.getConfigFile(), event.getPlayer()); //TODO: Effizienz
         }
-
-        // TODO: Possible Levelling Improvements (Non-Linear, don't set XP to 0)
-        if(100 * level <= playerXp) {
-            player.sendMessage("You are now lumberjack level " + ChatColor.AQUA +  ++level + ChatColor.RESET + "!");
-            Main.Save(player.getDisplayName() + "_LumberjackLevel", level);
-            Main.Save(player.getDisplayName() + "_LumberjackXp", 0);
-        }else{
-            Main.Save(player.getDisplayName() + "_LumberjackXp", playerXp);
-        }
-        Main.getPlugin().saveConfig();
     }
 
     public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
@@ -190,7 +193,9 @@ public class Lumberjack implements Listener {
     }
 
     public static int breakAdjacentBlocks(Player p, Block b, Material m) {
-        if ((boolean) Main.Load(p.getDisplayName() + "_LumberjackAbility3"))
+        List<Material> axes = Arrays.asList((new Material[] { Material.DIAMOND_AXE, Material.IRON_AXE, Material.GOLDEN_AXE, Material.WOODEN_AXE, Material.STONE_AXE, Material.NETHERITE_AXE }).clone());
+
+        if ((boolean) Main.Load(p.getDisplayName() + "_LumberjackAbility3") && axes.contains(p.getInventory().getItemInMainHand().getType()))
             return breakAdjacentBlocks(p, b, m, 0, 1000);
         else
             return breakAdjacentBlocks(p, b, m, 0, 1);
