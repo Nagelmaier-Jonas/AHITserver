@@ -149,7 +149,7 @@ public class AQuestCommand implements CommandExecutor {
                 TextComponent farmerq2 = new TextComponent(ChatColor.AQUA + "Craft a Compostor " + ChatColor.GREEN +  "(1x Compostor required)");farmerq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q2"));
                 TextComponent farmerq3 = new TextComponent(ChatColor.AQUA + "Craft a Diamond Hoe " + ChatColor.GREEN + "(1x Diamond Hoe)");farmerq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q3"));
                 TextComponent farmerq4 = new TextComponent(ChatColor.AQUA + "Build a Big Farm " + ChatColor.GREEN + "(64x Pumpkin Pies required)");farmerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q4"));
-                TextComponent farmerq5 = new TextComponent(ChatColor.AQUA + "Get The Best Hoe "+ ChatColor.GREEN + "(1x Netherite Hoe)");farmerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q5"));
+                TextComponent farmerq5 = new TextComponent(ChatColor.AQUA + "Get The Ultimate Hoe "+ ChatColor.GREEN + "(1x Netherite Hoe)");farmerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest farmer q5"));
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 farmerq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
@@ -169,7 +169,7 @@ public class AQuestCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
 
                 return true;
-            }// TODO BALANCE STUFF
+            }// TODO DO THIS
 
             if (strings[0].equals("farmer")){
                 switch (strings[1]){
@@ -193,7 +193,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (farmerquest.equals("1, 1, 0, 0, 0")){
-                            getInventoryLocation(Material.DIAMOND_HOE , 1, player, 100, false, true, Material.ACACIA_BOAT, 0, "none");
+                            getInventoryLocation(Material.DIAMOND_HOE , 1, player, 100, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 0, 0");
                             player.sendMessage(ChatColor.GOLD + "WTF IS WRONG WITH YOU YOU CRAFTET A DIAMOND HOE");
                         }
@@ -225,7 +225,7 @@ public class AQuestCommand implements CommandExecutor {
                         return true;
                 }
                 return true;
-            }// TODO BALANCE STUFF
+            }// TODO DO THIS
 
             if (strings[0].equals("hunter") && strings.length == 1){
                 TextComponent hunterq1 = new TextComponent(ChatColor.AQUA + "Get your first food " + ChatColor.GREEN + "(3x Raw Beef required)");hunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q1"));
@@ -315,7 +315,7 @@ public class AQuestCommand implements CommandExecutor {
                 TextComponent lumberq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q2"));
                 TextComponent lumberq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q3"));
                 TextComponent lumberq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q4"));
-                TextComponent lumberq5 = new TextComponent(ChatColor.AQUA + "Get The Best Axe "+ ChatColor.GREEN + "(1x Netherite Axe)");lumberq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q5"));
+                TextComponent lumberq5 = new TextComponent(ChatColor.AQUA + "Get The Ultimate Axe "+ ChatColor.GREEN + "(1x Netherite Axe)");lumberq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q5"));
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 lumberq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
@@ -386,11 +386,11 @@ public class AQuestCommand implements CommandExecutor {
             }// TODO DO THIS
 
             if (strings[0].equals("miner") && strings.length == 1){
-                TextComponent minerq1 = new TextComponent(ChatColor.AQUA + "Get some Clean Stone " + ChatColor.GREEN + "(64x CleanStone required)");minerq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q1"));
+                TextComponent minerq1 = new TextComponent(ChatColor.AQUA + "Get some Clean Stone " + ChatColor.GREEN + "(64x Clean Stone required)");minerq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q1"));
                 TextComponent minerq2 = new TextComponent(ChatColor.AQUA + "Get some Lapis Lazuli " + ChatColor.GREEN + "(32x Lapis Lazuli required)");minerq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q2"));
                 TextComponent minerq3 = new TextComponent(ChatColor.AQUA + "Get some Emeralds " + ChatColor.GREEN + "(2x Emeralds required)");minerq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q3"));
                 TextComponent minerq4 = new TextComponent(ChatColor.AQUA + "Get some Diamonds " + ChatColor.GREEN + "(16x Diamonds required)");minerq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q4"));
-                TextComponent minerq5 = new TextComponent(ChatColor.AQUA + "Get the Best Pickaxe " + ChatColor.GREEN + "(1 Netherite Pickaxe required)");minerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q5"));
+                TextComponent minerq5 = new TextComponent(ChatColor.AQUA + "Get the Ultimate Pickaxe " + ChatColor.GREEN + "(1x Netherite Pickaxe required)");minerq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q5"));
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 minerq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
@@ -409,7 +409,7 @@ public class AQuestCommand implements CommandExecutor {
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(minerq5);
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 return true;
-            }
+            }// TODO BALANCE STUFF
 
             if (strings[0].equals("miner")){
                 switch (strings[1]){
@@ -462,14 +462,14 @@ public class AQuestCommand implements CommandExecutor {
                         return true;
                 }
                 return true;
-            }
+            }// TODO BALANCE STUFF
 
             if (strings[0].equals("monsterhunter") && strings.length == 1){
-                TextComponent monsterhunterq1 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q1"));
-                TextComponent monsterhunterq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q2"));
-                TextComponent monsterhunterq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q3"));
-                TextComponent monsterhunterq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q4"));
-                TextComponent monsterhunterq5 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");monsterhunterq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q5"));
+                TextComponent monsterhunterq1 = new TextComponent(ChatColor.AQUA + "Get some Ender Pearls " + ChatColor.GREEN + "(12x Ender Pearls required)");monsterhunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q1"));
+                TextComponent monsterhunterq2 = new TextComponent(ChatColor.AQUA + "Fight the Darkness " + ChatColor.GREEN + "(1x Wither Skull required)");monsterhunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q2"));
+                TextComponent monsterhunterq3 = new TextComponent(ChatColor.AQUA + "Kill the Screaming Thing " + ChatColor.GREEN + "(1x Netherstar required)");monsterhunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q3"));
+                TextComponent monsterhunterq4 = new TextComponent(ChatColor.AQUA + "Bring me his Head " + ChatColor.GREEN + "(1x Dragon Head required)");monsterhunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q4"));
+                TextComponent monsterhunterq5 = new TextComponent(ChatColor.AQUA + "Get the Ultimate Sword " + ChatColor.GREEN + "(1x Netherite Sword required)");monsterhunterq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest monsterhunter q5"));
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 monsterhunterq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new ComponentBuilder("Click here to complete the Quest \n" +
@@ -488,12 +488,13 @@ public class AQuestCommand implements CommandExecutor {
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(monsterhunterq5);
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 return true;
-            }
+            }// TODO BALANCE STUFF
 
             if (strings[0].equals("monsterhunter")){
                 switch (strings[1]){
                     case "q1":
                         if (monsterhunterquest.equals("0, 0, 0, 0, 0")){
+                            getInventoryLocation(Material.ENDER_PEARL , 12,  player, 50, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 0, 0, 0, 0");
                         }
                         else {
@@ -502,6 +503,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q2":
                         if (monsterhunterquest.equals("1, 0, 0, 0, 0")){
+                            getInventoryLocation(Material.WITHER_SKELETON_SKULL , 1,  player, 200, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 0, 0, 0");
                         }
                         else {
@@ -510,6 +512,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (monsterhunterquest.equals("1, 1, 0, 0, 0")){
+                            getInventoryLocation(Material.NETHER_STAR , 1,  player, 700, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 0, 0");
                         }
                         else {
@@ -518,6 +521,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (monsterhunterquest.equals("1, 1, 1, 0, 0")){
+                            getInventoryLocation(Material.DRAGON_HEAD , 1,  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 1, 0");
                         }
                         else {
@@ -526,6 +530,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q5":
                         if (monsterhunterquest.equals("1, 1, 1, 1, 0")){
+                            getInventoryLocation(Material.NETHERITE_SWORD , 1,  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 1, 1");
                         }
                         else {
@@ -537,7 +542,7 @@ public class AQuestCommand implements CommandExecutor {
 
                 }
                 return true;
-            }
+            }// TODO BALANCE STUFF
 
             return true;
 
