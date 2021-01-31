@@ -7,6 +7,7 @@ import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -105,7 +106,48 @@ public class Lumberjack implements Listener {
     public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
         ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
 
-        if (p.getInventory().getItemInMainHand().getType().getMaxDurability() > 1)
+        List<Material> damageableItems = Arrays.asList((new Material[] {
+                Material.WOODEN_AXE,
+                Material.STONE_AXE,
+                Material.GOLDEN_AXE,
+                Material.IRON_AXE,
+                Material.DIAMOND_AXE,
+                Material.NETHERITE_AXE,
+
+                Material.WOODEN_PICKAXE,
+                Material.STONE_PICKAXE,
+                Material.GOLDEN_PICKAXE,
+                Material.IRON_PICKAXE,
+                Material.DIAMOND_PICKAXE,
+                Material.NETHERITE_PICKAXE,
+
+                Material.WOODEN_HOE,
+                Material.STONE_HOE,
+                Material.GOLDEN_HOE,
+                Material.IRON_HOE,
+                Material.DIAMOND_HOE,
+                Material.NETHERITE_HOE,
+
+                Material.WOODEN_SHOVEL,
+                Material.STONE_SHOVEL,
+                Material.GOLDEN_SHOVEL,
+                Material.IRON_SHOVEL,
+                Material.DIAMOND_SHOVEL,
+                Material.NETHERITE_SHOVEL,
+
+                Material.WOODEN_SWORD,
+                Material.STONE_SWORD,
+                Material.GOLDEN_SWORD,
+                Material.IRON_SWORD,
+                Material.DIAMOND_SWORD,
+                Material.NETHERITE_SWORD,
+
+                Material.SHEARS,
+                Material.TRIDENT
+
+        }).clone());
+
+        if (p.getInventory().getItemInMainHand().getType().getMaxDurability() > 1 && damageableItems.contains(p.getInventory().getItemInMainHand().getType()))
             if (im instanceof Damageable) {
                 Damageable dmg = (Damageable) im;
                 Random r = new Random();
@@ -187,19 +229,19 @@ public class Lumberjack implements Listener {
             case 1:
                 if (random.nextInt(100) <= 80)
                     //damageToDeal++;
-                break;
+                    break;
             case 2:
                 if (random.nextInt(100) <= 60)
                     //damageToDeal++;
-                break;
+                    break;
             case 3:
                 if (random.nextInt(100) <= 50)
                     //damageToDeal++;
-                break;
+                    break;
             case 4:
                 if (random.nextInt(100) <= 40)
                     //damageToDeal++;
-                break;
+                    break;
             default:
                 // Invalid Enchantment Level
                 break;
@@ -216,7 +258,7 @@ public class Lumberjack implements Listener {
 
         items.add(SkillMenu.createItem(player, Material.STONE_AXE, 1, "Luck", new ArrayList<>(Arrays.asList("Over 4 times sapling & apple chance when breaking leaves", "Costs: 2500 Coins")), "Lumberjack", 1));
         items.add(SkillMenu.createItem(player, Material.IRON_AXE, 1, "Haste", new ArrayList<>(Arrays.asList("Blocks break faster with an axe", "Costs: 10000 Coins")), "Lumberjack", 2));
-        items.add(SkillMenu.createItem(player, Material.DIAMOND_AXE, 1, "Treepacitator", new ArrayList<>(Arrays.asList("Mine whole trees at a time", "Costs: 25000 Coins")), "Lumberjack", 3));
+        items.add(SkillMenu.createItem(player, Material.DIAMOND_AXE, 1, "Treecapitator", new ArrayList<>(Arrays.asList("Mine whole trees at a time", "Costs: 25000 Coins")), "Lumberjack", 3));
         items.add(SkillMenu.createItem(Material.BARRIER, 1, "Close"));
 
         if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill1")) {
@@ -281,51 +323,58 @@ public class Lumberjack implements Listener {
                             Main.Save(player.getDisplayName() + "_LumberjackAbility1", !((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")));
                             Lumberjack.openLumberjackMenu(player);
                         }
-                        else if (playerCoins >= 2500) {
+                        else if (playerCoins >= 2500 && ((int) Main.Load(player.getDisplayName() + "_LumberjackLevel")) >= 3) {
                             player.sendMessage("Obtained new skill: Luck");
 
-                            Main.Save(((Player) event.getWhoClicked()).getDisplayName() + "_LumberjackSkill1", true);
+                            Main.Save(player.getDisplayName() + "_LumberjackSkill1", true);
+                            Main.Save(player.getDisplayName() + "_LumberjackAbility1", true);
                             Main.Save(player.getDisplayName() + "_Amount", playerCoins - 2500);
 
                             Scoreboards.createScoreboard(Main.getConfigFile(), player);
                             Lumberjack.openLumberjackMenu(player);
                         }
                         else
-                            player.sendMessage("YOU SHALL NOT! >:0");
+                            player.sendMessage("You need " + ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Lumberjack Level 3" + ChatColor.RESET);
+                        //player.sendMessage("YOU SHALL NOT! >:0");
                         break;
                     case "Haste":
                         if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill2")) {
                             Main.Save(player.getDisplayName() + "_LumberjackAbility2", !((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility2")));
                             Lumberjack.openLumberjackMenu(player);
                         }
-                        else if (playerCoins >= 2500) {
+                        else if (playerCoins >= 10000 && ((int) Main.Load(player.getDisplayName() + "_LumberjackLevel")) >= 6) {
                             player.sendMessage("Obtained new skill: Haste");
 
                             Main.Save(player.getDisplayName() + "_LumberjackSkill2", true);
+                            Main.Save(player.getDisplayName() + "_LumberjackAbility2", true);
+
                             Main.Save(player.getDisplayName() + "_Amount", playerCoins - 10000);
 
                             Scoreboards.createScoreboard(Main.getConfigFile(), player);
                             Lumberjack.openLumberjackMenu(player);
                         }
                         else
-                            player.sendMessage("YOU SHALL NOT! >:0");
+                            player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Lumberjack Level 6" + ChatColor.RESET);
+                        //player.sendMessage("YOU SHALL NOT! >:0");
                         break;
-                    case "Treepacitator":
+                    case "Treecapitator":
                         if ((boolean) Main.Load(player.getDisplayName() + "_LumberjackSkill3")) {
                             Main.Save(player.getDisplayName() + "_LumberjackAbility3", !((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility3")));
                             Lumberjack.openLumberjackMenu(player);
                         }
-                        else if (playerCoins >= 2500) {
-                            player.sendMessage("Obtained new skill: Treepacitator");
+                        else if (playerCoins >= 25000 && ((int) Main.Load(player.getDisplayName() + "_LumberjackLevel")) >= 9) {
+                            player.sendMessage("Obtained new skill: Treecapitator");
 
                             Main.Save(player.getDisplayName() + "_LumberjackSkill3", true);
+                            Main.Save(player.getDisplayName() + "_LumberjackAbility3", true);
                             Main.Save(player.getDisplayName() + "_Amount", playerCoins - 25000);
 
                             Scoreboards.createScoreboard(Main.getConfigFile(), player);
                             Lumberjack.openLumberjackMenu(player);
                         }
                         else
-                            player.sendMessage("YOU SHALL NOT! >:0");
+                            player.sendMessage("You need " + ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Lumberjack Level 9" + ChatColor.RESET);
+                        //player.sendMessage("YOU SHALL NOT! >:0");
                         break;
                     case "Close":
                         Menu.openMenu(player);
