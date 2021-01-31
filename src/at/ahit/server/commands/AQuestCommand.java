@@ -238,7 +238,7 @@ public class AQuestCommand implements CommandExecutor {
             }// TODO DO THIS
 
             if (strings[0].equals("hunter") && strings.length == 1){
-                TextComponent hunterq1 = new TextComponent(ChatColor.AQUA + "Get your first food " + ChatColor.GREEN + "(3x Raw Beef required)");hunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q1"));
+                TextComponent hunterq1 = new TextComponent(ChatColor.AQUA + "Get your first food " + ChatColor.GREEN + "(3x Raw Food required)");hunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q1"));
                 TextComponent hunterq2 = new TextComponent(ChatColor.AQUA + "Craft some Arrows " + ChatColor.GREEN + "(64x Arrows required)");hunterq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q2"));
                 TextComponent hunterq3 = new TextComponent(ChatColor.AQUA + "Get some Pink Wool " + ChatColor.GREEN + "(15x Pink Wool required)");hunterq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q3"));
                 TextComponent hunterq4 = new TextComponent(ChatColor.AQUA + "Get a Saddle " + ChatColor.GREEN + "(1x Saddle required required)");hunterq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q4"));
@@ -269,7 +269,29 @@ public class AQuestCommand implements CommandExecutor {
                 switch (strings[1]){
                     case "q1":
                         if (hunterquest.equals("0, 0, 0, 0, 0")){
-                            getInventoryLocation(Material.BEEF , 3,  player, 12, true, true, Material.COOKED_BEEF, 3, "Steaks");
+                            if (getInventoryLocation(Material.BEEF , 3,  player, 12, true,
+                                    true, Material.COOKED_BEEF, 3, "Steaks")){
+
+                            }else if (getInventoryLocation(Material.PORKCHOP , 3,  player, 12, true,
+                                    true, Material.COOKED_PORKCHOP, 3, "Cooked Porkchop")){
+
+                            }else if (getInventoryLocation(Material.MUTTON , 3,  player, 12, true,
+                                    true, Material.COOKED_MUTTON, 3, "Cooked Mutton")){
+
+                            }else if (getInventoryLocation(Material.CHICKEN , 3,  player, 12, true,
+                                    true, Material.COOKED_CHICKEN, 3, "Cooked Chicken")){
+
+                            }else if (getInventoryLocation(Material.RABBIT , 3,  player, 12, true,
+                                    true, Material.COOKED_RABBIT, 3, "Cooked Rabbit")){
+
+                            }else if (getInventoryLocation(Material.SALMON , 3,  player, 12, true,
+                                    true, Material.COOKED_SALMON, 3, "Cooked Salmon")){
+
+                            }else if (getInventoryLocation(Material.COD , 3,  player, 12, true,
+                                    true, Material.COOKED_COD, 3, "Cooked Cod")){
+
+                            }
+
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 0, 0, 0, 0");
                         }
                         else {
