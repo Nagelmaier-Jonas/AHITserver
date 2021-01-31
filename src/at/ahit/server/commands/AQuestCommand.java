@@ -348,8 +348,8 @@ public class AQuestCommand implements CommandExecutor {
 
             if (strings[0].equals("lumber") && strings.length == 1){
                 TextComponent lumberq1 = new TextComponent(ChatColor.AQUA + "Get some Wood " + ChatColor.GREEN + "(32x Wood Logs required)");lumberq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q1"));
-                TextComponent lumberq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q2"));
-                TextComponent lumberq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q3"));
+                TextComponent lumberq2 = new TextComponent(ChatColor.AQUA + "Get some Wood from the Nether " + ChatColor.GREEN + "(32x Nether Logs required)");lumberq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q2"));
+                TextComponent lumberq3 = new TextComponent(ChatColor.AQUA + "Get Storage for your Wood " + ChatColor.GREEN + "(64x Chests required)");lumberq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q3"));
                 TextComponent lumberq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q4"));
                 TextComponent lumberq5 = new TextComponent(ChatColor.AQUA + "Get The Ultimate Axe "+ ChatColor.GREEN + "(1x Netherite Axe)");lumberq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q5"));
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
@@ -402,6 +402,13 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q2":
                         if (lumberquest.equals("1, 0, 0, 0, 0")){
+                            if (getInventoryLocation(Material.CRIMSON_STEM, 32, player, 100, false,
+                                    false, Material.ACACIA_BOAT, 0, "none")){
+
+                            }else if (getInventoryLocation(Material.WARPED_STEM, 32, player, 100, false,
+                                    false, Material.ACACIA_BOAT, 0, "none")){
+
+                            }
                             Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 0, 0, 0");
                         }
                         else {
@@ -410,6 +417,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (lumberquest.equals("1, 1, 0, 0, 0")){
+                            getInventoryLocation(Material.CHEST, 64, player, 400, false,false, Material.ACACIA_BOAT, 0, "none");
                             Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 0, 0");
                         }
                         else {
