@@ -1,12 +1,15 @@
 package at.ahit.server.overlays;
 
+import at.ahit.server.enums.Color;
 import at.ahit.server.jobs.Lumberjack;
 import at.ahit.server.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -19,36 +22,10 @@ import java.util.Objects;
 
 public class Auction {
 
+
+    public static AuctionConfig auctionConfig = AuctionConfig.getConfig("auctionConfig");
+    public static boolean isOpened = false;
     public static void openAuctionMenu(Player player) {
-        /*Inventory AuctionInventory = Bukkit.createInventory(null, 54, "§4Auction");
-
-        ItemStack freeSlot = new ItemStack(Material.LIME_STAINED_GLASS_PANE,1);
-        ItemMeta freeSlotMeta = freeSlot.getItemMeta();
-        assert freeSlotMeta != null;
-        freeSlotMeta.setDisplayName("FreeSlot");
-        freeSlot.setItemMeta(freeSlotMeta);
-
-        for (int i = 0; i < 45; ++i){
-            AuctionInventory.setItem(i,freeSlot);
-        }
-        player.sendMessage(freeSlot.getItemMeta().getDisplayName() + "");
-
-        ItemStack previous = new ItemStack(Material.ARROW,1);
-        ItemMeta previousMeta = previous.getItemMeta();
-        assert previousMeta != null;
-        previousMeta.setDisplayName("Previous");
-        previous.setItemMeta(previousMeta);
-
-        ItemStack next = new ItemStack(Material.ARROW,1);
-        ItemMeta nextMeta = next.getItemMeta();
-        assert nextMeta != null;
-        nextMeta.setDisplayName("Next");
-        next.setItemMeta(nextMeta);
-
-        AuctionInventory.setItem(45,previous);
-        AuctionInventory.setItem(53,next);
-
-        player.openInventory(AuctionInventory);*/
         ArrayList<ItemStack> items = new ArrayList<>();
 
         items.add(SkillMenu.createItem(Material.ARROW, 1, "Previous"));
@@ -91,5 +68,19 @@ public class Auction {
         ItemStack itemStack = inventory.getItem(0);
         assert itemStack != null;
         itemStack.getItemMeta();
+    }
+
+    @EventHandler
+    public void onAuctionSellEvent(InventoryClickEvent event) {
+        System.out.println(isOpened);
+        if(isOpened){
+            System.out.println(Color.RED + "Inventory opened");
+            openSellMenu((Player)event.getWhoClicked());
+        }
+    }
+
+    @EventHandler
+    public void onClose(InventoryCloseEvent event) {
+        isOpened = false;
     }
 }
