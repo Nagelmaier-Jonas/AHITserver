@@ -12,7 +12,8 @@ import static at.ahit.server.main.Main.config;
 
 public class AQuestMethods {
 
-    public static void getInventoryLocation(Material material, Integer amount, Player player, Integer reward, Boolean removeitem, Boolean addnewitem, Material additem, Integer addamount, String rewarditemname){
+    public static boolean getInventoryLocation(Material material, Integer amount, Player player, Integer reward, Boolean removeitem,
+                                            Boolean addnewitem, Material additem, Integer addamount, String rewarditemname){
 
 
         for (ItemStack i : player.getInventory()) {
@@ -31,13 +32,14 @@ public class AQuestMethods {
                         Main.Save(player.getDisplayName() + "_Amount", (Integer) Main.Load(player.getDisplayName() + "_Amount") + reward);
                         player.sendMessage(ChatColor.GREEN + "You got " + ChatColor.AQUA + reward + " Coins!");
                         Scoreboards.createScoreboard(config, player);
-                        return;
+                        return true;
                     }
 
                 }
             }
         }
         player.sendMessage(ChatColor.RED + "You don´t have the Quest Item in your Inventory!");
+        return false;
 
     }
 }

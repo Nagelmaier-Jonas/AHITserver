@@ -103,7 +103,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 0, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q2":
@@ -111,7 +111,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q3":
@@ -119,7 +119,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 1, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q4":
@@ -127,15 +127,20 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 1, 1, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q5":
                         if (wizardquest.equals("1, 1, 1, 1, 0")){
-                            Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 1, 1, 1");
+                            if ((Integer)Main.Load(player.getDisplayName() + "_WizardLevel") == 10) {
+                                Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 1, 1, 1");
+                            }
+                            else {
+                                player.sendMessage(ChatColor.RED + "You must be Wizard lvl 10!");
+                            }
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     default:
@@ -179,7 +184,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 0, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q2":
@@ -188,7 +193,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q3":
@@ -198,7 +203,7 @@ public class AQuestCommand implements CommandExecutor {
                             player.sendMessage(ChatColor.GOLD + "WTF IS WRONG WITH YOU YOU CRAFTET A DIAMOND HOE");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q4":
@@ -208,17 +213,22 @@ public class AQuestCommand implements CommandExecutor {
 
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q5":
                         if (farmerquest.equals("1, 1, 1, 1, 0")){
-                            getInventoryLocation(Material.NETHERITE_HOE , 1, player, 1500, false, true, Material.DIAMOND, 2, "DIAMOND");
-                            Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 1");
-                            player.sendMessage(ChatColor.GOLD + "WTF IS WRONG WITH YOU YOU CRAFTET A NETHERITE HOE");
+                            if ((Integer)Main.Load(player.getDisplayName() + "_FarmerLevel") == 10) {
+                                getInventoryLocation(Material.NETHERITE_HOE, 1, player, 1500, false, true, Material.DIAMOND, 2, "DIAMOND");
+                                Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 1");
+                                player.sendMessage(ChatColor.GOLD + "WTF IS WRONG WITH YOU YOU CRAFTET A NETHERITE HOE");
+                            }
+                            else{
+                                player.sendMessage(ChatColor.RED + "You must be Farmer lvl 10!");
+                            }
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     default:
@@ -263,7 +273,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 0, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q2":
@@ -273,7 +283,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q3":
@@ -282,7 +292,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q4":
@@ -291,17 +301,21 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q5":
                         if (hunterquest.equals("1, 1, 1, 1, 0")){
-                            getInventoryLocation(Material.LEATHER , 64,  player, 500, true, true, Material.BOOKSHELF, 16, "Bookshelf");
-
-                            Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 1");
+                            if ((Integer)Main.Load(player.getDisplayName() + "_HunterLevel") == 10) {
+                                getInventoryLocation(Material.LEATHER, 64, player, 500, true, true, Material.BOOKSHELF, 16, "Bookshelf");
+                                Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 1");
+                            }
+                            else{
+                                player.sendMessage(ChatColor.RED + "You must be Hunter lvl 10!");
+                            }
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     default:
@@ -311,7 +325,7 @@ public class AQuestCommand implements CommandExecutor {
             }// TODO BALANCE STUFF
 
             if (strings[0].equals("lumber") && strings.length == 1){
-                TextComponent lumberq1 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q1"));
+                TextComponent lumberq1 = new TextComponent(ChatColor.AQUA + "Get some Wood " + ChatColor.GREEN + "(32x Oak Wood required)");lumberq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q1"));
                 TextComponent lumberq2 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q2"));
                 TextComponent lumberq3 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q3"));
                 TextComponent lumberq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q4"));
@@ -343,7 +357,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 0, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q2":
@@ -351,7 +365,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q3":
@@ -359,7 +373,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q4":
@@ -367,16 +381,21 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 1, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q5":
                         if (lumberquest.equals("1, 1, 1, 1, 0")){
-                            getInventoryLocation(Material.NETHERITE_AXE , 1,  player, 150, false, true, Material.DIAMOND, 3, "Diamonds");
-                            Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 1, 1");
+                            if ((Integer)Main.Load(player.getDisplayName() + "_LumberjackLevel") == 10) {
+                                getInventoryLocation(Material.NETHERITE_AXE, 1, player, 150, false, true, Material.DIAMOND, 3, "Diamonds");
+                                Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 1, 1");
+                            }
+                            else {
+                                player.sendMessage(ChatColor.RED + "You must be LumberJack lvl 10!");
+                            }
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     default:
@@ -419,7 +438,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 0, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q2":
@@ -428,7 +447,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q3":
@@ -437,7 +456,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q4":
@@ -446,16 +465,21 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 1, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q5":
                         if (minerquest.equals("1, 1, 1, 1, 0")){
-                            getInventoryLocation(Material.NETHERITE_PICKAXE , 1,  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none");
-                            Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 1, 1");
+                            if ((Integer)Main.Load(player.getDisplayName() + "_MinerLevel") == 10){
+                                getInventoryLocation(Material.NETHERITE_PICKAXE , 1,  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none");
+                                Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 1, 1");
+                            }
+                            else {
+                                player.sendMessage(ChatColor.RED + "You must be Miner lvl 10!");
+                            }
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     default:
@@ -498,7 +522,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 0, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q2":
@@ -507,7 +531,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 0, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q3":
@@ -516,7 +540,7 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 0, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q4":
@@ -525,16 +549,21 @@ public class AQuestCommand implements CommandExecutor {
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 1, 0");
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     case "q5":
                         if (monsterhunterquest.equals("1, 1, 1, 1, 0")){
-                            getInventoryLocation(Material.NETHERITE_SWORD , 1,  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none");
-                            Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 1, 1");
+                            if ((Integer)Main.Load(player.getDisplayName() + "_MonsterHunterLevel") == 10) {
+                                getInventoryLocation(Material.NETHERITE_SWORD, 1, player, 1500, false, false, Material.ACACIA_BOAT, 0, "none");
+                                Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 1, 1");
+                            }
+                            else {
+                                player.sendMessage(ChatColor.RED + "You must be MonsterHunter lvl 10!");
+                            }
                         }
                         else {
-                            player.sendMessage(ChatColor.RED + "You are not allowed to do this Quest");
+                            player.sendMessage(ChatColor.RED + "You must do the previous Quest!");
                         }
                         break;
                     default:
