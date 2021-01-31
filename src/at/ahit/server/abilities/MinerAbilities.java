@@ -45,7 +45,15 @@ public class MinerAbilities implements CommandExecutor {
                 }
             }
         }
-
+        if(strings[0].equals("reset"))
+        {
+            Main.Save(commandSender.getName() + "_MinerSkill1", false);
+            Main.Save(commandSender.getName() + "_MinerSkill2", false);
+            Main.Save(commandSender.getName() + "_MinerSkill3", false);
+            Main.Save(commandSender.getName() + "_MinerAbility1", false);
+            Main.Save(commandSender.getName() + "_MinerAbility2", false);
+            Main.Save(commandSender.getName() + "_MinerAbility3", false);
+        }
         return false;
     }
 }
