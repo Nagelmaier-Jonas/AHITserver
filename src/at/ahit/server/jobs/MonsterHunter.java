@@ -25,8 +25,104 @@ import static at.ahit.server.jobs.Lumberjack.RemoveEnchantmentLore;
 
 public class MonsterHunter implements Listener {
 
-    //@EventHandler
-   //public void CheckMonsterXP()
+    @EventHandler
+    public void CheckMonsterXP(EntityDeathEvent event){
+        if(event.getEntity().getKiller() == null) return;
+        Entity ent = event.getEntity();
+        Player player = event.getEntity().getKiller();
+        int level = (int) Main.Load(player.getDisplayName() + "_MonsterHunterLevel");
+        int playerXp = (int) Main.Load(player.getDisplayName() + "_MonsterHunterXp");
+
+        switch (ent.getType()) {
+            case SKELETON:
+            case CREEPER:
+            case SPIDER:
+            case MAGMA_CUBE:
+            case CAVE_SPIDER:
+            case STRAY:
+                playerXp += 15;
+                Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                break;
+            case ZOMBIE:
+            case SLIME:
+            case HUSK:
+            case VEX:
+                playerXp += 10;
+                Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                break;
+            case ENDERMAN:
+            case ENDERMITE:
+            case SILVERFISH:
+            case WITCH:
+            case PHANTOM:
+                playerXp += 40;
+                Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                break;
+            case ZOMBIE_VILLAGER:
+            case BLAZE:
+            case WITHER_SKELETON:
+            case ZOMBIFIED_PIGLIN:
+            case PIGLIN:
+            case DROWNED:
+                playerXp += 30;
+                Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                break;
+            case WITHER:
+            case ENDER_DRAGON:
+                playerXp += 600;
+                Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                player.sendMessage("gg ez");
+                break;
+            case PILLAGER:
+            case VINDICATOR:
+            case ILLUSIONER:
+            case GUARDIAN:
+            case EVOKER:
+                playerXp += 35;
+                Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                break;
+            case RAVAGER:
+            case IRON_GOLEM:
+                playerXp += 70;
+                Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                break;
+            case PIGLIN_BRUTE:
+            case ZOGLIN:
+            case HOGLIN:
+            case GHAST:
+            case SHULKER:
+                playerXp += 50;
+                Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                break;
+            case ELDER_GUARDIAN:
+                playerXp += 200;
+                Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                player.sendMessage("Kannst ja ned machn!");
+                break;
+            default:
+                break;
+        }
+        if(500 * level <= playerXp) {
+            if(500 * level < playerXp){
+                Main.getConfigFile().set(player.getDisplayName() + "_MonsterHunterXp", playerXp - 500 * level);
+            } else Main.getConfigFile().set(player.getDisplayName() + "_MonsterHunterXp", 0);
+            Main.getConfigFile().set(player.getDisplayName() + "_MonsterHunterLevel", ++level );
+            player.sendMessage("You are now Monsterhunter level " + ChatColor.AQUA + level + ChatColor.RESET + "!");
+
+        }else{
+            Main.getConfigFile().set(player.getDisplayName() + "_MonsterHunterXp", playerXp);
+        }
+        Main.getPlugin().saveConfig();
+    }
 
     public ArrayList<EntityType> NonMonsters(){
         ArrayList<EntityType> nonMonsters = new ArrayList();
