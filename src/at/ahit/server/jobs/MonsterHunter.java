@@ -25,6 +25,9 @@ import static at.ahit.server.jobs.Lumberjack.RemoveEnchantmentLore;
 
 public class MonsterHunter implements Listener {
 
+    //@EventHandler
+   //public void CheckMonsterXP()
+
     public ArrayList<EntityType> NonMonsters(){
         ArrayList<EntityType> nonMonsters = new ArrayList();
         nonMonsters.add(EntityType.PIG);
@@ -61,9 +64,9 @@ public class MonsterHunter implements Listener {
     public static void openMonsterHunterMenu(Player player){
         ArrayList<ItemStack> items = new ArrayList<>();
 
-        items.add(SkillMenu.createItem(player,Material.STRING,1,"Damage+",new ArrayList<>(Arrays.asList("Your dealt damage is increased","Costs: 5000c")),"MonsterHunter",1));
-        items.add(SkillMenu.createItem(player,Material.ROTTEN_FLESH,1,"Defense+",new ArrayList<>(Arrays.asList("Your damage taken will be reduced","Costs: 10000c")),"MonsterHunter",2));
-        items.add(SkillMenu.createItem(player,Material.BONE,1,"HeadHunter",new ArrayList<>(Arrays.asList("Monster heads drop more often","Costs: 25000c")),"MonsterHunter",3));
+        items.add(SkillMenu.createItem(player,Material.STRING,1,"Damage+",new ArrayList<>(Arrays.asList("Your dealt damage is increased","Cost: 5000 Coins")),"MonsterHunter",1));
+        items.add(SkillMenu.createItem(player,Material.ROTTEN_FLESH,1,"Defense+",new ArrayList<>(Arrays.asList("Your damage taken will be reduced","Cost: 10000 Coins")),"MonsterHunter",2));
+        items.add(SkillMenu.createItem(player,Material.BONE,1,"HeadHunter",new ArrayList<>(Arrays.asList("Monster heads drop more often","Cost: 25000 Coins")),"MonsterHunter",3));
         items.add(SkillMenu.createItem(Material.BARRIER,1,"Close"));
 
         ItemMeta meta = items.get(0).getItemMeta();
@@ -104,15 +107,16 @@ public class MonsterHunter implements Listener {
 
         switch (name) {
             case "Damage+":
-                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill1")) && (int) Main.Load(player.getDisplayName() + "_MonsterHunterLevel") <= 3) {
+                if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 5000 && !((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill1")) && (int) Main.Load(player.getDisplayName() + "_MonsterHunterLevel") <= 3) {
                     Main.Save(player.getDisplayName() + "_MonsterHunterSkill1", true);
-                    Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
+                    Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 5000);
+                    player.sendMessage("You obtained a new Skill:" + ChatColor.DARK_RED + " " + name + ChatColor.RESET);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 } else if ((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill1")) {
                     Main.Save(player.getDisplayName() + "_MonsterHunterAbility1", !(boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility1"));
                 }
                 else{
-                    player.sendMessage("You need " + ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Hunter Level 3" + ChatColor.RESET);
+                    player.sendMessage("You need " + ChatColor.GOLD + "5000 Coins" + ChatColor.RESET + " and " + ChatColor.DARK_RED + "MonsterHunter Level 3" + ChatColor.RESET);
                 }
                 MonsterHunter.openMonsterHunterMenu(player);
                 break;
@@ -120,12 +124,13 @@ public class MonsterHunter implements Listener {
                 if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill2")) && (int) Main.Load(player.getDisplayName() + "_MonsterHunterLevel") <= 5) {
                     Main.Save(player.getDisplayName() + "_MonsterHunterSkill2", true);
                     Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 10000);
+                    player.sendMessage("You obtained a new Skill:" + ChatColor.DARK_RED + " " + name + ChatColor.RESET);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 } else if ((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill2")) {
                     Main.Save(player.getDisplayName() + "_MonsterHunterAbility2", !(boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility2"));
                 }
                 else{
-                    player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "MonsterHunter Level 5" + ChatColor.RESET);
+                    player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.DARK_RED + "MonsterHunter Level 5" + ChatColor.RESET);
                 }
                 MonsterHunter.openMonsterHunterMenu(player);
                 break;
@@ -133,12 +138,13 @@ public class MonsterHunter implements Listener {
                 if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill3")) && (int) Main.Load(player.getDisplayName() + "_MonsterHunterLevel") <= 9) {
                     Main.Save(player.getDisplayName() + "_MonsterHunterSkill3", true);
                     Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
+                    player.sendMessage("You obtained a new Skill:" + ChatColor.DARK_RED + " " + name + ChatColor.RESET);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 } else if ((boolean) Main.Load(player.getDisplayName() + "_MonsterHunterSkill3")) {
                     Main.Save(player.getDisplayName() + "_MonsterHunterAbility3", !(boolean) Main.Load(player.getDisplayName() + "_MonsterHunterAbility3"));
                 }
                 else{
-                    player.sendMessage("You need " + ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "MonsterHunter Level 9" + ChatColor.RESET);
+                    player.sendMessage("You need " + ChatColor.GOLD + "25000 Coins" + ChatColor.RESET + " and " + ChatColor.DARK_RED + "MonsterHunter Level 9" + ChatColor.RESET);
                 }
                 MonsterHunter.openMonsterHunterMenu(player);
                 break;
