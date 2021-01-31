@@ -117,7 +117,6 @@ public class MonsterHunter implements Listener {
             } else Main.getConfigFile().set(player.getDisplayName() + "_MonsterHunterXp", 0);
             Main.getConfigFile().set(player.getDisplayName() + "_MonsterHunterLevel", ++level );
             player.sendMessage("You are now Monsterhunter level " + ChatColor.AQUA + level + ChatColor.RESET + "!");
-
         }else{
             Main.getConfigFile().set(player.getDisplayName() + "_MonsterHunterXp", playerXp);
         }
