@@ -61,6 +61,9 @@ public class JoinListener implements Listener {
         Main.Save(displayName + "_HasPlayedBefore",true);
         Main.Save(displayName + "_Amount",0);
         Main.Save(displayName + "_Overlay",true);
+
+        Main.Save(displayName + "_LatestJob", "?");
+
         Main.Save(displayName + "_QuestsFarmer",        "0, 0, 0, 0, 0");
         Main.Save(displayName + "_QuestsHunter",        "0, 0, 0, 0, 0");
         Main.Save(displayName + "_QuestsLumberjack",    "0, 0, 0, 0, 0");
