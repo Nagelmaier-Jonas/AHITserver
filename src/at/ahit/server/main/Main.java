@@ -8,6 +8,8 @@ import at.ahit.server.listeners.InventoryClickListener;
 import at.ahit.server.listeners.JoinListener;
 import at.ahit.server.overlays.Auction;
 import at.ahit.server.usefulstuff.ChristophsTests;
+import at.ahit.server.villagerShop.setVillagerShop;
+import at.ahit.server.villagerShop.villagerShop;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -56,6 +58,8 @@ public class Main extends JavaPlugin {
         manager.registerEvents(new Wizard(),this);
         manager.registerEvents(new Auction(),this);
 
+        manager.registerEvents(new setVillagerShop(), this);
+
         manager.registerEvents(new ChristophsTests(),this);
     }
     public void registerCommands(){
@@ -69,6 +73,7 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("auction")).setExecutor(new AuctionCommand());
         Objects.requireNonNull(getCommand("setVal")).setExecutor(new SetValCommand());
         Objects.requireNonNull(getCommand("getVal")).setExecutor(new GetValCommand());
+        Objects.requireNonNull(getCommand("shop")).setExecutor(new villagerShop());
     }
     public static FileConfiguration getConfigFile() {
         return config;

@@ -9,37 +9,46 @@ import org.bukkit.CropState;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Crops;
 import org.bukkit.material.MaterialData;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class Farmer implements Listener {
 
-    //@EventHandler TODO: KOMMENTAR WEIL BUGFIX
+    public ArrayList<Material> getCropList(){
+
+        ArrayList<Material> Crops = new ArrayList<>();
+
+        Crops.add(Material.CARROTS); // --> golden carrots
+        Crops.add(Material.WHEAT_SEEDS); // --> brad pitt
+        Crops.add(Material.BEETROOT_SEEDS); // --> beetroot soup
+        Crops.add(Material.COCOA_BEANS); // --> cookies
+        Crops.add(Material.NETHER_WART); // --> soulsand
+        Crops.add(Material.POTATOES); // --> ge-brad-ener eapfe
+        // Melon --> golden melon
+        //Pumpkin --> pumpkin pie
+
+        return Crops;
+    }
+
     @EventHandler
     public void breakBlock(BlockBreakEvent event) {
         Player player = event.getPlayer();
         int level = (int) Main.Load(player.getDisplayName() + "_FarmerLevel");
         int playerXp = (int) Main.Load(player.getDisplayName() + "_FarmerXp");
 
-        ArrayList<Material> Crops = new ArrayList<>();
-        Crops.add(Material.CARROTS);
-        Crops.add(Material.WHEAT_SEEDS);
-        Crops.add(Material.BEETROOT_SEEDS);
-        Crops.add(Material.COCOA_BEANS);
-        Crops.add(Material.NETHER_WART);
-        Crops.add(Material.POTATOES);
+        ArrayList<Material> Crops = getCropList();
 
         //TODO:Scoreboard reload besser diese
 
@@ -86,11 +95,25 @@ public class Farmer implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    public void CropMaster(Player player, Block block){
-        if ((boolean)Main.Load(player.getDisplayName() + "FarmerAbility1")){
-            Material material = block.getType();
-            block.getDrops().add(new ItemStack(material));
+    //TODO Add Skills
+
+    @EventHandler
+    public void CropMaster(BlockBreakEvent event) {
+
+        if (!(boolean)Main.Load(event.getPlayer().getDisplayName() + "_FarmerAbility1") && !getCropList().contains(event.getBlock().getType())) return;
+
+        for (ItemStack stack :event.getBlock().getDrops()) {
+            stack.setAmount(stack.getAmount() + 1);
         }
+
+    }
+
+    public void FarmerWife(Player player, Block block){
+
+    }
+
+    public void Recycler(Player player, Block block){
+
     }
 
     public boolean isFullyGrownOld(Block block) {
