@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Wizard implements Listener {
-
+    //DOUBLEJUMP
     public static void openWizardMenu(Player player){
         ArrayList<ItemStack> items = new ArrayList<>();
 

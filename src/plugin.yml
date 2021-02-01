@@ -24,3 +24,5 @@ commands:
     description: /getval <Path>
   auction:
     description: /auction
+  shop:
+    description: /shop

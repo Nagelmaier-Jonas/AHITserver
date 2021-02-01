@@ -95,7 +95,7 @@ public class Auction implements Listener {
         //player.openInventory(event);
     }
 
-    //@EventHandler
+    //  @EventHandler
     public void onClose(InventoryCloseEvent event) {
         isOpened = false;
     }
