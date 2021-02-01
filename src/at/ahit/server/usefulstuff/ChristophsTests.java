@@ -47,10 +47,12 @@ public class ChristophsTests implements Listener {
             }
 
             Random random = new Random();
-            Block b = surroundings.get(random.nextInt(surroundings.size()));
+            if (surroundings.size() > 0) {
+                Block b = surroundings.get(random.nextInt(surroundings.size()));
 
-            if (random.nextInt(100) + 1 <= 20) {
-                b.applyBoneMeal(BlockFace.UP);
+                if (random.nextInt(100) + 1 <= 20) {
+                    b.applyBoneMeal(BlockFace.UP);
+                }
             }
         }
     }

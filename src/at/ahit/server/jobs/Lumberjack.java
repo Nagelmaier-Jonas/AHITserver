@@ -59,6 +59,7 @@ public class Lumberjack implements Listener {
         if (woodTypes.containsKey(m) || leafTypes.containsKey(m)) {
             int level = (int) Main.Load(player.getDisplayName() + "_LumberjackLevel");
             int playerXp = (int) Main.Load(player.getDisplayName() + "_LumberjackXp");
+            int requiredXP = 100 * level;
 
             // Blätter:
             if (leafTypes.containsKey(m)) {
@@ -91,7 +92,7 @@ public class Lumberjack implements Listener {
                 int earnedXP = blocksBroken * woodTypes.get(m);
                 playerXp += earnedXP;
 
-                showEarnedXp(earnedXP, "Lumberjack", player);
+                showEarnedXp(earnedXP, "Lumberjack", player, playerXp, requiredXP);
 
                 UpdateMainHand(player, blocksBroken);
 
@@ -100,8 +101,6 @@ public class Lumberjack implements Listener {
             }
 
             // TODO: Possible Levelling Improvements (Non-Linear, don't set XP to 0)
-
-            int requiredXP = 100 * level;
 
             if (requiredXP <= playerXp) {
                 player.sendMessage("You are now lumberjack level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
@@ -117,8 +116,8 @@ public class Lumberjack implements Listener {
         }
     }
 
-    public static void showEarnedXp(int amount, String type, Player p) {
-        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "+" + amount + " " + type + ChatColor.AQUA + " XP"));
+    public static void showEarnedXp(int amount, String type, Player p, int current, int total) {
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "+" + amount + " " + type + " XP " + ChatColor.AQUA + "(" + current + "/" + total + ")"));
     }
 
     public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
@@ -358,7 +357,9 @@ public class Lumberjack implements Listener {
                             Lumberjack.openLumberjackMenu(player);
                         }
                         else if (playerCoins >= 2500 && ((int) Main.Load(player.getDisplayName() + "_LumberjackLevel")) >= 3) {
-                            player.sendMessage("Obtained new skill: Luck");
+                            //player.sendMessage("Obtained new skill: Luck");
+                            player.sendMessage("You obtained a new skill: " + ChatColor.GREEN + "Luck"+ ChatColor.RESET);
+
 
                             Main.Save(player.getDisplayName() + "_LumberjackSkill1", true);
                             Main.Save(player.getDisplayName() + "_LumberjackAbility1", true);
@@ -377,7 +378,8 @@ public class Lumberjack implements Listener {
                             Lumberjack.openLumberjackMenu(player);
                         }
                         else if (playerCoins >= 10000 && ((int) Main.Load(player.getDisplayName() + "_LumberjackLevel")) >= 5) {
-                            player.sendMessage("Obtained new skill: Haste");
+                            //player.sendMessage("Obtained new skill: Haste");
+                            player.sendMessage("You obtained a new skill: " + ChatColor.GREEN + "Haste"+ ChatColor.RESET);
 
                             Main.Save(player.getDisplayName() + "_LumberjackSkill2", true);
                             Main.Save(player.getDisplayName() + "_LumberjackAbility2", true);
@@ -397,7 +399,8 @@ public class Lumberjack implements Listener {
                             Lumberjack.openLumberjackMenu(player);
                         }
                         else if (playerCoins >= 25000 && ((int) Main.Load(player.getDisplayName() + "_LumberjackLevel")) >= 9) {
-                            player.sendMessage("Obtained new skill: Treecapitator");
+                            //player.sendMessage("Obtained new skill: Treecapitator");
+                            player.sendMessage("You obtained a new skill: " + ChatColor.GREEN + "Treecapitator"+ ChatColor.RESET);
 
                             Main.Save(player.getDisplayName() + "_LumberjackSkill3", true);
                             Main.Save(player.getDisplayName() + "_LumberjackAbility3", true);

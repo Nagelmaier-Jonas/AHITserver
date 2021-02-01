@@ -478,7 +478,7 @@ public class Miner implements Listener {
     }
 
     public void autoSmeltOre(Player player, Block block) {
-        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1") && createSandArray().contains(player.getInventory().getItemInMainHand().getType())) {
+        if ((boolean) Main.Load(player.getDisplayName() + "_MinerAbility1") && (createArray().contains(player.getInventory().getItemInMainHand().getType()) || createSandArray().contains(player.getInventory().getItemInMainHand().getType()))) {
             switch (block.getType()) {
                 case IRON_ORE:
                     block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.IRON_INGOT));
@@ -549,7 +549,7 @@ public class Miner implements Listener {
 
     @EventHandler //TODO: AUSLAGERN
     public void triggerEvents(BlockBreakEvent event) {
-        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType()))
+        if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility1") && (createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType()) || createSandArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType())))
             autoSmeltOre(event);
         if ((boolean) Main.Load(event.getPlayer().getDisplayName() + "_MinerAbility3") && createArray().contains(event.getPlayer().getInventory().getItemInMainHand().getType()))
             BreakThreeByThree(event);
@@ -636,7 +636,7 @@ public class Miner implements Listener {
         }
 
         if(sandTypes.contains(event.getBlock().getType()))
-            event.setDropItems(false);
+            event.setDropItems(false); // TODO -> ?
 
         if (sandTypes.contains(event.getBlock().getType())) {
             for (Location l : locationList) {
