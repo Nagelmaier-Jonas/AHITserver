@@ -6,6 +6,7 @@ import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.CropState;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -38,6 +39,22 @@ public class Farmer implements Listener {
         Crops.add(Material.POTATOES); // --> ge-brad-ener eapfe
         // Melon --> golden melon
         //Pumpkin --> pumpkin pie
+
+        return Crops;
+    }
+
+    public ArrayList<Material> getPlantsList(){
+
+        ArrayList<Material> Crops = new ArrayList<>();
+
+        Crops.add(Material.CARROTS); // --> golden carrots
+        Crops.add(Material.WHEAT_SEEDS); // --> brad pitt
+        Crops.add(Material.BEETROOT_SEEDS); // --> beetroot soup
+        Crops.add(Material.COCOA_BEANS); // --> cookies
+        Crops.add(Material.NETHER_WART); // --> soulsand
+        Crops.add(Material.POTATOES); // --> ge-brad-ener eapfe
+        Crops.add(Material.MELON); // Melon --> golden melon
+        Crops.add(Material.PUMPKIN); //Pumpkin --> pumpkin pie
 
         return Crops;
     }
@@ -97,6 +114,7 @@ public class Farmer implements Listener {
 
     //TODO Add Skills
 
+    //
     @EventHandler
     public void CropMaster(BlockBreakEvent event) {
 
@@ -107,13 +125,90 @@ public class Farmer implements Listener {
         }
 
     }
+    //Fügt "weiterverarbeitete" Drops hinzu ©Lukas
+    @EventHandler
+    public void FarmerWife(BlockBreakEvent event){
+        if (!(boolean)Main.Load(event.getPlayer().getDisplayName() + "_FarmerAbility2") && !getPlantsList().contains(event.getBlock().getType())) return;
 
-    public void FarmerWife(Player player, Block block){
-
+        Random r = new Random();
+        int i = r.nextInt(100);
+        if (getCropList().contains(event.getBlock().getType()) && isFullyGrownOld(event.getBlock())){
+            switch (event.getBlock().getType()){
+                case CARROTS:
+                    if (i <= 5){
+                        event.getBlock().getDrops().add(new ItemStack(Material.GOLDEN_CARROT,1));
+                    }
+                    break;
+                case WHEAT_SEEDS:
+                    if (i <= 3){
+                        event.getBlock().getDrops().add(new ItemStack(Material.BREAD,1));
+                    }
+                    break;
+                case BEETROOT_SEEDS:
+                    if (i <= 3){
+                        event.getBlock().getDrops().add(new ItemStack(Material.BEETROOT_SOUP,1));
+                    }
+                    break;
+                case COCOA_BEANS:
+                    if (i <= 7){
+                        event.getBlock().getDrops().add(new ItemStack(Material.COOKIE,1));
+                    }
+                    break;
+                case NETHER_WART:
+                    if (i <= 5){
+                        event.getBlock().getDrops().add(new ItemStack(Material.SOUL_SAND,1));
+                    }
+                    break;
+                case POTATOES:
+                    if (i <= 5){
+                        event.getBlock().getDrops().add(new ItemStack(Material.BAKED_POTATO,1));
+                    }
+                    break;
+            }
+        }else{
+            switch (event.getBlock().getType()){
+                case MELON:
+                    if (i <= 5){
+                        event.getBlock().getDrops().add(new ItemStack(Material.GLISTERING_MELON_SLICE,1));
+                    }
+                    break;
+                case PUMPKIN:
+                    if (i <= 1){
+                        event.getBlock().getDrops().add(new ItemStack(Material.PUMPKIN_PIE,1));
+                    }
+                    break;
+            }
+        }
     }
 
-    public void Recycler(Player player, Block block){
+    @EventHandler
+    public void Recycler(BlockBreakEvent event){
+        if (!(boolean)Main.Load(event.getPlayer().getDisplayName() + "_FarmerAbility3") && !getCropList().contains(event.getBlock().getType())) return;
 
+        Location l = new Location(event.getBlock().getWorld(),event.getBlock().getLocation().getX(),event.getBlock().getLocation().getY() - 1,event.getBlock().getLocation().getZ());
+
+        if (getCropList().contains(event.getBlock().getType()) && isFullyGrownOld(event.getBlock())){
+            switch (event.getBlock().getType()){
+                case CARROTS:
+                    l.getBlock().setType(Material.CARROTS);
+                    break;
+                case WHEAT_SEEDS:
+                    l.getBlock().setType(Material.WHEAT_SEEDS);
+                    break;
+                case BEETROOT_SEEDS:
+                    l.getBlock().setType(Material.BEETROOT_SEEDS);
+                    break;
+                case COCOA_BEANS:
+                    l.getBlock().setType(Material.COCOA_BEANS);
+                    break;
+                case NETHER_WART:
+                    l.getBlock().setType(Material.NETHER_WART);
+                    break;
+                case POTATOES:
+                    l.getBlock().setType(Material.POTATOES);
+                    break;
+            }
+        }
     }
 
     public boolean isFullyGrownOld(Block block) {
