@@ -4,6 +4,8 @@ import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -20,6 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.*;
 
 import static at.ahit.server.jobs.Lumberjack.RemoveEnchantmentLore;
+import static at.ahit.server.jobs.Lumberjack.showEarnedXp;
 
 public class Hunter implements Listener {
 
@@ -37,17 +40,23 @@ public class Hunter implements Listener {
             case SHEEP:
                 playerXp += 10;
                 Main.Save(player.getDisplayName() + "_LatestJob", "Hunter");
+                showEarnedHunterXp("+10","Hunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case CHICKEN:
+            case COD:
+            case TROPICAL_FISH:
+            case SALMON:
                 playerXp += 5;
                 Main.Save(player.getDisplayName() + "_LatestJob", "Hunter");
+                showEarnedHunterXp("+5","Hunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case SQUID:
             case RABBIT:
                 playerXp += 15;
                 Main.Save(player.getDisplayName() + "_LatestJob", "Hunter");
+                showEarnedHunterXp("+15","Hunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case TURTLE:
@@ -55,6 +64,7 @@ public class Hunter implements Listener {
             case HORSE:
                 playerXp += 20;
                 Main.Save(player.getDisplayName() + "_LatestJob", "Hunter");
+                showEarnedHunterXp("+20","Hunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case MUSHROOM_COW:
@@ -62,17 +72,27 @@ public class Hunter implements Listener {
             case LLAMA:
                 playerXp += 30;
                 Main.Save(player.getDisplayName() + "_LatestJob", "Hunter");
+                showEarnedHunterXp("+30","Hunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case DOLPHIN:
                 playerXp += -10;
                 Main.Save(player.getDisplayName() + "_LatestJob", "Hunter");
+                showEarnedHunterXp("-10","Hunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 player.sendMessage("Wer tötet einen Delphin? Du sau!");
+                break;
+            case BEE:
+                playerXp += -5;
+                Main.Save(player.getDisplayName() + "_LatestJob", "Hunter");
+                showEarnedHunterXp("-5","Hunter",player);
+                Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                player.sendMessage("Die Sabine find des garnet gut");
                 break;
             case FOX:
                 playerXp += 30;
                 Main.Save(player.getDisplayName() + "_LatestJob", "Hunter");
+                showEarnedHunterXp("+30","Hunter",player);
                 player.sendMessage("What does the fox say? Isch hab ihm nichts getan!");
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
@@ -81,6 +101,7 @@ public class Hunter implements Listener {
             case BAT:
                 playerXp += 40;
                 Main.Save(player.getDisplayName() + "_LatestJob", "Hunter");
+                showEarnedHunterXp("+40","Hunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             default:
@@ -98,6 +119,9 @@ public class Hunter implements Listener {
         Main.getPlugin().saveConfig();
     }
 
+    public static void showEarnedHunterXp(String amount, String type, Player p) {
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + amount + " " + type + ChatColor.AQUA + "XP"));
+    }
 
     public ArrayList<EntityType> Animals() {
         ArrayList<EntityType> animals = new ArrayList();

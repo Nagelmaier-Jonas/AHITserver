@@ -4,6 +4,8 @@ import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -22,6 +24,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.*;
 
 import static at.ahit.server.jobs.Lumberjack.RemoveEnchantmentLore;
+import static at.ahit.server.jobs.Lumberjack.showEarnedXp;
 
 public class MonsterHunter implements Listener {
 
@@ -42,6 +45,7 @@ public class MonsterHunter implements Listener {
             case STRAY:
                 playerXp += 15;
                 Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                showEarnedMonsterHunterXp(15,"MonsterHunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case ZOMBIE:
@@ -50,6 +54,7 @@ public class MonsterHunter implements Listener {
             case VEX:
                 playerXp += 10;
                 Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                showEarnedMonsterHunterXp(10,"MonsterHunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case ENDERMAN:
@@ -59,6 +64,7 @@ public class MonsterHunter implements Listener {
             case PHANTOM:
                 playerXp += 40;
                 Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                showEarnedMonsterHunterXp(40,"MonsterHunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case ZOMBIE_VILLAGER:
@@ -69,12 +75,20 @@ public class MonsterHunter implements Listener {
             case DROWNED:
                 playerXp += 30;
                 Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                showEarnedMonsterHunterXp(30,"MonsterHunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case WITHER:
-            case ENDER_DRAGON:
                 playerXp += 600;
                 Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                showEarnedMonsterHunterXp(600,"MonsterHunter",player);
+                Scoreboards.createScoreboard(Main.getConfigFile(), player);
+                player.sendMessage("gg ez");
+                break;
+            case ENDER_DRAGON:
+                playerXp += 1000;
+                Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                showEarnedMonsterHunterXp(1000,"MonsterHunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 player.sendMessage("gg ez");
                 break;
@@ -83,14 +97,16 @@ public class MonsterHunter implements Listener {
             case ILLUSIONER:
             case GUARDIAN:
             case EVOKER:
-                playerXp += 35;
+                playerXp += 45;
                 Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                showEarnedMonsterHunterXp(45,"MonsterHunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case RAVAGER:
             case IRON_GOLEM:
                 playerXp += 70;
                 Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                showEarnedMonsterHunterXp(70,"MonsterHunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case PIGLIN_BRUTE:
@@ -100,11 +116,13 @@ public class MonsterHunter implements Listener {
             case SHULKER:
                 playerXp += 50;
                 Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                showEarnedMonsterHunterXp(50,"MonsterHunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 break;
             case ELDER_GUARDIAN:
-                playerXp += 200;
+                playerXp += 300;
                 Main.Save(player.getDisplayName() + "_LatestJob", "MonsterHunter");
+                showEarnedMonsterHunterXp(300,"MonsterHunter",player);
                 Scoreboards.createScoreboard(Main.getConfigFile(), player);
                 player.sendMessage("Kannst ja ned machn!");
                 break;
@@ -121,6 +139,10 @@ public class MonsterHunter implements Listener {
             Main.getConfigFile().set(player.getDisplayName() + "_MonsterHunterXp", playerXp);
         }
         Main.getPlugin().saveConfig();
+    }
+
+    public static void showEarnedMonsterHunterXp(int amount, String type, Player p) {
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.DARK_RED + "+" + amount + " " + type + ChatColor.AQUA + "XP"));
     }
 
     public ArrayList<EntityType> NonMonsters(){
