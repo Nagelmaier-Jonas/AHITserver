@@ -13,7 +13,7 @@ import static at.ahit.server.main.Main.config;
 public class AQuestMethods {
 
     public static boolean getInventoryLocation(Material material, Integer amount, Player player, Integer reward, Boolean removeitem,
-                                            Boolean addnewitem, Material additem, Integer addamount, String rewarditemname){
+                                            Boolean addnewitem, Material additem, Integer addamount, String rewarditemname, boolean sendmessage){
 
 
         for (ItemStack i : player.getInventory()) {
@@ -25,20 +25,34 @@ public class AQuestMethods {
                         if (removeitem) {
                             i.setAmount(i.getAmount() - amount);
                         }
-                        if (addnewitem){
-                            player.getLocation().getWorld().dropItemNaturally(player.getLocation(), new ItemStack(additem, addamount));
+                        if (player.getInventory().firstEmpty() == -1)
+                        {
+                            if (addnewitem){
+                                player.getLocation().getWorld().dropItemNaturally(player.getLocation(), new ItemStack(additem, addamount));
+                                player.sendMessage(ChatColor.GREEN + "You got " + addamount + " " + ChatColor.AQUA + rewarditemname + " in reward");
+                            }
+                            Main.Save(player.getDisplayName() + "_Amount", (Integer) Main.Load(player.getDisplayName() + "_Amount") + reward);
+                            player.sendMessage(ChatColor.GREEN + "You got " + ChatColor.AQUA + reward + " Coins!");
+                            Scoreboards.createScoreboard(config, player);
+                            return true;
+                        }else{
+                            ItemStack additemstack = new ItemStack(additem, addamount);
+                            player.getInventory().addItem(additemstack);
                             player.sendMessage(ChatColor.GREEN + "You got " + addamount + " " + ChatColor.AQUA + rewarditemname + " in reward");
+                            Main.Save(player.getDisplayName() + "_Amount", (Integer) Main.Load(player.getDisplayName() + "_Amount") + reward);
+                            player.sendMessage(ChatColor.GREEN + "You got " + ChatColor.AQUA + reward + " Coins!");
+                            Scoreboards.createScoreboard(config, player);
+                            return true;
                         }
-                        Main.Save(player.getDisplayName() + "_Amount", (Integer) Main.Load(player.getDisplayName() + "_Amount") + reward);
-                        player.sendMessage(ChatColor.GREEN + "You got " + ChatColor.AQUA + reward + " Coins!");
-                        Scoreboards.createScoreboard(config, player);
-                        return true;
+
                     }
 
                 }
             }
         }
-        player.sendMessage(ChatColor.RED + "You don´t have the Quest Item in your Inventory!");
+        if (sendmessage){
+            player.sendMessage(ChatColor.RED + "You don´t have the Quest Item in your Inventory!");
+        }
         return false;
 
     }
