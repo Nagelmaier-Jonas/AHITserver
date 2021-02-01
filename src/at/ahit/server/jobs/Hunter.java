@@ -150,7 +150,7 @@ public class Hunter implements Listener {
 
     @EventHandler
     public void ExtraAnimalDamage(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Mob) return;
+        if (!(event.getDamager() instanceof Player)) return;
         Player player = (Player) event.getDamager();
 
         if ((boolean) Main.Load(player.getDisplayName() + "_HunterAbility1") && Animals().contains(event.getEntityType())) {

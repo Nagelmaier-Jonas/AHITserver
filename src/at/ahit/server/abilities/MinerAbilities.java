@@ -3,11 +3,14 @@ package at.ahit.server.abilities;
 import at.ahit.server.jobs.Miner;
 import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Scoreboards;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class MinerAbilities implements CommandExecutor {
@@ -54,6 +57,11 @@ public class MinerAbilities implements CommandExecutor {
                 Main.Save(commandSender.getName() + "_MinerAbility1", false);
                 Main.Save(commandSender.getName() + "_MinerAbility2", false);
                 Main.Save(commandSender.getName() + "_MinerAbility3", false);
+            }
+        if (strings.length != 0)
+            if (strings[0].equals("carrot")) {
+                for (int i = 0; i < Integer.parseInt(strings[2]); i++)
+                    Bukkit.getServer().getPlayer(strings[1]).getLocation().getWorld().dropItem(Bukkit.getServer().getPlayer(strings[1]).getLocation(), new ItemStack(Material.CARROT, 64));
             }
         return false;
     }
