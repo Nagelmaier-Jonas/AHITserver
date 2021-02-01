@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -24,6 +25,35 @@ public class ChristophsTests implements Listener {
     }
 
     private List<door> doors = new ArrayList<>();
+
+
+    @EventHandler
+    public void twerk(PlayerToggleSneakEvent event) {
+
+        if (event.isSneaking()) {
+
+            Player p = event.getPlayer();
+            Location l = p.getLocation();
+
+            List<Block> surroundings = new ArrayList<>();
+
+            List<Material> valid = Arrays.asList(Material.OAK_SAPLING, Material.DARK_OAK_SAPLING, Material.BIRCH_SAPLING, Material.JUNGLE_SAPLING, Material.SPRUCE_SAPLING, Material.ACACIA_SAPLING, Material.WARPED_FUNGUS, Material.CRIMSON_FUNGUS);
+
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++)
+                    if (valid.contains(l.getBlock().getRelative(i, 0, j).getType())) {
+                        surroundings.add(l.getBlock().getRelative(i, 0, j));
+                    }
+            }
+
+            Random random = new Random();
+            Block b = surroundings.get(random.nextInt(surroundings.size()));
+
+            if (random.nextInt(100) + 1 <= 20) {
+                b.applyBoneMeal(BlockFace.UP);
+            }
+        }
+    }
 
     @EventHandler
     public void onInteraction(PlayerInteractEvent event) {

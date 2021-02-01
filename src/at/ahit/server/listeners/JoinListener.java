@@ -187,7 +187,7 @@ public class JoinListener implements Listener {
         if (player.getDisplayName().equals("siegfried55b")){
             Bukkit.broadcastMessage(
                     ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
-                    ChatColor.BLUE + ". " +
+                    ChatColor.BLUE + "█ " +
                     ChatColor.LIGHT_PURPLE + "" + ChatColor.MAGIC + "HHH " +
                     ChatColor.RESET);
         }

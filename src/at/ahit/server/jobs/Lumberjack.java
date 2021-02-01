@@ -4,6 +4,8 @@ import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -62,12 +64,14 @@ public class Lumberjack implements Listener {
             if (leafTypes.containsKey(m)) {
                 Random random = new Random();
 
-                if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")) ? 0.2 : 0.05))
-                    player.getWorld().dropItem(block.getLocation(), new ItemStack(leafTypes.get(m)));
+                if (!player.getInventory().getItemInMainHand().containsEnchantment(Enchantment.SILK_TOUCH) && player.getInventory().getItemInMainHand().getType() != Material.SHEARS) {
+                    if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")) ? 0.2 : 0.05))
+                        player.getWorld().dropItem(block.getLocation(), new ItemStack(leafTypes.get(m)));
 
-                if (m == Material.OAK_LEAVES || m == Material.DARK_OAK_LEAVES) {
-                    if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")) ? 0.02 : 0.005)) {
-                        player.getWorld().dropItem(block.getLocation(), new ItemStack(Material.APPLE));
+                    if (m == Material.OAK_LEAVES || m == Material.DARK_OAK_LEAVES) {
+                        if (random.nextDouble() >= 1 - (((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility1")) ? 0.02 : 0.005)) {
+                            player.getWorld().dropItem(block.getLocation(), new ItemStack(Material.APPLE));
+                        }
                     }
                 }
 
@@ -83,7 +87,11 @@ public class Lumberjack implements Listener {
             // Holzstämme:
             if (woodTypes.containsKey(m)) {
                 int blocksBroken = breakAdjacentBlocks(player, block, m);
-                playerXp += blocksBroken * woodTypes.get(m);
+
+                int earnedXP = blocksBroken * woodTypes.get(m);
+                playerXp += earnedXP;
+
+                showEarnedXp(earnedXP, "Lumberjack", player);
 
                 UpdateMainHand(player, blocksBroken);
 
@@ -92,10 +100,13 @@ public class Lumberjack implements Listener {
             }
 
             // TODO: Possible Levelling Improvements (Non-Linear, don't set XP to 0)
-            if (100 * level <= playerXp) {
+
+            int requiredXP = 100 * level;
+
+            if (requiredXP <= playerXp) {
                 player.sendMessage("You are now lumberjack level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
                 Main.Save(player.getDisplayName() + "_LumberjackLevel", level);
-                Main.Save(player.getDisplayName() + "_LumberjackXp", 0);
+                Main.Save(player.getDisplayName() + "_LumberjackXp", playerXp - requiredXP);
             }
             else {
                 Main.Save(player.getDisplayName() + "_LumberjackXp", playerXp);
@@ -104,6 +115,10 @@ public class Lumberjack implements Listener {
             Main.Save(player.getDisplayName() + "_LatestJob", "Lumberjack");
             Scoreboards.createScoreboard(Main.getConfigFile(), event.getPlayer()); //TODO: Effizienz
         }
+    }
+
+    public static void showEarnedXp(int amount, String type, Player p) {
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "+" + amount + " " + type + ChatColor.AQUA + "XP"));
     }
 
     public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT
@@ -150,6 +165,17 @@ public class Lumberjack implements Listener {
 
         }).clone());
 
+        List<Material> swords = Arrays.asList((new Material[] {
+                Material.WOODEN_SWORD,
+                Material.STONE_SWORD,
+                Material.GOLDEN_SWORD,
+                Material.IRON_SWORD,
+                Material.DIAMOND_SWORD,
+                Material.NETHERITE_SWORD,
+                Material.TRIDENT
+        }).clone());
+
+
         if (p.getInventory().getItemInMainHand().getType().getMaxDurability() > 1 && damageableItems.contains(p.getInventory().getItemInMainHand().getType()))
             if (im instanceof Damageable) {
                 Damageable dmg = (Damageable) im;
@@ -157,25 +183,28 @@ public class Lumberjack implements Listener {
 
                 int damageToDeal = 0;
 
+                if (swords.contains(p.getInventory().getItemInMainHand().getType()))
+                    blocksBroken *= 2;
+
                 for (int i = 0; i < blocksBroken; i++)
                     switch (p.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.DURABILITY)) {
                         case 0:
                             damageToDeal++;
                             break;
                         case 1:
-                            if (r.nextInt(100) <= 80)
+                            if (r.nextInt(100) <= 70)
                                 damageToDeal++;
                             break;
                         case 2:
-                            if (r.nextInt(100) <= 60)
-                                damageToDeal++;
-                            break;
-                        case 3:
                             if (r.nextInt(100) <= 50)
                                 damageToDeal++;
                             break;
-                        case 4:
+                        case 3:
                             if (r.nextInt(100) <= 40)
+                                damageToDeal++;
+                            break;
+                        case 4:
+                            if (r.nextInt(100) <= 30)
                                 damageToDeal++;
                             break;
                         default:
@@ -347,7 +376,7 @@ public class Lumberjack implements Listener {
                             Main.Save(player.getDisplayName() + "_LumberjackAbility2", !((boolean) Main.Load(player.getDisplayName() + "_LumberjackAbility2")));
                             Lumberjack.openLumberjackMenu(player);
                         }
-                        else if (playerCoins >= 10000 && ((int) Main.Load(player.getDisplayName() + "_LumberjackLevel")) >= 6) {
+                        else if (playerCoins >= 10000 && ((int) Main.Load(player.getDisplayName() + "_LumberjackLevel")) >= 5) {
                             player.sendMessage("Obtained new skill: Haste");
 
                             Main.Save(player.getDisplayName() + "_LumberjackSkill2", true);
@@ -359,7 +388,7 @@ public class Lumberjack implements Listener {
                             Lumberjack.openLumberjackMenu(player);
                         }
                         else
-                            player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Lumberjack Level 6" + ChatColor.RESET);
+                            player.sendMessage("You need " + ChatColor.GOLD + "10000 Coins" + ChatColor.RESET + " and " + ChatColor.AQUA + "Lumberjack Level 5" + ChatColor.RESET);
                         //player.sendMessage("YOU SHALL NOT! >:0");
                         break;
                     case "Treecapitator":
