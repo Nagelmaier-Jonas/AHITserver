@@ -191,19 +191,19 @@ public class Lumberjack implements Listener {
                             damageToDeal++;
                             break;
                         case 1:
-                            if (r.nextInt(100) <= 70)
-                                damageToDeal++;
-                            break;
-                        case 2:
                             if (r.nextInt(100) <= 50)
                                 damageToDeal++;
                             break;
+                        case 2:
+                            if (r.nextInt(100) <= 33)
+                                damageToDeal++;
+                            break;
                         case 3:
-                            if (r.nextInt(100) <= 40)
+                            if (r.nextInt(100) <= 25)
                                 damageToDeal++;
                             break;
                         case 4:
-                            if (r.nextInt(100) <= 30)
+                            if (r.nextInt(100) <= 20)
                                 damageToDeal++;
                             break;
                         default:

@@ -93,7 +93,8 @@ public class ChristophsTests implements Listener {
         }
     }
 
-class door {
+
+    class door {
     public Block toggleBlock;
     private HashMap<Location, BlockState> components;
     private boolean state; // False = Geschlossen, True = Offen
