@@ -116,11 +116,11 @@ public class Farmer implements Listener {
     public void CropMaster(BlockBreakEvent event) {
 
         if (!(boolean)Main.Load(event.getPlayer().getDisplayName() + "_FarmerAbility1") && !getCropList().contains(event.getBlock().getType())) return;
-
-        for (ItemStack stack :event.getBlock().getDrops()) {
-            stack.setAmount(stack.getAmount() + 1);
+        if (isFullyGrownOld(event.getBlock())){
+            for (ItemStack stack :event.getBlock().getDrops()) {
+                stack.setAmount(stack.getAmount() + 1);
+            }
         }
-
     }
     //Fügt "weiterverarbeitete" Drops hinzu ©Lukas
     @EventHandler
