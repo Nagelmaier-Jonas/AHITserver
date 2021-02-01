@@ -118,7 +118,7 @@ public class Lumberjack implements Listener {
     }
 
     public static void showEarnedXp(int amount, String type, Player p) {
-        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "+" + amount + " " + type + ChatColor.AQUA + "XP"));
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "+" + amount + " " + type + ChatColor.AQUA + " XP"));
     }
 
     public static void UpdateMainHand(Player p, int blocksBroken) { // TODO Don't break if UNBREAKABLE NBT

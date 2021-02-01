@@ -5,6 +5,8 @@ import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.MyCustomConfig;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -38,6 +40,7 @@ public class Miner implements Listener {
                     case COAL_ORE:
                         playerXp += 5;
                         Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
+                        showEarnedXp(5, "Miner", player);
                         break;
                     case IRON_ORE:
                     case REDSTONE_ORE:
@@ -45,24 +48,29 @@ public class Miner implements Listener {
                     case NETHER_GOLD_ORE:
                     case LAPIS_ORE:
                         playerXp += 10;
+                        showEarnedXp(10, "Miner", player);
                         Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
                         break;
                     case GOLD_ORE:
                         playerXp += 20;
+                        showEarnedXp(20, "Miner", player);
                         Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
                         break;
                     case DIAMOND_ORE:
                         playerXp += 30;
+                        showEarnedXp(30, "Miner", player);
                         Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
                         break;
                     case EMERALD_ORE:
                         playerXp += 100;
+                        showEarnedXp(100, "Miner", player);
                         Main.Save(player.getDisplayName() + "_LatestJob", "Miner");
                         break;
                     case COBBLESTONE:
                     case NETHERRACK:
                     case STONE:
                         playerXp += 1;
+                        showEarnedXp(1, "Miner", player);
                         Main.Save(player.getPlayer().getDisplayName() + "_LatestJob", "Miner");
                         break;
                     default:
@@ -328,6 +336,10 @@ public class Miner implements Listener {
         Main.Save(event.getPlayer().getDisplayName() + "_BlockHitDirection", event.getBlockFace().toString());
     }
 
+    public static void showEarnedXp(int amount, String type, Player p) {
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GRAY + "+" + amount + " " + type + " XP"  + ChatColor.AQUA + " (" + ((int)Main.Load(p.getDisplayName() + "_MinerXp") + amount) +"/" + ((int)Main.Load(p.getDisplayName() + "_MinerLevel") * 500) + ")"));
+    }
+
     // shop
     public static void openMinerMenu(Player player) {
         ArrayList<ItemStack> items = new ArrayList<>();
@@ -437,28 +449,28 @@ public class Miner implements Listener {
         switch (event.getBlock().getType()) {
             case IRON_ORE:
                 event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.IRON_INGOT));
-                event.setCancelled(true);
                 checkBlockXp(event.getPlayer(), event.getBlock());
                 event.getBlock().setType(Material.AIR);
+                event.setDropItems(false);
                 break;
             case GOLD_ORE:
                 event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.GOLD_INGOT));
-                event.setCancelled(true);
                 checkBlockXp(event.getPlayer(), event.getBlock());
                 event.getBlock().setType(Material.AIR);
+                event.setDropItems(false);
                 break;
             case STONE:
                 event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.STONE));
-                event.setCancelled(true);
                 checkBlockXp(event.getPlayer(), event.getBlock());
                 event.getBlock().setType(Material.AIR);
+                event.setDropItems(false);
                 break;
             case SAND:
             case RED_SAND:
                 event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(), new ItemStack(Material.GLASS));
-                event.setCancelled(true);
                 checkBlockXp(event.getPlayer(), event.getBlock());
                 event.getBlock().setType(Material.AIR);
+                event.setDropItems(false);
                 break;
 
         }
@@ -550,7 +562,6 @@ public class Miner implements Listener {
     public void breakSandThreeByThree(BlockBreakEvent event) {
         Location location = event.getBlock().getLocation();
         List<Location> locationList = new ArrayList<>();
-        event.setCancelled(true);
         locationList.add(location);
         switch ((String) Main.Load(event.getPlayer().getDisplayName() + "_BlockHitDirection")) {
             case "NORTH":
@@ -623,6 +634,10 @@ public class Miner implements Listener {
             sandTypes.add(Material.BLACK_CONCRETE_POWDER);
             sandTypes.add(Material.BLACK_CONCRETE_POWDER);
         }
+
+        if(sandTypes.contains(event.getBlock().getType()))
+            event.setDropItems(false);
+
         if (sandTypes.contains(event.getBlock().getType())) {
             for (Location l : locationList) {
                 if (sandTypes.contains(l.getBlock().getType())) {
