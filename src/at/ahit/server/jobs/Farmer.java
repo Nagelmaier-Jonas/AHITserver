@@ -112,9 +112,6 @@ public class Farmer implements Listener {
         Main.getPlugin().saveConfig();
     }
 
-    //TODO Add Skills
-
-    //
     @EventHandler
     public void CropMaster(BlockBreakEvent event) {
 
