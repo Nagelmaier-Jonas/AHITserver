@@ -26,3 +26,5 @@ commands:
     description: /auction
   shop:
     description: /shop
+  protect:
+    description: /protect
