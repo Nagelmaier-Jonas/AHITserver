@@ -9,23 +9,21 @@ import org.bukkit.CropState;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Crops;
 import org.bukkit.material.MaterialData;
 
 import java.util.*;
+
+import static at.ahit.server.jobs.Lumberjack.RemoveEnchantmentLore;
 
 public class Farmer implements Listener {
 
@@ -243,6 +241,28 @@ public class Farmer implements Listener {
                 "Place crops in 3x3 Fields", "Costs: 25000c")), "Farmer", 3));
         items.add(SkillMenu.createItem(Material.BARRIER, 1, "Close"));
 
+        ItemMeta meta = items.get(0).getItemMeta();
+        ItemMeta meta1 = items.get(1).getItemMeta();
+        ItemMeta meta2 = items.get(2).getItemMeta();
+
+        if ((boolean) Main.Load(player.getDisplayName() + "_FarmerAbility1")) {
+            meta.addEnchant(Enchantment.DURABILITY, 1, true);
+            items.get(0).setItemMeta(meta);
+            RemoveEnchantmentLore(items.get(0));
+        } else items.get(0).setItemMeta(meta);
+
+        if ((boolean) Main.Load(player.getDisplayName() + "_FarmerAbility2")) {
+            meta1.addEnchant(Enchantment.DURABILITY, 1, true);
+            items.get(1).setItemMeta(meta1);
+            RemoveEnchantmentLore(items.get(1));
+        } else items.get(1).setItemMeta(meta1);
+
+        if ((boolean) Main.Load(player.getDisplayName() + "_FarmerAbility3")) {
+            meta2.addEnchant(Enchantment.DURABILITY, 1, true);
+            items.get(2).setItemMeta(meta2);
+            RemoveEnchantmentLore(items.get(2));
+        } else items.get(2).setItemMeta(meta2);
+
         Inventory inventory = SkillMenu.createSkillInventory(player, "Farmer", new HashMap<Integer, ItemStack>() {{
             put(1, items.get(0));
             put(3, items.get(1));
@@ -265,34 +285,43 @@ public class Farmer implements Listener {
                 if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 2500 && !((boolean) Main.Load(player.getDisplayName() + "_FarmerSkill1"))) {
                     Main.Save(player.getDisplayName() + "_FarmerSkill1", true);
                     Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 2500);
+                    Main.Save(player.getDisplayName() + "_FarmerAbility1", !(boolean) Main.Load(player.getDisplayName() + "_FarmerAbility1"));
+                    player.sendMessage("You obtained a new Skill:" + ChatColor.GREEN + " " + name + ChatColor.RESET);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                    Farmer.openFarmerMenu(player);
+                } else if ((boolean) Main.Load(player.getDisplayName() + "_FarmerSkill1")) {
+                    Main.Save(player.getDisplayName() + "_FarmerAbility1", !(boolean) Main.Load(player.getDisplayName() + "_FarmerAbility1"));
                 } else {
-                    Farmer.openFarmerMenu(player);
-                    player.sendMessage("You can't buy that you little motherfucker");
+                    player.sendMessage("You need " + ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.GREEN + "Farmer Level 3" + ChatColor.RESET);
                 }
+                Farmer.openFarmerMenu(player);
                 break;
             case "FarmerWife":
                 if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 10000 && !((boolean) Main.Load(player.getDisplayName() + "_FarmerSkill2"))) {
                     Main.Save(player.getDisplayName() + "_FarmerSkill2", true);
                     Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 1000);
+                    Main.Save(player.getDisplayName() + "_FarmerAbility2", !(boolean) Main.Load(player.getDisplayName() + "_FarmerAbility2"));
+                    player.sendMessage("You obtained a new Skill:" + ChatColor.GREEN + " " + name + ChatColor.RESET);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                    Farmer.openFarmerMenu(player);
+                } else if ((boolean) Main.Load(player.getDisplayName() + "_FarmerSkill2")) {
+                    Main.Save(player.getDisplayName() + "_FarmerAbility2", !(boolean) Main.Load(player.getDisplayName() + "_FarmerAbility2"));
                 } else {
-                    Farmer.openFarmerMenu(player);
-                    player.sendMessage("You can't buy that you little motherfucker");
+                    player.sendMessage("You need " + ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.GREEN + "Farmer Level 5" + ChatColor.RESET);
                 }
+                Farmer.openFarmerMenu(player);
                 break;
             case "Recycler":
                 if ((int) Main.Load(player.getDisplayName() + "_Amount") >= 25000 && !((boolean) Main.Load(player.getDisplayName() + "_FarmerSkill3"))) {
                     Main.Save(player.getDisplayName() + "_FarmerSkill3", true);
                     Main.Save(player.getDisplayName() + "_Amount", (int) Main.Load(player.getDisplayName() + "_Amount") - 25000);
+                    Main.Save(player.getDisplayName() + "_FarmerAbility3", !(boolean) Main.Load(player.getDisplayName() + "_FarmerAbility3"));
+                    player.sendMessage("You obtained a new Skill:" + ChatColor.GREEN + " " + name + ChatColor.RESET);
                     Scoreboards.createScoreboard(Main.getConfigFile(), player);
-                    Farmer.openFarmerMenu(player);
+                } else if ((boolean) Main.Load(player.getDisplayName() + "_FarmerSkill3")) {
+                    Main.Save(player.getDisplayName() + "_FarmerAbility3", !(boolean) Main.Load(player.getDisplayName() + "_FarmerAbility3"));
                 } else {
-                    Farmer.openFarmerMenu(player);
-                    player.sendMessage("You can't buy that you little motherfucker");
+                    player.sendMessage("You need " + ChatColor.GOLD + "2500 Coins" + ChatColor.RESET + " and " + ChatColor.GREEN + "Farmer Level 9" + ChatColor.RESET);
                 }
+                Farmer.openFarmerMenu(player);
                 break;
             case "Close":
                 Menu.openMenu(player);
