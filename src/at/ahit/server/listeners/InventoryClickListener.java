@@ -3,6 +3,7 @@ package at.ahit.server.listeners;
 import at.ahit.server.jobs.*;
 import at.ahit.server.overlays.Auction;
 import at.ahit.server.overlays.Menu;
+import at.ahit.server.overlays.QuestMenu;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -34,12 +35,27 @@ public class InventoryClickListener implements Listener {
             case "Wizard":
                 Wizard.onWizardJobsUse(event);
                 break;
-            /*case "§4Auction":
-                Auction.onAuctionUse(event);
+            case "Quests":
+                QuestMenu.onQuestsUse(event);
                 break;
-            case "§4Select_Price":
-                Auction.sellItem(event);
-                break;*/
+            case "FarmerQuests":
+                QuestMenu.onFarmerQuestsUse(event);
+                break;
+            case "MinerQuests":
+                QuestMenu.onMinerQuestsUse(event);
+                break;
+            case "HunterQuests":
+                QuestMenu.onHunterQuestsUse(event);
+                break;
+            case "LumberjackQuests":
+                QuestMenu.onLumberjackQuestsUse(event);
+                break;
+            case "MonsterHunterQuests":
+                QuestMenu.onMonsterHunterQuestsUse(event);
+                break;
+            case "WizardQuests":
+                QuestMenu.onWizardQuestsUse(event);
+                break;
         }
     }
 }
