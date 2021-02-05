@@ -1,6 +1,7 @@
 package at.ahit.server.commands;
 
 import at.ahit.server.main.Main;
+import at.ahit.server.overlays.QuestMenu;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -20,7 +21,7 @@ public class AQuestCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] strings) {
-        if (commandSender instanceof Player){
+        /*if (commandSender instanceof Player){
 
             Player player = (Player) commandSender;
 
@@ -627,7 +628,12 @@ public class AQuestCommand implements CommandExecutor {
         else {
             commandSender.sendMessage("Console mach was anderes sonst Faust");
         }
-        return true;
+        return true;*/
+
+        if (commandSender instanceof Player && strings.length == 0){
+            QuestMenu.createQuestMenu((Player) commandSender);
+        }
+        return false;
     }
 
 
