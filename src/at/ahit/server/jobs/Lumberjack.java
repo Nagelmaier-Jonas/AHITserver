@@ -36,6 +36,12 @@ public class Lumberjack implements Listener {
         HashMap<Material, Integer> woodTypes = new HashMap<Material, Integer>();
         HashMap<Material, Material> leafTypes = new HashMap<Material, Material>();
 
+        // TODO
+        // TODO
+        // TODO: COCOA BEANS DROP FROM JUNGLE LEAFES (Same chance as apples)
+        // TODO
+        // TODO
+
         // TODO Leaf Drop Chances
         leafTypes.put(Material.OAK_LEAVES, Material.OAK_SAPLING);
         leafTypes.put(Material.DARK_OAK_LEAVES, Material.DARK_OAK_SAPLING);
