@@ -37,6 +37,10 @@ public class Main extends JavaPlugin {
         System.out.println(Color.GREEN + "Plugin load successful" + Color.RESET);
         registerListInit();
         Miner.startRunnable();
+        registerRecipes();
+    }
+
+    public void registerRecipes(){
         Wand.addToServer();
     }
 

@@ -11,7 +11,9 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import static at.ahit.server.usefulstuff.AQuestMethods.getInventoryLocation;
@@ -109,6 +111,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q2":
                         if (wizardquest.equals("1, 0, 0, 0, 0")){
+                            getInventoryLocation(new ItemStack(Material.ENCHANTING_TABLE , 1), player, 300, false, false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 0, 0, 0");
                         }
                         else {
@@ -117,6 +120,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (wizardquest.equals("1, 1, 0, 0, 0")){
+                            getInventoryLocation(new ItemStack(Material.BOOKSHELF , 16), player, 400, false, false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 1, 0, 0");
                         }
                         else {
@@ -125,6 +129,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (wizardquest.equals("1, 1, 1, 0, 0")){
+                            getInventoryLocation(new ItemStack(Material.DRAGON_BREATH , 16), player, 600, false, true, Material.LINGERING_POTION, 9, "Lingering Potion", true);
                             Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 1, 1, 0");
                         }
                         else {
@@ -134,6 +139,10 @@ public class AQuestCommand implements CommandExecutor {
                     case "q5":
                         if (wizardquest.equals("1, 1, 1, 1, 0")){
                             if ((Integer)Main.Load(player.getDisplayName() + "_WizardLevel") == 10) {
+                                ItemStack sharpness6  = new ItemStack(Material.ENCHANTED_BOOK , 1);
+                                sharpness6.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 6);
+
+                                getInventoryLocation(sharpness6, player, 600, false, false, Material.ACACIA_BOAT, 0, "none", true);
                                 Main.Save(player.getDisplayName() + "_QuestsWizard", "1, 1, 1, 1, 1");
                             }
                             else {
@@ -175,13 +184,13 @@ public class AQuestCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
 
                 return true;
-            }// TODO DO THIS
+            }// TODO BALANCE STUFF
 
             if (strings[0].equals("farmer")){
                 switch (strings[1]){
                     case "q1":
                         if (farmerquest.equals("0, 0, 0, 0, 0")){
-                            getInventoryLocation(Material.WHEAT_SEEDS , 4, player, 12, true, true, Material.WHEAT, 6, "Wheat", true);
+                            getInventoryLocation(new ItemStack(Material.WHEAT_SEEDS , 4), player, 12, true, true, Material.WHEAT, 6, "Wheat", true);
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 0, 0, 0, 0");
                         }
                         else {
@@ -190,7 +199,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q2":
                         if (farmerquest.equals("1, 0, 0, 0, 0")){
-                            getInventoryLocation(Material.COMPOSTER , 1, player, 17, false, false, Material.ACACIA_BOAT, 0, "none", true);
+                            getInventoryLocation(new ItemStack(Material.COMPOSTER , 1), player, 17, false, false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 0, 0, 0");
                         }
                         else {
@@ -199,7 +208,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (farmerquest.equals("1, 1, 0, 0, 0")){
-                            getInventoryLocation(Material.DIAMOND_HOE , 1, player, 100, false, false, Material.ACACIA_BOAT, 0, "none", true);
+                            getInventoryLocation(new ItemStack(Material.DIAMOND_HOE , 1), player, 100, false, false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 0, 0");
                             player.sendMessage(ChatColor.GOLD + "WTF IS WRONG WITH YOU YOU CRAFTET A DIAMOND HOE");
                         }
@@ -209,7 +218,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (farmerquest.equals("1, 1, 1, 0, 0")){
-                            getInventoryLocation(Material.PUMPKIN_PIE , 64, player, 400, true, true, Material.ENCHANTED_GOLDEN_APPLE, 1, "God Apple", true);
+                            getInventoryLocation(new ItemStack(Material.PUMPKIN_PIE , 64), player, 400, true, true, Material.ENCHANTED_GOLDEN_APPLE, 1, "God Apple", true);
                             Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 0");
 
                         }
@@ -220,7 +229,7 @@ public class AQuestCommand implements CommandExecutor {
                     case "q5":
                         if (farmerquest.equals("1, 1, 1, 1, 0")){
                             if ((Integer)Main.Load(player.getDisplayName() + "_FarmerLevel") == 10) {
-                                getInventoryLocation(Material.NETHERITE_HOE, 1, player, 1500, false, true, Material.DIAMOND, 2, "DIAMOND", true);
+                                getInventoryLocation(new ItemStack(Material.NETHERITE_HOE, 1), player, 1500, false, true, Material.DIAMOND, 2, "DIAMOND", true);
                                 Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 1");
                                 player.sendMessage(ChatColor.GOLD + "WTF IS WRONG WITH YOU YOU CRAFTET A NETHERITE HOE");
                             }
@@ -236,7 +245,7 @@ public class AQuestCommand implements CommandExecutor {
                         return true;
                 }
                 return true;
-            }// TODO DO THIS
+            }// TODO BALANCE STUFF
 
             if (strings[0].equals("hunter") && strings.length == 1){
                 TextComponent hunterq1 = new TextComponent(ChatColor.AQUA + "Get your first food " + ChatColor.GREEN + "(3x Raw Food required)");hunterq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest hunter q1"));
@@ -270,25 +279,25 @@ public class AQuestCommand implements CommandExecutor {
                 switch (strings[1]){
                     case "q1":
                         if (hunterquest.equals("0, 0, 0, 0, 0")){
-                            if (getInventoryLocation(Material.BEEF , 3,  player, 12, true,
+                            if (getInventoryLocation(new ItemStack(Material.BEEF , 3),  player, 12, true,
                                     true, Material.COOKED_BEEF, 3, "Steaks", false)){
 
-                            }else if (getInventoryLocation(Material.PORKCHOP , 3,  player, 12, true,
+                            }else if (getInventoryLocation(new ItemStack(Material.PORKCHOP , 3),  player, 12, true,
                                     true, Material.COOKED_PORKCHOP, 3, "Cooked Porkchop", false)){
 
-                            }else if (getInventoryLocation(Material.MUTTON , 3,  player, 12, true,
+                            }else if (getInventoryLocation(new ItemStack(Material.MUTTON , 3),  player, 12, true,
                                     true, Material.COOKED_MUTTON, 3, "Cooked Mutton", false)){
 
-                            }else if (getInventoryLocation(Material.CHICKEN , 3,  player, 12, true,
+                            }else if (getInventoryLocation(new ItemStack(Material.CHICKEN , 3),  player, 12, true,
                                     true, Material.COOKED_CHICKEN, 3, "Cooked Chicken", false)){
 
-                            }else if (getInventoryLocation(Material.RABBIT , 3,  player, 12, true,
+                            }else if (getInventoryLocation(new ItemStack(Material.RABBIT , 3),  player, 12, true,
                                     true, Material.COOKED_RABBIT, 3, "Cooked Rabbit", false)){
 
-                            }else if (getInventoryLocation(Material.SALMON , 3,  player, 12, true,
+                            }else if (getInventoryLocation(new ItemStack(Material.SALMON , 3),  player, 12, true,
                                     true, Material.COOKED_SALMON, 3, "Cooked Salmon", false)){
 
-                            }else if (getInventoryLocation(Material.COD , 3,  player, 12, true,
+                            }else if (getInventoryLocation(new ItemStack(Material.COD , 3),  player, 12, true,
                                     true, Material.COOKED_COD, 3, "Cooked Cod", true)){
 
                             }
@@ -301,7 +310,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q2":
                         if (hunterquest.equals("1, 0, 0, 0, 0")){
-                            getInventoryLocation(Material.ARROW , 64,  player, 45, false, false, Material.COOKED_BEEF, 3, "Steaks", true);
+                            getInventoryLocation(new ItemStack(Material.ARROW , 64),  player, 45, false, false, Material.COOKED_BEEF, 3, "Steaks", true);
 
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 0, 0, 0");
                         }
@@ -311,7 +320,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (hunterquest.equals("1, 1, 0, 0, 0")){
-                            getInventoryLocation(Material.PINK_WOOL , 15,  player, 50, false, false, Material.COOKED_BEEF, 3, "Steaks", true);
+                            getInventoryLocation(new ItemStack(Material.PINK_WOOL , 15),  player, 50, false, false, Material.COOKED_BEEF, 3, "Steaks", true);
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 0, 0");
                         }
                         else {
@@ -320,7 +329,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (hunterquest.equals("1, 1, 1, 0, 0")){
-                            getInventoryLocation(Material.SADDLE , 1,  player, 300, false, false, Material.ACACIA_BOAT, 0, "none", true);
+                            getInventoryLocation(new ItemStack(Material.SADDLE , 1),  player, 300, false, false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 0");
                         }
                         else {
@@ -330,7 +339,7 @@ public class AQuestCommand implements CommandExecutor {
                     case "q5":
                         if (hunterquest.equals("1, 1, 1, 1, 0")){
                             if ((Integer)Main.Load(player.getDisplayName() + "_HunterLevel") == 10) {
-                                getInventoryLocation(Material.LEATHER, 64, player, 500, true, true, Material.BOOKSHELF, 16, "Bookshelf", true);
+                                getInventoryLocation(new ItemStack(Material.LEATHER, 64), player, 500, true, true, Material.BOOKSHELF, 16, "Bookshelf", true);
                                 Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 1");
                             }
                             else{
@@ -351,7 +360,7 @@ public class AQuestCommand implements CommandExecutor {
                 TextComponent lumberq1 = new TextComponent(ChatColor.AQUA + "Get some Wood " + ChatColor.GREEN + "(32x Wood Logs required)");lumberq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q1"));
                 TextComponent lumberq2 = new TextComponent(ChatColor.AQUA + "Get some Wood from the Nether " + ChatColor.GREEN + "(32x Nether Logs required)");lumberq2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q2"));
                 TextComponent lumberq3 = new TextComponent(ChatColor.AQUA + "Get Storage for your Wood " + ChatColor.GREEN + "(64x Chests required)");lumberq3.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q3"));
-                TextComponent lumberq4 = new TextComponent(ChatColor.AQUA + "Not Implemented " + ChatColor.GREEN + "");lumberq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q4"));
+                TextComponent lumberq4 = new TextComponent(ChatColor.AQUA + "Get some Stripped Wood from the Nether " + ChatColor.GREEN + "(32x Stripped Nether Logs required)");lumberq4.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q4"));
                 TextComponent lumberq5 = new TextComponent(ChatColor.AQUA + "Get The Ultimate Axe "+ ChatColor.GREEN + "(1x Netherite Axe)");lumberq5.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest lumber q5"));
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 lumberq1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -371,28 +380,28 @@ public class AQuestCommand implements CommandExecutor {
                                 "(you need the required items in your inventory)").color(ChatColor.GOLD).italic(true).create()));player.spigot().sendMessage(lumberq5);
                 player.sendMessage(ChatColor.BLUE + "" + ChatColor.MAGIC +  "--=========----=========----=========--");
                 return true;
-            }// TODO DO THIS
+            }// TODO BALANCE STUFF
 
             if (strings[0].equals("lumber")){
                 switch (strings[1]){
                     case "q1":
                         if (lumberquest.equals("0, 0, 0, 0, 0")){
-                            if (getInventoryLocation(Material.OAK_LOG, 32, player, 50, false,
+                            if (getInventoryLocation(new ItemStack(Material.OAK_LOG, 32), player, 50, false,
                                     false, Material.ACACIA_BOAT, 0, "none", false)){
 
-                            }else if (getInventoryLocation(Material.BIRCH_LOG, 32, player, 50, false,
+                            }else if (getInventoryLocation(new ItemStack(Material.BIRCH_LOG, 32), player, 50, false,
                                     false, Material.ACACIA_BOAT, 0, "none", false)){
 
-                            }else if (getInventoryLocation(Material.ACACIA_LOG, 32, player, 50, false,
+                            }else if (getInventoryLocation(new ItemStack(Material.ACACIA_LOG, 32), player, 50, false,
                                     false, Material.ACACIA_BOAT, 0, "none", false)){
 
-                            }else if (getInventoryLocation(Material.DARK_OAK_LOG, 32, player, 50, false,
+                            }else if (getInventoryLocation(new ItemStack(Material.DARK_OAK_LOG, 32), player, 50, false,
                                     false, Material.ACACIA_BOAT, 0, "none", false)){
 
-                            }else if (getInventoryLocation(Material.JUNGLE_LOG, 32, player, 50, false,
+                            }else if (getInventoryLocation(new ItemStack(Material.JUNGLE_LOG, 32), player, 50, false,
                                     false, Material.ACACIA_BOAT, 0, "none", false)){
 
-                            }else if (getInventoryLocation(Material.SPRUCE_LOG, 32, player, 50, false,
+                            }else if (getInventoryLocation(new ItemStack(Material.SPRUCE_LOG, 32), player, 50, false,
                                     false, Material.ACACIA_BOAT, 0, "none", true)){
                             }
                             Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 0, 0, 0, 0");
@@ -403,10 +412,10 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q2":
                         if (lumberquest.equals("1, 0, 0, 0, 0")){
-                            if (getInventoryLocation(Material.CRIMSON_STEM, 32, player, 100, false,
+                            if (getInventoryLocation(new ItemStack(Material.CRIMSON_STEM, 32), player, 100, false,
                                     false, Material.ACACIA_BOAT, 0, "none", false)){
 
-                            }else if (getInventoryLocation(Material.WARPED_STEM, 32, player, 100, false,
+                            }else if (getInventoryLocation(new ItemStack(Material.WARPED_STEM, 32), player, 100, false,
                                     false, Material.ACACIA_BOAT, 0, "none", true)){
 
                             }
@@ -418,7 +427,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (lumberquest.equals("1, 1, 0, 0, 0")){
-                            getInventoryLocation(Material.CHEST, 64, player, 400, false,false, Material.ACACIA_BOAT, 0, "none", true);
+                            getInventoryLocation(new ItemStack(Material.CHEST, 64), player, 400, false,false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 0, 0");
                         }
                         else {
@@ -427,6 +436,13 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (lumberquest.equals("1, 1, 1, 0, 0")){
+                            if (getInventoryLocation(new ItemStack(Material.STRIPPED_CRIMSON_STEM, 32), player, 100, false,
+                                    false, Material.ACACIA_BOAT, 0, "none", false)){
+
+                            }else if (getInventoryLocation(new ItemStack(Material.STRIPPED_WARPED_STEM, 32), player, 100, false,
+                                    false, Material.ACACIA_BOAT, 0, "none", true)){
+
+                            }
                             Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 1, 0");
                         }
                         else {
@@ -436,7 +452,7 @@ public class AQuestCommand implements CommandExecutor {
                     case "q5":
                         if (lumberquest.equals("1, 1, 1, 1, 0")){
                             if ((Integer)Main.Load(player.getDisplayName() + "_LumberjackLevel") == 10) {
-                                getInventoryLocation(Material.NETHERITE_AXE, 1, player, 150, false, true, Material.DIAMOND, 3, "Diamonds", true);
+                                getInventoryLocation(new ItemStack(Material.NETHERITE_AXE, 1), player, 150, false, true, Material.DIAMOND, 3, "Diamonds", true);
                                 Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 1, 1");
                             }
                             else {
@@ -451,7 +467,7 @@ public class AQuestCommand implements CommandExecutor {
                         return true;
                 }
                 return true;
-            }// TODO DO THIS
+            }// TODO BALANCE STUFF
 
             if (strings[0].equals("miner") && strings.length == 1){
                 TextComponent minerq1 = new TextComponent(ChatColor.AQUA + "Get some Clean Stone " + ChatColor.GREEN + "(64x Clean Stone required)");minerq1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/aquest miner q1"));
@@ -483,7 +499,7 @@ public class AQuestCommand implements CommandExecutor {
                 switch (strings[1]){
                     case "q1":
                         if (minerquest.equals("0, 0, 0, 0, 0")){
-                            getInventoryLocation(Material.STONE , 64,  player, 50, false, true, Material.TORCH, 32, "Torches", true);
+                            getInventoryLocation(new ItemStack(Material.STONE , 64),  player, 50, false, true, Material.TORCH, 32, "Torches", true);
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 0, 0, 0, 0");
                         }
                         else {
@@ -492,7 +508,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q2":
                         if (minerquest.equals("1, 0, 0, 0, 0")){
-                            getInventoryLocation(Material.LAPIS_LAZULI , 32,  player, 200, false, false, Material.ACACIA_BOAT, 0, "none", true);
+                            getInventoryLocation(new ItemStack(Material.LAPIS_LAZULI , 32),  player, 200, false, false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 0, 0, 0");
                         }
                         else {
@@ -501,7 +517,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (minerquest.equals("1, 1, 0, 0, 0")){
-                            getInventoryLocation(Material.EMERALD , 2,  player, 500, false, false, Material.ACACIA_BOAT, 0, "none", true);
+                            getInventoryLocation(new ItemStack(Material.EMERALD , 2),  player, 500, false, false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 0, 0");
                         }
                         else {
@@ -510,7 +526,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (minerquest.equals("1, 1, 1, 0, 0")){
-                            getInventoryLocation(Material.DIAMOND , 16,  player, 800, false, true, Material.DIAMOND_PICKAXE, 1, "Diamond Pickaxe", true);
+                            getInventoryLocation(new ItemStack(Material.DIAMOND , 16),  player, 800, false, true, Material.DIAMOND_PICKAXE, 1, "Diamond Pickaxe", true);
                             Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 1, 0");
                         }
                         else {
@@ -520,7 +536,7 @@ public class AQuestCommand implements CommandExecutor {
                     case "q5":
                         if (minerquest.equals("1, 1, 1, 1, 0")){
                             if ((Integer)Main.Load(player.getDisplayName() + "_MinerLevel") == 10){
-                                getInventoryLocation(Material.NETHERITE_PICKAXE , 1,  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none", true);
+                                getInventoryLocation(new ItemStack(Material.NETHERITE_PICKAXE , 1),  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none", true);
                                 Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 1, 1");
                             }
                             else {
@@ -567,7 +583,7 @@ public class AQuestCommand implements CommandExecutor {
                 switch (strings[1]){
                     case "q1":
                         if (monsterhunterquest.equals("0, 0, 0, 0, 0")){
-                            getInventoryLocation(Material.ENDER_PEARL , 12,  player, 50, false, false, Material.ACACIA_BOAT, 0, "none", true);
+                            getInventoryLocation(new ItemStack(Material.ENDER_PEARL , 12),  player, 50, false, false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 0, 0, 0, 0");
                         }
                         else {
@@ -576,7 +592,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q2":
                         if (monsterhunterquest.equals("1, 0, 0, 0, 0")){
-                            getInventoryLocation(Material.WITHER_SKELETON_SKULL , 1,  player, 200, false, false, Material.ACACIA_BOAT, 0, "none", true);
+                            getInventoryLocation(new ItemStack(Material.WITHER_SKELETON_SKULL , 1),  player, 200, false, false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 0, 0, 0");
                         }
                         else {
@@ -585,7 +601,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q3":
                         if (monsterhunterquest.equals("1, 1, 0, 0, 0")){
-                            getInventoryLocation(Material.NETHER_STAR , 1,  player, 700, false, false, Material.ACACIA_BOAT, 0, "none", true);
+                            getInventoryLocation(new ItemStack(Material.NETHER_STAR , 1),  player, 700, false, false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 0, 0");
                         }
                         else {
@@ -594,7 +610,7 @@ public class AQuestCommand implements CommandExecutor {
                         break;
                     case "q4":
                         if (monsterhunterquest.equals("1, 1, 1, 0, 0")){
-                            getInventoryLocation(Material.DRAGON_HEAD , 1,  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none", true);
+                            getInventoryLocation(new ItemStack(Material.DRAGON_HEAD , 1),  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none", true);
                             Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 1, 0");
                         }
                         else {
@@ -604,7 +620,7 @@ public class AQuestCommand implements CommandExecutor {
                     case "q5":
                         if (monsterhunterquest.equals("1, 1, 1, 1, 0")){
                             if ((Integer)Main.Load(player.getDisplayName() + "_MonsterHunterLevel") == 10) {
-                                getInventoryLocation(Material.NETHERITE_SWORD, 1, player, 1500, false, false, Material.ACACIA_BOAT, 0, "none",true);
+                                getInventoryLocation(new ItemStack(Material.NETHERITE_SWORD, 1), player, 1500, false, false, Material.ACACIA_BOAT, 0, "none",true);
                                 Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 1, 1");
                             }
                             else {

@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
 
@@ -125,23 +126,23 @@ public class QuestMenu {
     public static void executeFarmerQuest(Player player, Integer questIndex){
         switch (questIndex){
             case 1:
-                if (getInventoryLocation(Material.WHEAT_SEEDS , 4, player, 12, true, true, Material.WHEAT, 6, "Wheat", true))
+                if (getInventoryLocation(new ItemStack(Material.WHEAT_SEEDS , 4), player, 12, true, true, Material.WHEAT, 6, "Wheat", true))
                     Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 0, 0, 0, 0");
                 break;
             case 2:
-                if (getInventoryLocation(Material.COMPOSTER , 1, player, 17, false, false, Material.ACACIA_BOAT, 0, "none", true))
+                if (getInventoryLocation(new ItemStack(Material.COMPOSTER , 1), player, 17, false, false, Material.ACACIA_BOAT, 0, "none", true))
                     Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 0, 0, 0");
                 break;
             case 3:
-                if (getInventoryLocation(Material.DIAMOND_HOE , 1, player, 100, false, false, Material.ACACIA_BOAT, 0, "none", true))
+                if (getInventoryLocation(new ItemStack(Material.DIAMOND_HOE , 1), player, 100, false, false, Material.ACACIA_BOAT, 0, "none", true))
                     Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 0, 0");
                 break;
             case 4:
-                if (getInventoryLocation(Material.PUMPKIN_PIE , 64, player, 400, true, true, Material.ENCHANTED_GOLDEN_APPLE, 1, "God Apple", true))
+                if (getInventoryLocation(new ItemStack(Material.PUMPKIN_PIE , 64), player, 400, true, true, Material.ENCHANTED_GOLDEN_APPLE, 1, "God Apple", true))
                     Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 0");
                 break;
             case 5:
-                if (getInventoryLocation(Material.NETHERITE_HOE, 1, player, 1500, false, true, Material.DIAMOND, 2, "DIAMOND", true))
+                if (getInventoryLocation(new ItemStack(Material.NETHERITE_HOE, 1), player, 1500, false, true, Material.DIAMOND, 2, "DIAMOND", true))
                     Main.Save(player.getDisplayName() + "_QuestsFarmer", "1, 1, 1, 1, 1");
                 break;
         }
@@ -202,36 +203,36 @@ public class QuestMenu {
     public static void executeHunterQuest(Player player, Integer questIndex){
         switch (questIndex){
             case 1:
-                if (getInventoryLocation(Material.BEEF , 3,  player, 12, true,true, Material.COOKED_BEEF, 3, "Steaks", false)){
+                if (getInventoryLocation(new ItemStack(Material.BEEF , 3),  player, 12, true,true, Material.COOKED_BEEF, 3, "Steaks", false)){
                     Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 0, 0, 0, 0");
-                }else if (getInventoryLocation(Material.PORKCHOP , 3,  player, 12, true,true, Material.COOKED_PORKCHOP, 3, "Cooked Porkchop", false)){
+                }else if (getInventoryLocation(new ItemStack(Material.PORKCHOP , 3),  player, 12, true,true, Material.COOKED_PORKCHOP, 3, "Cooked Porkchop", false)){
                     Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 0, 0, 0, 0");
-                }else if (getInventoryLocation(Material.MUTTON , 3,  player, 12, true,true, Material.COOKED_MUTTON, 3, "Cooked Mutton", false)){
+                }else if (getInventoryLocation(new ItemStack(Material.MUTTON , 3),  player, 12, true,true, Material.COOKED_MUTTON, 3, "Cooked Mutton", false)){
                     Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 0, 0, 0, 0");
-                }else if (getInventoryLocation(Material.CHICKEN , 3,  player, 12, true,true, Material.COOKED_CHICKEN, 3, "Cooked Chicken", false)){
+                }else if (getInventoryLocation(new ItemStack(Material.CHICKEN , 3),  player, 12, true,true, Material.COOKED_CHICKEN, 3, "Cooked Chicken", false)){
                     Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 0, 0, 0, 0");
-                }else if (getInventoryLocation(Material.RABBIT , 3,  player, 12, true,true, Material.COOKED_RABBIT, 3, "Cooked Rabbit", false)){
+                }else if (getInventoryLocation(new ItemStack(Material.RABBIT , 3),  player, 12, true,true, Material.COOKED_RABBIT, 3, "Cooked Rabbit", false)){
                     Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 0, 0, 0, 0");
-                }else if (getInventoryLocation(Material.SALMON , 3,  player, 12, true,true, Material.COOKED_SALMON, 3, "Cooked Salmon", false)){
+                }else if (getInventoryLocation(new ItemStack(Material.SALMON , 3),  player, 12, true,true, Material.COOKED_SALMON, 3, "Cooked Salmon", false)){
                     Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 0, 0, 0, 0");
-                }else if (getInventoryLocation(Material.COD , 3,  player, 12, true,true, Material.COOKED_COD, 3, "Cooked Cod", true)){
+                }else if (getInventoryLocation(new ItemStack(Material.COD , 3),  player, 12, true,true, Material.COOKED_COD, 3, "Cooked Cod", true)){
                     Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 0, 0, 0, 0");
                 }
                 break;
             case 2:
-                if (getInventoryLocation(Material.ARROW , 64,  player, 45, false, false, Material.COOKED_BEEF, 3, "Steaks", true))
+                if (getInventoryLocation(new ItemStack(Material.ARROW , 64),  player, 45, false, false, Material.COOKED_BEEF, 3, "Steaks", true) )
                     Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 0, 0, 0");
                 break;
             case 3:
-                if (getInventoryLocation(Material.PINK_WOOL , 15,  player, 50, false, false, Material.COOKED_BEEF, 3, "Steaks", true))
+                if (getInventoryLocation(new ItemStack(Material.PINK_WOOL , 15),  player, 50, false, false, Material.COOKED_BEEF, 3, "Steaks", true))
                     Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 0, 0");
                 break;
             case 4:
-                if (getInventoryLocation(Material.SADDLE , 1,  player, 300, false, false, Material.ACACIA_BOAT, 0, "none", true))
+                if (getInventoryLocation(new ItemStack(Material.SADDLE , 1),  player, 300, false, false, Material.ACACIA_BOAT, 0, "none", true))
                     Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 0");
                 break;
             case 5:
-                if (getInventoryLocation(Material.LEATHER, 64, player, 500, true, true, Material.BOOKSHELF, 16, "Bookshelf", true))
+                if (getInventoryLocation(new ItemStack(Material.LEATHER, 64), player, 500, true, true, Material.BOOKSHELF, 16, "Bookshelf", true))
                     Main.Save(player.getDisplayName() + "_QuestsHunter", "1, 1, 1, 1, 1");
                 break;
         }
@@ -246,7 +247,7 @@ public class QuestMenu {
         items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest1",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Get some Wood",ChatColor.GREEN + "(32x Wood Logs required)"))));
         items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest2",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Get some Wood from the Nether",ChatColor.GREEN + "(32x Nether Logs required)"))));
         items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest3",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Get Storage for your Wood",ChatColor.GREEN + "(64x Chests required)"))));
-        items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest4",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Not Implemented",ChatColor.GREEN + ""))));
+        items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest4",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Get some Stripped Wood from the Nether",ChatColor.GREEN + "(32x Stripped Nether Logs required)"))));
         items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest5",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Get The Ultimate Axe",ChatColor.GREEN + "(1x Netherite Axe)"))));
         items.add(SkillMenu.createItem(Material.BARRIER,1,"Close"));
 
@@ -292,37 +293,41 @@ public class QuestMenu {
     public static void executeLumberjackQuest(Player player, Integer questIndex){
         switch (questIndex){
             case 1:
-                if (getInventoryLocation(Material.OAK_LOG, 32, player, 50, false,false, Material.ACACIA_BOAT, 0, "none", false)){
+                if (getInventoryLocation(new ItemStack(Material.OAK_LOG, 32), player, 50, false,false, Material.ACACIA_BOAT, 0, "none", false)){
                     Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 0, 0, 0, 0");
-                }else if (getInventoryLocation(Material.BIRCH_LOG, 32, player, 50, false,false, Material.ACACIA_BOAT, 0, "none", false)){
+                }else if (getInventoryLocation(new ItemStack(Material.BIRCH_LOG, 32), player, 50, false,false, Material.ACACIA_BOAT, 0, "none", false)){
                     Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 0, 0, 0, 0");
-                }else if (getInventoryLocation(Material.ACACIA_LOG, 32, player, 50, false,false, Material.ACACIA_BOAT, 0, "none", false)){
+                }else if (getInventoryLocation(new ItemStack(Material.ACACIA_LOG, 32), player, 50, false,false, Material.ACACIA_BOAT, 0, "none", false)){
                     Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 0, 0, 0, 0");
-                }else if (getInventoryLocation(Material.DARK_OAK_LOG, 32, player, 50, false,false, Material.ACACIA_BOAT, 0, "none", false)){
+                }else if (getInventoryLocation(new ItemStack(Material.DARK_OAK_LOG, 32), player, 50, false,false, Material.ACACIA_BOAT, 0, "none", false)){
                     Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 0, 0, 0, 0");
-                }else if (getInventoryLocation(Material.JUNGLE_LOG, 32, player, 50, false,false, Material.ACACIA_BOAT, 0, "none", false)){
+                }else if (getInventoryLocation(new ItemStack(Material.JUNGLE_LOG, 32), player, 50, false,false, Material.ACACIA_BOAT, 0, "none", false)){
                     Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 0, 0, 0, 0");
-                }else if (getInventoryLocation(Material.SPRUCE_LOG, 32, player, 50, false,false, Material.ACACIA_BOAT, 0, "none", true)){
+                }else if (getInventoryLocation(new ItemStack(Material.SPRUCE_LOG, 32), player, 50, false,false, Material.ACACIA_BOAT, 0, "none", true)){
                     Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 0, 0, 0, 0");
                 }
                 break;
             case 2:
-                if (getInventoryLocation(Material.CRIMSON_STEM, 32, player, 100, false,false, Material.ACACIA_BOAT, 0, "none", false)){
+                if (getInventoryLocation(new ItemStack(Material.CRIMSON_STEM, 32), player, 100, false,false, Material.ACACIA_BOAT, 0, "none", false)){
                     Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 0, 0, 0");
-                }else if (getInventoryLocation(Material.WARPED_STEM, 32, player, 100, false,false, Material.ACACIA_BOAT, 0, "none", true)){
+                }else if (getInventoryLocation(new ItemStack(Material.WARPED_STEM, 32), player, 100, false,false, Material.ACACIA_BOAT, 0, "none", true)){
                     Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 0, 0, 0");
                 }
                 break;
             case 3:
-                if (getInventoryLocation(Material.CHEST, 64, player, 400, false,false, Material.ACACIA_BOAT, 0, "none", true))
+                if (getInventoryLocation(new ItemStack(Material.CHEST, 64), player, 400, false,false, Material.ACACIA_BOAT, 0, "none", true))
                     Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 0, 0");
                 break;
             case 4:
-                if (false)
+                if (getInventoryLocation(new ItemStack(Material.CRIMSON_STEM, 32), player, 100, false, false, Material.ACACIA_BOAT, 0, "none", false)){
                     Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 1, 0");
+
+                }else if (getInventoryLocation(new ItemStack(Material.WARPED_STEM, 32), player, 100,false, false,Material.ACACIA_BOAT, 0, "none", true)) {
+                    Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 1, 0");
+                }
                 break;
             case 5:
-                if (getInventoryLocation(Material.NETHERITE_AXE, 1, player, 150, false, true, Material.DIAMOND, 3, "Diamonds", true))
+                if (getInventoryLocation(new ItemStack(Material.NETHERITE_AXE, 1), player, 150, false, true, Material.DIAMOND, 3, "Diamonds", true))
                     Main.Save(player.getDisplayName() + "_QuestsLumberjack", "1, 1, 1, 1, 1");
                 break;
         }
@@ -383,23 +388,23 @@ public class QuestMenu {
     public static void executeMinerQuest(Player player, Integer questIndex){
         switch (questIndex){
             case 1:
-                if (getInventoryLocation(Material.STONE , 64,  player, 50, false, true, Material.TORCH, 32, "Torches", true))
+                if (getInventoryLocation(new ItemStack(Material.STONE , 64),  player, 50, false, true, Material.TORCH, 32, "Torches", true))
                      Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 0, 0, 0, 0");
                 break;
             case 2:
-                if (getInventoryLocation(Material.LAPIS_LAZULI , 32,  player, 200, false, false, Material.ACACIA_BOAT, 0, "none", true))
+                if (getInventoryLocation(new ItemStack(Material.LAPIS_LAZULI , 32),  player, 200, false, false, Material.ACACIA_BOAT, 0, "none", true))
                      Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 0, 0, 0");
                 break;
             case 3:
-                if (getInventoryLocation(Material.EMERALD , 2,  player, 500, false, false, Material.ACACIA_BOAT, 0, "none", true))
+                if (getInventoryLocation(new ItemStack(Material.EMERALD , 2),  player, 500, false, false, Material.ACACIA_BOAT, 0, "none", true))
                      Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 0, 0");
                 break;
             case 4:
-                if (getInventoryLocation(Material.DIAMOND , 16,  player, 800, false, true, Material.DIAMOND_PICKAXE, 1, "Diamond Pickaxe", true))
+                if (getInventoryLocation(new ItemStack(Material.DIAMOND , 16),  player, 800, false, true, Material.DIAMOND_PICKAXE, 1, "Diamond Pickaxe", true))
                      Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 1, 0");
                 break;
             case 5:
-                if (getInventoryLocation(Material.NETHERITE_PICKAXE , 1,  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none", true))
+                if (getInventoryLocation(new ItemStack(Material.NETHERITE_PICKAXE , 1),  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none", true))
                       Main.Save(player.getDisplayName() + "_QuestsMiner", "1, 1, 1, 1, 1");
                 break;
         }
@@ -460,23 +465,23 @@ public class QuestMenu {
     public static void executeMonsterHunterQuest(Player player, Integer questIndex){
         switch (questIndex){
             case 1:
-                if (getInventoryLocation(Material.ENDER_PEARL , 12,  player, 50, false, false, Material.ACACIA_BOAT, 0, "none", true))
+                if (getInventoryLocation(new ItemStack(Material.ENDER_PEARL , 12),  player, 50, false, false, Material.ACACIA_BOAT, 0, "none", true))
                      Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 0, 0, 0, 0");
                 break;
             case 2:
-                if (getInventoryLocation(Material.WITHER_SKELETON_SKULL , 1,  player, 200, false, false, Material.ACACIA_BOAT, 0, "none", true))
+                if (getInventoryLocation(new ItemStack(Material.WITHER_SKELETON_SKULL , 1),  player, 200, false, false, Material.ACACIA_BOAT, 0, "none", true))
                      Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 0, 0, 0");
                 break;
             case 3:
-                if (getInventoryLocation(Material.NETHER_STAR , 1,  player, 700, false, false, Material.ACACIA_BOAT, 0, "none", true))
+                if (getInventoryLocation(new ItemStack(Material.NETHER_STAR , 1),  player, 700, false, false, Material.ACACIA_BOAT, 0, "none", true))
                         Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 0, 0");
                 break;
             case 4:
-                if (getInventoryLocation(Material.DRAGON_HEAD , 1,  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none", true))
+                if (getInventoryLocation(new ItemStack(Material.DRAGON_HEAD , 1),  player, 1500, false, false, Material.ACACIA_BOAT, 0, "none", true))
                         Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 1, 0");
                 break;
             case 5:
-                if (getInventoryLocation(Material.NETHERITE_SWORD, 1, player, 1500, false, false, Material.ACACIA_BOAT, 0, "none",true))
+                if (getInventoryLocation(new ItemStack(Material.NETHERITE_SWORD, 1), player, 1500, false, false, Material.ACACIA_BOAT, 0, "none",true))
                         Main.Save(player.getDisplayName() + "_QuestsMonsterHunter", "1, 1, 1, 1, 1");
                 break;
         }
