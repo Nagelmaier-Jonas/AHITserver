@@ -2,20 +2,27 @@ package at.ahit.server.villagerShop;
 
 import at.ahit.server.main.Main;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Chest;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +41,16 @@ public class setVillagerShop implements Listener {
                     Location l = event.getClickedBlock().getLocation();
                     Location loc = new Location(l.getWorld(), l.getX() + 0.5, l.getY(), l.getZ() + 0.5);
                     Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
-                    villager.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 500));
+                    // villager.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 500));
+
+                    //
+                    // villager.getAttribute(Attribute.)
+                    //villager.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(100);
+
+                    villager.setCollidable(false);
+                    villager.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0);
+
+                    // TODO SET SPEED 0
 
                     PersistentDataContainer container = villager.getPersistentDataContainer();
                     NamespacedKey key = new NamespacedKey(Main.getPlugin(), "shop-type");
@@ -50,6 +66,39 @@ public class setVillagerShop implements Listener {
     }
 
     @EventHandler
+    public void entity(EntityDamageEvent event) {
+        if (event.getEntity().getPersistentDataContainer() != null) {
+            Entity e = event.getEntity();
+
+            NamespacedKey key = new NamespacedKey(Main.getPlugin(), "shop-type");
+            if (e.getPersistentDataContainer().has(key, PersistentDataType.BYTE)) {
+
+                if (event instanceof EntityDamageByEntityEvent)
+                    if (((EntityDamageByEntityEvent)event).getDamager() instanceof Player) {
+                        Player p = ((Player) ((EntityDamageByEntityEvent) event).getDamager());
+                        Vector v1 = e.getLocation().toVector();
+                        Vector v2 = p.getEyeLocation().toVector();
+
+                        Vector v = v2.subtract(v1);
+
+                        if (p.getInventory().getChestplate() != null) {
+                            if (p.getInventory().getChestplate().getType() == Material.ELYTRA)
+                                p.setVelocity(p.getVelocity().add(v.normalize().multiply(20)));
+                            else
+                                p.setVelocity(p.getVelocity().add(v.normalize().multiply(0.5)));
+                        }
+                        else
+                            p.setVelocity(p.getVelocity().add(v.normalize().multiply(0.5)));
+
+                        p.sendMessage("You shall NOT!");
+                    }
+
+                event.setCancelled(true);
+            }
+        }
+    }
+
+   @EventHandler
     public void openVillagerEvent(PlayerInteractAtEntityEvent event) {
         if (event.getRightClicked() != null)
             if (event.getRightClicked().getPersistentDataContainer() != null) {
@@ -58,8 +107,10 @@ public class setVillagerShop implements Listener {
                 NamespacedKey key = new NamespacedKey(Main.getPlugin(), "shop-type");
                 if (e.getPersistentDataContainer().has(key, PersistentDataType.BYTE)) {
                     byte type = e.getPersistentDataContainer().get(key, PersistentDataType.BYTE);
-                    if (type == 1)
+                    if (type == 1) {
+                        ShopEngine.getVillagerShop().openGUI(event.getPlayer(), 0);
                         event.getPlayer().sendMessage("I opened the inventory yey.");
+                    }
                 }
             }
     }

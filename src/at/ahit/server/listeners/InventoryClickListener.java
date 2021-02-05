@@ -4,6 +4,7 @@ import at.ahit.server.jobs.*;
 import at.ahit.server.overlays.Auction;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.QuestMenu;
+import at.ahit.server.villagerShop.ShopEngine;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -55,6 +56,9 @@ public class InventoryClickListener implements Listener {
                 break;
             case "WizardQuests":
                 QuestMenu.onWizardQuestsUse(event);
+                break;
+            case "Server-shop:":
+                ShopEngine.getVillagerShop().onItemClick(event);
                 break;
         }
     }
