@@ -28,3 +28,5 @@ commands:
     description: /shop
   protect:
     description: /protect
+  protect:
+    description: /protect

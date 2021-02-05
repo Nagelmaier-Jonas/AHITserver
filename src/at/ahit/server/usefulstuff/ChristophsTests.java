@@ -7,13 +7,17 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -26,6 +30,27 @@ public class ChristophsTests implements Listener {
 
     private List<door> doors = new ArrayList<>();
 
+    /*
+    @EventHandler
+    public void dropHandler(PlayerDropItemEvent event) {
+        Player p = event.getPlayer();
+
+        Item item = event.getItemDrop();
+
+        ItemMeta meta = item.getItemStack().getItemMeta();
+        String name = "." + meta.getDisplayName() + ".";
+
+        p.sendMessage(name);
+
+        if (name == "Tunnelbohrer") { // WARUM GEHT DAS NICHT AAAAAAAAAAAA
+            p.getLocation().getBlock().getRelative(BlockFace.DOWN).setType(Material.AIR);
+            event.setCancelled(true);
+        }
+        else if (item.getItemStack().getType() == Material.DIAMOND)
+            item.setItemStack(new ItemStack(Material.EMERALD));
+        else if (item.getItemStack().getType() == Material.EMERALD)
+            item.setItemStack(new ItemStack(Material.DIAMOND));
+    } */
 
     @EventHandler
     public void twerk(PlayerToggleSneakEvent event) {

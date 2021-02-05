@@ -7,6 +7,7 @@ import at.ahit.server.jobs.*;
 import at.ahit.server.listeners.InventoryClickListener;
 import at.ahit.server.listeners.JoinListener;
 import at.ahit.server.overlays.Auction;
+import at.ahit.server.recepies.Wand;
 import at.ahit.server.usefulstuff.ChristophsTests;
 import at.ahit.server.villagerShop.protectCommand;
 import at.ahit.server.villagerShop.setVillagerShop;
@@ -36,6 +37,7 @@ public class Main extends JavaPlugin {
         System.out.println(Color.GREEN + "Plugin load successful" + Color.RESET);
         registerListInit();
         Miner.startRunnable();
+        Wand.addToServer();
     }
 
     public void registerListInit() {
