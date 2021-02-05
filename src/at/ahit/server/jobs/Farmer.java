@@ -4,10 +4,7 @@ import at.ahit.server.main.Main;
 import at.ahit.server.overlays.Menu;
 import at.ahit.server.overlays.Scoreboards;
 import at.ahit.server.overlays.SkillMenu;
-import org.bukkit.ChatColor;
-import org.bukkit.CropState;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -102,7 +99,7 @@ public class Farmer implements Listener {
             playerXp += 10;
             Main.Save(player.getDisplayName() + "_LatestJob", "Farmer");
         }
-        if (100 * level <= playerXp) {
+        if (500 * level <= playerXp) {
             event.getPlayer().sendMessage("You are now farming level " + ChatColor.AQUA + ++level + ChatColor.RESET + "!");
             Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_FarmerLevel", level);
             Main.getConfigFile().set(event.getPlayer().getDisplayName() + "_FarmerXp", 0);
@@ -115,7 +112,7 @@ public class Farmer implements Listener {
     @EventHandler
     public void CropMaster(BlockBreakEvent event) {
         if (!(boolean)Main.Load(event.getPlayer().getDisplayName() + "_FarmerAbility1") || !getCropList().contains(event.getBlock().getType())) return;
-        if (isFullyGrownOld(event.getBlock()) && !event.getBlock().getType().equals(Material.PUMPKIN)){
+        if ((isFullyGrownOld(event.getBlock()) || isFullyGrownOldWart(event.getBlock())) && !event.getBlock().getType().equals(Material.PUMPKIN)){
             addDrop(event);
         }
         event.setDropItems(false);
@@ -137,7 +134,7 @@ public class Farmer implements Listener {
         if (!(boolean)Main.Load(event.getPlayer().getDisplayName() + "_FarmerAbility2") || !getPlantsList().contains(event.getBlock().getType())) return;
         Random r = new Random();
         int i = r.nextInt(100);
-        if (getCropList().contains(event.getBlock().getType()) && isFullyGrownOld(event.getBlock())){
+        if (getCropList().contains(event.getBlock().getType()) && (isFullyGrownOld(event.getBlock()) || isFullyGrownOldWart(event.getBlock()))){
             switch (event.getBlock().getType()){
                 case CARROTS:
                     if (i <= 5){
@@ -160,7 +157,7 @@ public class Farmer implements Listener {
                     }
                     break;
                 case NETHER_WART:
-                    if (i <= 5){
+                    if (i <= 100){
                         addDrop(event, new ItemStack(Material.SOUL_SAND,1));
                     }
                     break;
@@ -180,7 +177,6 @@ public class Farmer implements Listener {
                 case PUMPKIN:
                     if (i <= 3){
                         addDrop(event, new ItemStack(Material.PUMPKIN_PIE,1));
-                        event.getPlayer().sendMessage("You got lucky: " + ChatColor.GOLD + "Pumpkin pie!");
                     }
                     break;
             }
@@ -190,35 +186,28 @@ public class Farmer implements Listener {
     @EventHandler
     public void Recycler(BlockBreakEvent event){
         if (!(boolean)Main.Load(event.getPlayer().getDisplayName() + "_FarmerAbility3") || !getCropList().contains(event.getBlock().getType())) return;
-        event.getPlayer().sendMessage(event.getBlock().getLocation() + " " + event.getBlock().getType());
-        Location l = event.getBlock().getLocation();
-
-        if (getCropList().contains(event.getBlock().getType()) && isFullyGrownOld(event.getBlock())){
+        if (isFullyGrownOld(event.getBlock())){
             switch (event.getBlock().getType()){
                 case CARROTS:
-                    addDrop(event);
-                    Crops crops = (Crops) event.getBlock().getState().getData();
-                    crops.setState(CropState.SEEDED);
-                    event.getBlock().getState().setData(crops);
+                    replenish(event.getBlock().getLocation(), Material.CARROTS);
                     break;
                 case WHEAT:
-                    l.getBlock().setType(Material.WHEAT_SEEDS);
+                    replenish(event.getBlock().getLocation(), Material.WHEAT);
                     break;
                 case BEETROOT:
-                    l.getBlock().setType(Material.BEETROOT_SEEDS);
+                    replenish(event.getBlock().getLocation(), Material.BEETROOTS);
                     break;
                 case COCOA_BEANS:
-                    l.getBlock().setType(Material.COCOA_BEANS);
+                    replenish(event.getBlock().getLocation(), Material.COCOA);
                     break;
                 case NETHER_WART:
-                    l.getBlock().setType(Material.NETHER_WART);
+                    replenish(event.getBlock().getLocation(), Material.NETHER_WART);
                     break;
                 case POTATOES:
-                    l.getBlock().setType(Material.POTATOES);
+                    replenish(event.getBlock().getLocation(), Material.POTATOES);
                     break;
             }
         }
-        event.setCancelled(true);
     }
 
     public boolean isFullyGrownOld(Block block) {
@@ -227,6 +216,23 @@ public class Farmer implements Listener {
             return (((Crops) md).getState() == CropState.RIPE);
         }
         else return false;
+    }
+    public boolean isFullyGrownOldWart(Block block) {
+        if(!block.getType().equals(Material.NETHER_WART)) return false;
+        MaterialData md = block.getState().getData();
+        if(md instanceof Crops) {
+            return (((Crops) md).getState() == CropState.SEEDED);
+        }
+        else return false;
+    }
+
+    public void replenish(Location l, Material m) {
+        Location loc = new Location(l.getWorld(), l.getX(), l.getY() - 1, l.getZ());
+        if(loc.getBlock().getType().equals(Material.FARMLAND) || loc.getBlock().getType().equals(Material.SOUL_SAND)) //TODO: IGNORE
+        Bukkit.getScheduler().runTaskLater(Main.getPlugin(), () -> {
+            if(loc.getBlock().getType().equals(Material.FARMLAND) || loc.getBlock().getType().equals(Material.SOUL_SAND))
+                l.getBlock().setType(m);
+        }, 10L);
     }
 
     public static void openFarmerMenu(Player player){
