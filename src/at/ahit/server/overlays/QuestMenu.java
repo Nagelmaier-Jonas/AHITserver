@@ -1,6 +1,5 @@
 package at.ahit.server.overlays;
 
-import at.ahit.server.jobs.*;
 import at.ahit.server.main.Main;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
