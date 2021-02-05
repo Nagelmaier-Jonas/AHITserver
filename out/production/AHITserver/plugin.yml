@@ -10,8 +10,8 @@ commands:
     description: /coins
   questinfo:
     description: /questinfo
-  aquest:
-    description: /aquest
+  quest:
+    description: /quest
   mine:
     description: /nein
   skillshop:

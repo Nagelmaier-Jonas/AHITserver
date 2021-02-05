@@ -72,7 +72,7 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("stats")).setExecutor(new StatsCommand());
         Objects.requireNonNull(getCommand("coins")).setExecutor(new CoinsCommand());
         Objects.requireNonNull(getCommand("questinfo")).setExecutor(new QuestInfoCommand());
-        Objects.requireNonNull(getCommand("aquest")).setExecutor(new AQuestCommand());
+        Objects.requireNonNull(getCommand("quest")).setExecutor(new AQuestCommand());
         Objects.requireNonNull(getCommand("mine")).setExecutor(new MinerAbilities());
         Objects.requireNonNull(getCommand("skillshop")).setExecutor(new SkillShopCommand());
         Objects.requireNonNull(getCommand("setcoins")).setExecutor(new SetCoinsCommand());
