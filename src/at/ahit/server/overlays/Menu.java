@@ -39,9 +39,10 @@ public class Menu {
     public static void onJobsUse(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
-        assert itemStack != null;
+        //assert itemStack != null;
+        if (itemStack != null) {
             String name = Objects.requireNonNull(itemStack.getItemMeta()).getDisplayName();
-            switch (name){
+            switch (name) {
                 case "Miner":
                     Miner.openMinerMenu(player);
                     break;
@@ -65,5 +66,6 @@ public class Menu {
                     break;
             }
             event.setCancelled(true);
+        }
     }
 }

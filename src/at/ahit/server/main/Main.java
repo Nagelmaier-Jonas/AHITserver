@@ -7,8 +7,11 @@ import at.ahit.server.jobs.*;
 import at.ahit.server.listeners.InventoryClickListener;
 import at.ahit.server.listeners.JoinListener;
 import at.ahit.server.overlays.Auction;
+import at.ahit.server.recepies.Wand;
 import at.ahit.server.usefulstuff.ChristophsTests;
+import at.ahit.server.villagerShop.protectCommand;
 import at.ahit.server.villagerShop.setVillagerShop;
+import at.ahit.server.villagerShop.useProtector;
 import at.ahit.server.villagerShop.villagerShop;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -34,6 +37,7 @@ public class Main extends JavaPlugin {
         System.out.println(Color.GREEN + "Plugin load successful" + Color.RESET);
         registerListInit();
         Miner.startRunnable();
+        Wand.addToServer();
     }
 
     public void registerListInit() {
@@ -61,6 +65,8 @@ public class Main extends JavaPlugin {
         manager.registerEvents(new setVillagerShop(), this);
 
         manager.registerEvents(new ChristophsTests(),this);
+
+        manager.registerEvents(new useProtector(), this);
     }
     public void registerCommands(){
         Objects.requireNonNull(getCommand("stats")).setExecutor(new StatsCommand());
@@ -73,7 +79,9 @@ public class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("auction")).setExecutor(new AuctionCommand());
         Objects.requireNonNull(getCommand("setVal")).setExecutor(new SetValCommand());
         Objects.requireNonNull(getCommand("getVal")).setExecutor(new GetValCommand());
+
         Objects.requireNonNull(getCommand("shop")).setExecutor(new villagerShop());
+        Objects.requireNonNull(getCommand("protect")).setExecutor(new protectCommand());
     }
     public static FileConfiguration getConfigFile() {
         return config;
