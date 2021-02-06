@@ -75,20 +75,21 @@ public class setVillagerShop implements Listener {
             NamespacedKey key = new NamespacedKey(Main.getPlugin(), "shop-type");
             if (e.getPersistentDataContainer().has(key, PersistentDataType.BYTE)) {
 
-                if (((Player) ((EntityDamageByEntityEvent) event).getDamager()).getInventory().getItemInMainHand().getItemMeta() != null)
-                    if (Objects.equals(((Player) ((EntityDamageByEntityEvent) event).getDamager()).getInventory().getItemInMainHand().getItemMeta().getLore(), Arrays.asList("shop"))) {
-                        event.getEntity().remove();
-                        ((Player) ((EntityDamageByEntityEvent) event).getDamager()).getInventory().remove(villagerShop.villagerStick());
-                        return;
-                    }
 
                 if (event instanceof EntityDamageByEntityEvent)
                     if (((EntityDamageByEntityEvent) event).getDamager() instanceof Player) {
+
                         Player p = ((Player) ((EntityDamageByEntityEvent) event).getDamager());
                         Vector v1 = e.getLocation().toVector();
                         Vector v2 = p.getEyeLocation().toVector();
 
                         Vector v = v2.subtract(v1);
+
+                        if (p.getInventory().getItemInMainHand().equals(villagerShop.villagerStick())) {
+                                event.getEntity().remove();
+                                ((Player) ((EntityDamageByEntityEvent) event).getDamager()).getInventory().remove(villagerShop.villagerStick());
+                                return;
+                            }
 
                         if (p.getInventory().getChestplate() != null) {
                             if (p.getInventory().getChestplate().getType() == Material.ELYTRA)
@@ -107,7 +108,7 @@ public class setVillagerShop implements Listener {
     }
 
     @EventHandler
-    public void openVillagerEvent(PlayerInteractAtEntityEvent event) {
+    public void openVillagerEvent(PlayerInteractAtEntityEvent event) { // TODO if villager has profession the shop doesn't open
         if (event.getRightClicked() != null)
             if (event.getRightClicked().getPersistentDataContainer() != null) {
                 Entity e = event.getRightClicked();
@@ -116,6 +117,8 @@ public class setVillagerShop implements Listener {
                 if (e.getPersistentDataContainer().has(key, PersistentDataType.BYTE)) {
                     byte type = e.getPersistentDataContainer().get(key, PersistentDataType.BYTE);
                     if (type == 1) {
+                        // event.setCancelled(true);
+                        // event.getPlayer().closeInventory(); // Does nothing
                         ShopEngine.getVillagerShop().openGUI(event.getPlayer(), 0);
                         event.getPlayer().sendMessage("I opened the inventory yey.");
                     }

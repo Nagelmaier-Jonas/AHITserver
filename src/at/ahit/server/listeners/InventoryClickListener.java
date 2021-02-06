@@ -57,9 +57,9 @@ public class InventoryClickListener implements Listener {
             case "WizardQuests":
                 QuestMenu.onWizardQuestsUse(event);
                 break;
-            case "Server-shop:":
-                ShopEngine.getVillagerShop().onItemClick(event);
-                break;
         }
+
+        if (event.getView().getTitle().contains("Server-shop"))
+            ShopEngine.getVillagerShop().onItemClick(event);
     }
 }
