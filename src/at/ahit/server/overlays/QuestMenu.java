@@ -9,12 +9,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
 
 import static at.ahit.server.jobs.Lumberjack.RemoveEnchantmentLore;
-import static at.ahit.server.usefulstuff.AQuestMethods.getInventoryLocation;
+import static at.ahit.server.main.Main.config;
 
 public class QuestMenu {
     
@@ -78,7 +77,7 @@ public class QuestMenu {
         String quests = (String) Main.Load(player.getDisplayName() + "_QuestsFarmer");
 
         items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest1",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Collect you first Seeds",ChatColor.GREEN + "(4x Seeds required)"))));
-        items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest2",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Craft a Compostor",ChatColor.GREEN + "(1x Compostor required)"))));
+        items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest2",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Craft a Composter",ChatColor.GREEN + "(1x Composter required)"))));
         items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest3",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Craft a Diamond Hoe",ChatColor.GREEN + "(1x Diamond Hoe)"))));
         items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest4",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Build a Big Farm",ChatColor.GREEN + "(64x Pumpkin Pies required)"))));
         items.add(SkillMenu.createItem(player,Material.BOOK,1,"Quest5",new ArrayList<>(Arrays.asList(ChatColor.AQUA + "Get The Ultimate Hoe",ChatColor.GREEN + "(1x Netherite Hoe)"))));
@@ -675,8 +674,60 @@ public class QuestMenu {
     public static void addEnchantmentToItem(ArrayList<ItemStack> items, Integer index){
         ItemMeta meta = items.get(index).getItemMeta();
 
+        assert meta != null;
         meta.addEnchant(Enchantment.DURABILITY, 1, true);
         items.get(index).setItemMeta(meta);
         RemoveEnchantmentLore(items.get(index));
+    }
+
+    public static boolean getInventoryLocation(ItemStack requestedStack, Player player, Integer reward, Boolean removeitem, Boolean addnewitem, Material additem, Integer addamount, String rewarditemname, boolean sendmessage) {
+
+
+        for (ItemStack i : player.getInventory()) {
+            if (i != null) {
+
+                if (i == requestedStack) {
+
+                    if (removeitem) {
+                        i.setAmount(i.getAmount() - requestedStack.getAmount());
+                    }
+                    if (player.getInventory().firstEmpty() == -1) {
+
+                        if (addnewitem) {
+                            Objects.requireNonNull(player.getLocation().getWorld()).dropItemNaturally(player.getLocation(), new ItemStack(additem, addamount));
+                            player.sendMessage(ChatColor.GREEN + "You got " + addamount + " " + ChatColor.AQUA + rewarditemname + " in reward");
+                            player.sendMessage(ChatColor.GREEN + "You got " + ChatColor.AQUA + reward + " Coins!");
+                            Main.Save(player.getDisplayName() + "_Amount", (Integer) Main.Load(player.getDisplayName() + "_Amount") + reward);
+                            Scoreboards.createScoreboard(config, player);
+                            return true;
+                        }
+                        Objects.requireNonNull(player.getLocation().getWorld()).dropItemNaturally(player.getLocation(), new ItemStack(additem, addamount));
+                        player.sendMessage(ChatColor.GREEN + "You got " + ChatColor.AQUA + reward + " Coins!");
+                        Main.Save(player.getDisplayName() + "_Amount", (Integer) Main.Load(player.getDisplayName() + "_Amount") + reward);
+                    } else {
+                        if (addnewitem) {
+                            ItemStack additemstack = new ItemStack(additem, addamount);
+                            player.getInventory().addItem(additemstack);
+                            player.sendMessage(ChatColor.GREEN + "You got " + addamount + " " + ChatColor.AQUA + rewarditemname + " in reward");
+                            Main.Save(player.getDisplayName() + "_Amount", (Integer) Main.Load(player.getDisplayName() + "_Amount") + reward);
+                            player.sendMessage(ChatColor.GREEN + "You got " + ChatColor.AQUA + reward + " Coins!");
+                            Scoreboards.createScoreboard(config, player);
+                            return true;
+                        }
+                        Main.Save(player.getDisplayName() + "_Amount", (Integer) Main.Load(player.getDisplayName() + "_Amount") + reward);
+                        player.sendMessage(ChatColor.GREEN + "You got " + ChatColor.AQUA + reward + " Coins!");
+                    }
+                    Scoreboards.createScoreboard(config, player);
+                    return true;
+
+
+                }
+            }
+        }
+        if (sendmessage) {
+            player.sendMessage(ChatColor.RED + "You don´t have the Quest Item in your Inventory!");
+        }
+        return false;
+
     }
 }

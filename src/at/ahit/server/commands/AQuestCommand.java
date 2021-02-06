@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import static at.ahit.server.usefulstuff.AQuestMethods.getInventoryLocation;
 
 
 public class AQuestCommand implements CommandExecutor {
