@@ -15,19 +15,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class villagerShop implements CommandExecutor {
+
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if(commandSender instanceof Player && ((Player) commandSender).getInventory().firstEmpty() != -1){
-            ItemStack villager = new ItemStack(Material.STICK);
-            ItemMeta im = villager.getItemMeta();
-            ArrayList<String> lore = new ArrayList<>();
-            lore.add("shop");
-            im.addEnchant(Enchantment.SILK_TOUCH, 1, true);
-            im.setLore(lore);
-            villager.setItemMeta(im);
-            Lumberjack.RemoveEnchantmentLore(villager);
-            ((Player) commandSender).getInventory().addItem(villager);
+            ((Player) commandSender).getInventory().addItem(villagerStick());
         }
         return true;
     }
+
+    public static ItemStack villagerStick() {
+        ItemStack villager = new ItemStack(Material.STICK);
+        ItemMeta im = villager.getItemMeta();
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("shop");
+        assert im != null;
+        im.addEnchant(Enchantment.SILK_TOUCH, 1, true);
+        im.setLore(lore);
+        villager.setItemMeta(im);
+        Lumberjack.RemoveEnchantmentLore(villager);
+
+        return villager;
+    }
+
 }

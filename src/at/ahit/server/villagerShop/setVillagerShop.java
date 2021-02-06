@@ -25,7 +25,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class setVillagerShop implements Listener {
 
@@ -39,7 +41,7 @@ public class setVillagerShop implements Listener {
                     event.setCancelled(true);
 
                     Location l = event.getClickedBlock().getLocation();
-                    Location loc = new Location(l.getWorld(), l.getX() + 0.5, l.getY(), l.getZ() + 0.5);
+                    Location loc = new Location(l.getWorld(), l.getX() + 0.5, l.getY() + 1, l.getZ() + 0.5);
                     Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
                     // villager.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 500));
 
@@ -73,8 +75,15 @@ public class setVillagerShop implements Listener {
             NamespacedKey key = new NamespacedKey(Main.getPlugin(), "shop-type");
             if (e.getPersistentDataContainer().has(key, PersistentDataType.BYTE)) {
 
+                if (((Player) ((EntityDamageByEntityEvent) event).getDamager()).getInventory().getItemInMainHand().getItemMeta() != null)
+                    if (Objects.equals(((Player) ((EntityDamageByEntityEvent) event).getDamager()).getInventory().getItemInMainHand().getItemMeta().getLore(), Arrays.asList("shop"))) {
+                        event.getEntity().remove();
+                        ((Player) ((EntityDamageByEntityEvent) event).getDamager()).getInventory().remove(villagerShop.villagerStick());
+                        return;
+                    }
+
                 if (event instanceof EntityDamageByEntityEvent)
-                    if (((EntityDamageByEntityEvent)event).getDamager() instanceof Player) {
+                    if (((EntityDamageByEntityEvent) event).getDamager() instanceof Player) {
                         Player p = ((Player) ((EntityDamageByEntityEvent) event).getDamager());
                         Vector v1 = e.getLocation().toVector();
                         Vector v2 = p.getEyeLocation().toVector();
@@ -86,8 +95,7 @@ public class setVillagerShop implements Listener {
                                 p.setVelocity(p.getVelocity().add(v.normalize().multiply(20)));
                             else
                                 p.setVelocity(p.getVelocity().add(v.normalize().multiply(0.5)));
-                        }
-                        else
+                        } else
                             p.setVelocity(p.getVelocity().add(v.normalize().multiply(0.5)));
 
                         p.sendMessage("You shall NOT!");
@@ -98,7 +106,7 @@ public class setVillagerShop implements Listener {
         }
     }
 
-   @EventHandler
+    @EventHandler
     public void openVillagerEvent(PlayerInteractAtEntityEvent event) {
         if (event.getRightClicked() != null)
             if (event.getRightClicked().getPersistentDataContainer() != null) {
