@@ -59,7 +59,16 @@ public class InventoryClickListener implements Listener {
                 break;
         }
 
-        if (event.getView().getTitle().contains("Server-shop"))
-            ShopEngine.getVillagerShop().onItemClick(event);
+        switch (ShopEngine.getVillagerShop().isShopInventory(event)) {
+            case MAIN_MENU:
+                ShopEngine.getVillagerShop().shopMenuClick(event);
+                break;
+            case SELL_MENU:
+                ShopEngine.getVillagerShop().sellMenuClick(event);
+                break;
+            case BUY_MENU:
+                ShopEngine.getVillagerShop().buyMenuClick(event);
+                break;
+        }
     }
 }

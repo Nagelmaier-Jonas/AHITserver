@@ -3,8 +3,6 @@ package at.ahit.server.villagerShop;
 import at.ahit.server.main.Main;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Chest;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -15,19 +13,11 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 public class setVillagerShop implements Listener {
 
@@ -119,7 +109,7 @@ public class setVillagerShop implements Listener {
                     if (type == 1) {
                         // event.setCancelled(true);
                         // event.getPlayer().closeInventory(); // Does nothing
-                        ShopEngine.getVillagerShop().openGUI(event.getPlayer(), 0);
+                        ShopEngine.getVillagerShop().openShopGUI(event.getPlayer(), 0);
                         event.getPlayer().sendMessage("I opened the inventory yey.");
                     }
                 }

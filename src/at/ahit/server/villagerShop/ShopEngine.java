@@ -1,24 +1,16 @@
 package at.ahit.server.villagerShop;
 
 import at.ahit.server.main.Main;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import io.netty.handler.codec.spdy.SpdyHttpHeaders;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_16_R3.persistence.CraftPersistentDataContainer;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 public class ShopEngine {
@@ -30,7 +22,9 @@ public class ShopEngine {
     String shopName;
     List<ShopItem> availableItems = new ArrayList<>();
 
-    public void openGUI(Player player, int page) {
+    // GUIs:
+
+    public void openShopGUI(Player player, int page) {
         NamespacedKey key = new NamespacedKey(Main.plugin, "shop-page");
         player.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, page);
 
@@ -53,6 +47,42 @@ public class ShopEngine {
 
         player.openInventory(shop);
     }
+
+    public void openItemBuyGUI(Player player, ShopItem item) {
+        Inventory inv = Bukkit.createInventory(null, 27, "Buying for: $" + item.buyPrice);// \"" + (item.itemStack.getItemMeta().getDisplayName().equals("") ? item.itemStack.getItemMeta().getLocalizedName() : item.itemStack.getItemMeta().getDisplayName()) + "\"");
+
+        for (int i = 9; i < 12; i++) {
+            inv.setItem(i, getCustomItem(Material.GREEN_STAINED_GLASS_PANE, ChatColor.RESET + "" + ChatColor.GREEN + "Buy", null, 0));
+            inv.setItem(26 - i, getCustomItem(Material.RED_STAINED_GLASS_PANE, ChatColor.RESET + "" + ChatColor.RED + "Cancel", null, 1));
+        }
+
+        inv.setItem(13, item.itemStack);
+
+        for (int i = 0; i < 27; i++)
+            if (inv.getItem(i) == null)
+                inv.setItem(i, getCustomItem(Material.GRAY_STAINED_GLASS_PANE, "", null, 2));
+
+        player.openInventory(inv);
+    }
+
+    public void openItemSellGUI(Player player, ShopItem item) {
+        Inventory inv = Bukkit.createInventory(null, 27, "Selling for: $" + item.sellPrice);// \"" + (item.itemStack.getItemMeta().getDisplayName().equals("") ? item.itemStack.getItemMeta().getLocalizedName() : item.itemStack.getItemMeta().getDisplayName()) + "\"");
+
+        for (int i = 9; i < 12; i++) {
+            inv.setItem(i, getCustomItem(Material.GREEN_STAINED_GLASS_PANE, ChatColor.RESET + "" + ChatColor.GREEN + "Sell", null, 0));
+            inv.setItem(26 - i, getCustomItem(Material.RED_STAINED_GLASS_PANE, ChatColor.RESET + "" + ChatColor.RED + "Cancel", null, 1));
+        }
+
+        inv.setItem(13, item.itemStack);
+
+        for (int i = 0; i < 27; i++)
+            if (inv.getItem(i) == null)
+                inv.setItem(i, getCustomItem(Material.GRAY_STAINED_GLASS_PANE, "", null, 2));
+
+        player.openInventory(inv);
+    }
+
+    // Other stuff:
 
     private void fillTestValues() {
         Material[] materials = Material.values();
@@ -89,23 +119,46 @@ public class ShopEngine {
     }
 
     public ItemStack getShopItemStack(ShopItem item, int index) {
-        ItemMeta meta = item.itemStack.getItemMeta();
+        ItemStack clonedItem = item.itemStack.clone();
+
+        ItemMeta meta = clonedItem.getItemMeta();
         meta.setLore(Arrays.asList("Buy-price: " + item.buyPrice, "Sell-price: " + item.sellPrice));
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
         NamespacedKey key = new NamespacedKey(Main.getPlugin(), "item-index");
         container.set(key, PersistentDataType.INTEGER, index);
 
-        ItemStack result = item.itemStack;
+        ItemStack result = clonedItem;
         result.setItemMeta(meta);
 
         return result;
     }
 
-    public void onItemClick(InventoryClickEvent event) { // TODO Auch in allen anderen Chests mit "Server-shop" im Titel sind davon betroffen
-        if (!event.getView().getTitle().contains(shopName))
-            return;
+    public EShopMenuType isShopInventory(InventoryClickEvent event) {
+        if (event.getInventory().getHolder() != null)
+            return EShopMenuType.NONE;
 
+        String title = event.getView().getTitle();
+
+        if (title.contains(shopName))
+            return EShopMenuType.MAIN_MENU;
+        else if (title.contains("Buying for:"))
+            return EShopMenuType.BUY_MENU;
+        else if (title.contains("Selling for:"))
+            return EShopMenuType.SELL_MENU;
+
+        return EShopMenuType.NONE;
+    }
+
+    public void buyMenuClick(InventoryClickEvent event) {
+        event.setCancelled(true);
+    }
+
+    public void sellMenuClick(InventoryClickEvent event) {
+        event.setCancelled(true);
+    }
+
+    public void shopMenuClick(InventoryClickEvent event) { // Jetzt nicht mehr // T_ODO Auch in allen anderen Chests mit "Server-shop" im Titel sind davon betroffen
         event.setCancelled(true);
 
         if (event.getCurrentItem() == null)
@@ -133,7 +186,7 @@ public class ShopEngine {
                 switch (index) {
                     case -1:
                         if (item.getType().equals(Material.ARROW)) {
-                            openGUI(p, shopPage - 1);
+                            openShopGUI(p, shopPage - 1);
                             return;
                         }
                         break;
@@ -145,7 +198,7 @@ public class ShopEngine {
                         break;
                     case -3:
                         if (item.getType().equals(Material.ARROW)) {
-                            openGUI(p, shopPage + 1);
+                            openShopGUI(p, shopPage + 1);
                             return;
                         }
                         break;
@@ -157,7 +210,10 @@ public class ShopEngine {
             ShopItem clickedItem = availableItems.get(index);
             if (clickedItem.itemStack.getItemMeta().getDisplayName() != null)
                 if (clickedItem.itemStack.getItemMeta().getDisplayName().equals(meta.getDisplayName())) { // TODO: Not actual proof the item is identical
-                    // TODO Create item detail view from ShopItem
+                    if (event.getClick() == ClickType.LEFT)
+                        openItemBuyGUI(p, clickedItem);
+                    else if (event.getClick() == ClickType.RIGHT)
+                        openItemSellGUI(p, clickedItem);
                 }
         }
     }
