@@ -1,4 +1,4 @@
-package at.ahit.server.villagerShop;
+package at.ahit.server.enums;
 
 public enum EShopMenuType {
     NONE,

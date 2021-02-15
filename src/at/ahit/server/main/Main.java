@@ -35,6 +35,7 @@ public class Main extends JavaPlugin {
         registerListInit();
         Miner.startRunnable();
         registerRecipes();
+        setUpShops();
     }
 
     public void registerRecipes(){
@@ -48,6 +49,11 @@ public class Main extends JavaPlugin {
             Miner.config1.Save("world_nether", Miner.world_nether);
         if(Miner.config1.get("world_the_end") == null)
             Miner.config1.Save("world_the_end", Miner.world_the_end);
+    }
+
+    public void setUpShops() {
+        ShopEngine.addShop("server-shop", "Server Shop 1");
+        ShopEngine.addShop("random-shop", "Server Shop 2");
     }
 
     public void registerListener(){

@@ -1,5 +1,6 @@
 package at.ahit.server.listeners;
 
+import at.ahit.server.enums.ETransactionType;
 import at.ahit.server.jobs.*;
 import at.ahit.server.overlays.Auction;
 import at.ahit.server.overlays.Menu;
@@ -57,18 +58,11 @@ public class InventoryClickListener implements Listener {
             case "WizardQuests":
                 QuestMenu.onWizardQuestsUse(event);
                 break;
+            default:
+                ShopEngine.clickHandler(event);
+            break;
         }
 
-        switch (ShopEngine.getVillagerShop().isShopInventory(event)) {
-            case MAIN_MENU:
-                ShopEngine.getVillagerShop().shopMenuClick(event);
-                break;
-            case SELL_MENU:
-                ShopEngine.getVillagerShop().sellMenuClick(event);
-                break;
-            case BUY_MENU:
-                ShopEngine.getVillagerShop().buyMenuClick(event);
-                break;
-        }
+
     }
 }

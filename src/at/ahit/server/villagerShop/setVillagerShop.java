@@ -23,38 +23,41 @@ public class setVillagerShop implements Listener {
 
     @EventHandler
     public void checkForVillager(PlayerInteractEvent event) {
+        ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
         ItemMeta im = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
-        if (im != null && im.getLore() != null) {
-            event.getPlayer().sendMessage(im.getLore().get(0)); // TODO Remove this line
-            if (im.getLore().get(0) != null)
-                if (im.getLore().get(0).equals("shop")) {
-                    event.setCancelled(true);
 
-                    Location l = event.getClickedBlock().getLocation();
-                    Location loc = new Location(l.getWorld(), l.getX() + 0.5, l.getY() + 1, l.getZ() + 0.5);
-                    Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
-                    // villager.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 500));
+        if (villagerShop.isVillagerStick(item)){
+            event.setCancelled(true);
 
-                    //
-                    // villager.getAttribute(Attribute.)
-                    //villager.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(100);
+            NamespacedKey key = new NamespacedKey(Main.getPlugin(), "villager-shop-id");
+            int ID = im.getPersistentDataContainer().get(key, PersistentDataType.INTEGER);
 
-                    villager.setCollidable(false);
-                    villager.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0);
+            Location l = event.getClickedBlock().getLocation();
+            Location loc = new Location(l.getWorld(), l.getX() + 0.5, l.getY() + 1, l.getZ() + 0.5);
+            Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
+            // villager.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 500));
 
-                    // TODO SET SPEED 0
+            //
+            // villager.getAttribute(Attribute.)
+            //villager.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(100);
 
-                    PersistentDataContainer container = villager.getPersistentDataContainer();
-                    NamespacedKey key = new NamespacedKey(Main.getPlugin(), "shop-type");
-                    container.set(key, PersistentDataType.BYTE, (byte) 1);
+            villager.setCollidable(false);
+            villager.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0);
 
-                    /*ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-                    String command = "summon villager " + loc.getX() + " " + loc.getY() + " " + loc.getZ() + " {Team:shop,VillagerData:{profession:nitwit,level:1,type:snow},Invulnerable:1,PersistenceRequired:1,Silent:1,ActiveEffects:[{Id:2,Amplifier:10,Duration:999999}]}";
-                    Bukkit.dispatchCommand(console, command);*/
+            // TODO SET SPEED 0
 
-                    event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-                }
+            PersistentDataContainer container = villager.getPersistentDataContainer();
+            key = new NamespacedKey(Main.getPlugin(), "shop-type");
+            container.set(key, PersistentDataType.BYTE, (byte) ID); // TODO Change byte to int
+
+            /*ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+            String command = "summon villager " + loc.getX() + " " + loc.getY() + " " + loc.getZ() + " {Team:shop,VillagerData:{profession:nitwit,level:1,type:snow},Invulnerable:1,PersistenceRequired:1,Silent:1,ActiveEffects:[{Id:2,Amplifier:10,Duration:999999}]}";
+            Bukkit.dispatchCommand(console, command);*/
+
+            event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
         }
+
+
     }
 
     @EventHandler
@@ -75,9 +78,13 @@ public class setVillagerShop implements Listener {
 
                         Vector v = v2.subtract(v1);
 
-                        if (p.getInventory().getItemInMainHand().equals(villagerShop.villagerStick())) {
-                                event.getEntity().remove();
-                                ((Player) ((EntityDamageByEntityEvent) event).getDamager()).getInventory().remove(villagerShop.villagerStick());
+                        if (villagerShop.isVillagerStick(p.getInventory().getItemInMainHand())) {
+                            event.getEntity().remove();
+
+                            key = new NamespacedKey(Main.getPlugin(), "villager-shop-id");
+                            int ID = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(key, PersistentDataType.INTEGER);
+
+                            ((Player) ((EntityDamageByEntityEvent) event).getDamager()).getInventory().remove(villagerShop.villagerStick(ID));
                                 return;
                             }
 
@@ -104,13 +111,20 @@ public class setVillagerShop implements Listener {
                 Entity e = event.getRightClicked();
 
                 NamespacedKey key = new NamespacedKey(Main.getPlugin(), "shop-type");
+
                 if (e.getPersistentDataContainer().has(key, PersistentDataType.BYTE)) {
                     byte type = e.getPersistentDataContainer().get(key, PersistentDataType.BYTE);
-                    if (type == 1) {
-                        // event.setCancelled(true);
-                        // event.getPlayer().closeInventory(); // Does nothing
-                        ShopEngine.getVillagerShop().openShopGUI(event.getPlayer(), 0);
-                        event.getPlayer().sendMessage("I opened the inventory yey.");
+
+                    switch (type)
+                    {
+                        case 0:
+                            ShopEngine.getShop("server-shop").openShopGUI(event.getPlayer(), 0);
+                            // event.getPlayer().sendMessage("I opened the inventory yey.");
+                            break;
+                        case 1:
+                            ShopEngine.getShop("random-shop").openShopGUI(event.getPlayer(), 0);
+                            // event.getPlayer().sendMessage("I opened the inventory yey.");
+                        break;
                     }
                 }
             }
