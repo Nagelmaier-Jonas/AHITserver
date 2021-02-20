@@ -11,6 +11,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -20,7 +21,15 @@ import javax.xml.stream.events.Namespace;
 import java.util.*;
 
 public class ShopEngine {
-    public ShopEngine(String ID, String name) { id = ID; shopName = name; }
+    // Dynamic Stuff:
+
+    public ShopEngine(String ID, String name) {
+        id = ID;
+        shopName = name;
+        buyHolder = new ShopHolder(id, EShopMenuType.BUY_MENU);
+        sellHolder = new ShopHolder(id, EShopMenuType.SELL_MENU);
+        mainHolder = new ShopHolder(id, EShopMenuType.MAIN_MENU);
+    }
 
     private static HashMap<String, ShopEngine> shops = new HashMap<>();
 
@@ -54,32 +63,33 @@ public class ShopEngine {
                 break;
         }*/
 
-        Player player = (Player) event.getWhoClicked();
+        if (event.getInventory().getHolder() instanceof ShopHolder) {
+            ShopHolder sh = (ShopHolder) event.getInventory().getHolder();
+            String shopID = sh.getShopID();
 
-        NamespacedKey key = new NamespacedKey(Main.plugin, "shop-id");
-        String shopID = player.getPersistentDataContainer().get(key, PersistentDataType.STRING);
+            if (shops.containsKey(shopID)) {
+                ShopEngine shop = shops.get(shopID);
 
-        if (!shops.containsKey(shopID))
-            return;
-
-        EShopMenuType type = shops.get(shopID).isShopInventory(event);
-
-        if (type != EShopMenuType.NONE)
-            switch (type) {
-                case MAIN_MENU:
-                    shops.get(shopID).shopMenuClick(event);
-                    break;
-                case SELL_MENU:
-                    shops.get(shopID).transactionMenuClick(event, ETransactionType.SELL);
-                    break;
-                case BUY_MENU:
-                    shops.get(shopID).transactionMenuClick(event, ETransactionType.BUY);
-                    break;
+                switch (sh.getMenuType()) {
+                    case MAIN_MENU:
+                        shop.shopMenuClick(event);
+                        break;
+                    case SELL_MENU:
+                        shop.transactionMenuClick(event, ETransactionType.SELL);
+                        break;
+                    case BUY_MENU:
+                        shop.transactionMenuClick(event, ETransactionType.BUY);
+                        break;
+                }
             }
+        }
     }
+
+    // Variables:
 
     private String id;
     public String shopName;
+    private ShopHolder mainHolder, sellHolder, buyHolder;
     List<ShopItem> availableItems = new ArrayList<>();
 
     // GUIs:
@@ -88,13 +98,10 @@ public class ShopEngine {
         NamespacedKey key = new NamespacedKey(Main.plugin, "shop-page");
         player.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, page);
 
-        key = new NamespacedKey(Main.plugin, "shop-id");
-        player.getPersistentDataContainer().set(key, PersistentDataType.STRING, id);
-
         if (availableItems.size() <= 0)
             fillTestValues(); // TODO Remove this
 
-        Inventory shop = Bukkit.createInventory(null, 54, shopName + " (Page " + (page + 1) + ")");
+        Inventory shop = Bukkit.createInventory(mainHolder, 54, shopName + " (Page " + (page + 1) + ")");
 
         for (int i = page * 45; i < (page + 1) * 45 && i < availableItems.size(); i++) {
             shop.setItem(i % 45, (getShopItemStack(availableItems.get(i), i)));
@@ -112,7 +119,7 @@ public class ShopEngine {
     }
 
     public void openItemBuyGUI(Player player, ShopItem item) {
-        Inventory inv = Bukkit.createInventory(null, 27, "Buying for: $" + item.buyPrice);// \"" + (item.itemStack.getItemMeta().getDisplayName().equals("") ? item.itemStack.getItemMeta().getLocalizedName() : item.itemStack.getItemMeta().getDisplayName()) + "\"");
+        Inventory inv = Bukkit.createInventory(buyHolder, 27, "Buying for: $" + item.buyPrice);// \"" + (item.itemStack.getItemMeta().getDisplayName().equals("") ? item.itemStack.getItemMeta().getLocalizedName() : item.itemStack.getItemMeta().getDisplayName()) + "\"");
 
         for (int i = 9; i < 12; i++) {
             inv.setItem(i, getCustomItem(Material.GREEN_STAINED_GLASS_PANE, ChatColor.RESET + "" + ChatColor.GREEN + "Buy", null, 0));
@@ -129,7 +136,7 @@ public class ShopEngine {
     }
 
     public void openItemSellGUI(Player player, ShopItem item) {
-        Inventory inv = Bukkit.createInventory(null, 27, "Selling for: $" + item.sellPrice);// \"" + (item.itemStack.getItemMeta().getDisplayName().equals("") ? item.itemStack.getItemMeta().getLocalizedName() : item.itemStack.getItemMeta().getDisplayName()) + "\"");
+        Inventory inv = Bukkit.createInventory(sellHolder, 27, "Selling for: $" + item.sellPrice);// \"" + (item.itemStack.getItemMeta().getDisplayName().equals("") ? item.itemStack.getItemMeta().getLocalizedName() : item.itemStack.getItemMeta().getDisplayName()) + "\"");
 
         for (int i = 9; i < 12; i++) {
             inv.setItem(i, getCustomItem(Material.GREEN_STAINED_GLASS_PANE, ChatColor.RESET + "" + ChatColor.GREEN + "Sell", null, 0));
