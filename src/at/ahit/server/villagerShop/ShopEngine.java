@@ -20,7 +20,7 @@ import org.bukkit.persistence.PersistentDataType;
 import javax.xml.stream.events.Namespace;
 import java.util.*;
 
-public class ShopEngine {
+public class ShopEngine { // TODO: Implement ShopItem Seller Usage & Limited Amount
     // Dynamic Stuff:
 
     public ShopEngine(String ID, String name) {
@@ -90,7 +90,7 @@ public class ShopEngine {
     private String id;
     public String shopName;
     private ShopHolder mainHolder, sellHolder, buyHolder;
-    List<ShopItem> availableItems = new ArrayList<>();
+    public List<ShopItem> availableItems = new ArrayList<>();
 
     // GUIs:
 

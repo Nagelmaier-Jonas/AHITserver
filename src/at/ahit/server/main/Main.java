@@ -11,7 +11,9 @@ import at.ahit.server.recepies.Wand;
 import at.ahit.server.usefulstuff.ChristophsTests;
 import at.ahit.server.villagerShop.*;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -54,6 +56,12 @@ public class Main extends JavaPlugin {
     public void setUpShops() {
         ShopEngine.addShop("server-shop", "Server Shop 1");
         ShopEngine.addShop("random-shop", "Server Shop 2");
+        ShopEngine.addShop("custom-shop-1", "Fuck off!");
+
+        ShopEngine engine = ShopEngine.getShop("custom-shop-1");
+        engine.availableItems.add(new ShopItem(null, new ItemStack(Material.WOODEN_SWORD), 10, 15, 1));
+        engine.availableItems.add(new ShopItem(null, new ItemStack(Material.STONE_SWORD), 20, 30, 1));
+        // ...
     }
 
     public void registerListener(){
